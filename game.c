@@ -22,7 +22,7 @@ void copy_game (cgame src, game dst) {
 }
 
 int game_nb_pieces(cgame g) {
-  return;
+  return g;
 }
 
 cpiece game_piece(cgame g, int piece_num) {

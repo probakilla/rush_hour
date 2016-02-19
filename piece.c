@@ -27,7 +27,7 @@ void move_piece (piece p, dir d, int distance) {
 
 
 bool intersect(cpiece p1, cpiece p2) {
-  return 69;
+  return 0;
 }
 
 int get_x(cpiece p) {
