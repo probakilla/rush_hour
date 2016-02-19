@@ -5,6 +5,8 @@ project(RushHour)
 add_executable(RushHour
 		game.c
 		piece.c
-		test_piece.c)
+		test_piece1.c
+		test_game.c
+		gameTexte.c)
 
 
