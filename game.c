@@ -10,8 +10,8 @@ struct game {
 
 
 game new_game_hr (int nb_pieces, piece *pieces){
-  game zgeg;
-  return zgeg;
+  game game;
+  return game;
 }
 
 void delete_game (game g) {
@@ -22,12 +22,12 @@ void copy_game (cgame src, game dst) {
 }
 
 int game_nb_pieces(cgame g) {
-  return 69;
+  return;
 }
 
 cpiece game_piece(cgame g, int piece_num) {
-  cpiece meboul;
-  return meboul; 
+  cpiece piece;
+  return piece; 
 }
 
 bool game_over_hr(cgame g) {

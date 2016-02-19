@@ -10,8 +10,8 @@ struct piece {
   bool orientation;};
 
 piece new_piece_rh (int x, int y, bool small, bool horizontal) {
-  piece CacaPella;
-  return CacaPella;
+  piece p;
+  return p;
 }
 
 void delete_piece (piece p) {
@@ -31,23 +31,23 @@ bool intersect(cpiece p1, cpiece p2) {
 }
 
 int get_x(cpiece p) {
-  return 69;
+  return 12;
 }
 
 int get_y(cpiece p) {
-  return 69;
+  return 12;
 }
 
 
 int get_height(cpiece p) {
-  return 69;
+  return 12;
 }
 
 int get_width(cpiece p) {
-  return 69;
+  return 12;
 }
 
 bool is_horizontal(cpiece p) {
-  return 69;
+  return 0;
 }
 
