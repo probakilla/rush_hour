@@ -23,6 +23,14 @@
  * See also this more technical discussion: http://stackoverflow.com/questions/8504411/typedef-pointer-const-weirdness
  *
  */
+struct piece_s {
+  int x, y;
+  bool size;
+  const int color; //later
+  bool horizontal;
+};
+
+
 typedef struct piece_s* piece;
 typedef const struct piece_s* cpiece;
 
