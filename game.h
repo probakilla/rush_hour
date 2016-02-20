@@ -25,6 +25,13 @@
  * See also this more technical discussion: http://stackoverflow.com/questions/8504411/typedef-pointer-const-weirdness
  *
  **/
+
+
+struct game_s{
+    int **grid;
+    int nbMoves;
+};
+
 typedef struct game_s* game;
 typedef const struct game_s* cgame;
 
