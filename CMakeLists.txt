@@ -9,4 +9,6 @@ add_executable(RushHour
 		test_game.c
 		gameTexte.c)
 
+set_property(TARGET RushHour PROPERTY C_STANDARD 99)
+
 
