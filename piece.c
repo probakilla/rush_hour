@@ -3,11 +3,7 @@
 
 #include "piece.h"
 
-struct piece {
-  int x, y;
-  int shape;
-  const int color; //later
-  bool orientation;};
+
 
 piece new_piece_rh (int x, int y, bool small, bool horizontal) {
   piece p;
