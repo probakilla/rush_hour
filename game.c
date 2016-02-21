@@ -23,10 +23,15 @@ void delete_game (game g) {
     }
     free(g->grid); //free du tableau restant
     free(g);    //free de la structure
-
 }
 
 void copy_game (cgame src, game dst) {
+    dst->nbMoves = src ->nbMoves;
+    for (int i =0; i<DIMENSION; i++){
+        for (int j = 0; j<DIMENSION; j++){
+            dst->grid[i][j] = src[i][j];
+        }
+    }
 }
 
 int game_nb_pieces(cgame g) {
