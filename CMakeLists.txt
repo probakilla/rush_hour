@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 2.6)
 
 project(RushHour)
 
+add_definitions(-std=c99)
+
 add_executable(RushHour
 		game.c
 		piece.c
@@ -9,6 +11,6 @@ add_executable(RushHour
 		test_game.c
 		gameTexte.c)
 
-set_property(TARGET RushHour PROPERTY C_STANDARD 99)
+
 
 
