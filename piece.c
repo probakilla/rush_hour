@@ -27,23 +27,35 @@ bool intersect(cpiece p1, cpiece p2) {
 }
 
 int get_x(cpiece p) {
-  return 12;
+  return p->x;
 }
 
 int get_y(cpiece p) {
-  return 12;
+  return p->y;
 }
 
 
 int get_height(cpiece p) {
-  return 12;
+  	if(p->horizontal==true)
+		return 1;
+	if(p->small==true && p->horizontal==false)
+		return 2;
+	if(p->small==false && p->horizontal==false)
+		return 3;
 }
 
 int get_width(cpiece p) {
-  return 12;
+	if(p->horizontal==false)
+		return 1;
+	if(p->small==true && p->horizontal==true)
+		return 2;
+	if(p->small==false && p->horizontal==true)
+		return 3;
 }
 
 bool is_horizontal(cpiece p) {
-  return 0;
+	if(p->horizontal == true)
+		return true;
+	return false;
 }
 
