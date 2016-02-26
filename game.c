@@ -15,6 +15,22 @@ game new_game_hr (int nb_pieces, piece *pieces){ //On suppose que dans le taleau
     for (int i = 0; i<DIMENSION; i++){
         current->grid[i] = malloc(DIMENSION * sizeof(int));
     }
+    
+    int nomPiece = 1;
+    for (int i = 0; i< /* Trouver la taille du tableau */; i++){    //Parcours du tableau de pieces NE FONCTIONNE PAS POUR UNE PIECE de coordonnées (0,x)
+        if (is_horizontal(pieces)){
+            for (int j = get_x(pieces); j <= get_width(pieces); j++){ //j sert de point de départ pour placer la piece
+                current->grid[get_y(pieces)][j] = nomPiece;     //abscisse fixe ordonnée variable
+            }
+        }
+        else{
+           for(int j = get_y(pieces); j <= get_height(pieces); j++){
+               current->grid[j][get_x(pieces)] = nomPiece;
+           } 
+        }
+        ++nomPiece;
+        ++pieces;
+    }
     return current;
 }
 void delete_game (game g) {
@@ -29,13 +45,13 @@ void copy_game (cgame src, game dst) {
     dst->nbMoves = src ->nbMoves;
     for (int i =0; i<DIMENSION; i++){
         for (int j = 0; j<DIMENSION; j++){
-            dst->grid[i][j] = src[i][j];
+            dst->grid[i][j] = src->grid[i][j];
         }
     }
 }
 
 int game_nb_pieces(cgame g) {
-  return g;
+    return g;
 }
 
 cpiece game_piece(cgame g, int piece_num) {
