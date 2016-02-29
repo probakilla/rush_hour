@@ -51,14 +51,28 @@ void copy_game (cgame src, game dst) {
 }
 
 int game_nb_pieces(cgame g) {
-    return g;
+  int max = 0;                         // Le nombre de pièces du tableau est le nombre maximum qu'on trouvera dans la grille +1 (en comptant la pièce 0)
+  for (int i =0; i<DIMENSION; i++)     // Parcours du tableau
+    for (int j = 0; j<DIMENSION; j++)
+      if (g->grid[i][j] > max)
+	max = g->grid[i][j];          // calcul du max
+        
+  return max + 1;
 }
 
 cpiece game_piece(cgame g, int piece_num) {
-  cpiece piece;
+  cpiece res;
+  for (int i =0; i<DIMENSION; i++)     // Parcours du tableau
+    for (int j = 0; j<DIMENSION; j++)
+      if (g->grid[i][j] == piece_num)
   return piece;
 }
 
 bool game_over_hr(cgame g) {
-  return true;
+  return g->grid[4][3] == 0;
+}
+
+
+int game_nb_moves(cgame g) {
+  return g->nbMoves;
 }
