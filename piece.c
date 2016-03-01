@@ -6,19 +6,30 @@
 
 
 piece new_piece_rh (int x, int y, bool small, bool horizontal) {
-  piece p;
-  return p;
+  piece new = new piece;
+  new->x = x;
+  new->y = y;
+  new->shape = small;
+  new->orientation = horizontal;
+  return new;
 }
 
-void delete_piece (piece p) {
+void delete_piece (piece p) { // pas sûr
+    p->x = NULL;
+    p->y = NULL;
+    free(p); //libère la mémoire de la pièce
 }
 
 void copy_piece (cpiece src, piece dst) {
-
+    dst->x = src->x;
+    dst->y = src->y;
+    dst->shape = src->shape;
+    dst->color = src->color;
+    dst->orientation = src->orientation;
 }
 
 void move_piece (piece p, dir d, int distance) {
-
+    p->d += distance;
 }
 
 
