@@ -7,25 +7,28 @@
 #define DIMENSION 6
 
 
-game new_game_hr (int nb_pieces, piece *pieces){ //On suppose que dans le taleau de piece, la piece à i = 0 est la piece a faire sortir pour gagner (voiture rouge)
+game new_game_hr (int nb_pieces, piece *pieces){ //On suppose que dans le tableau de piece, la piece à i = 0 est la piece a faire sortir pour gagner (voiture rouge)
     game  current = malloc(sizeof(struct game_s)); //Allocation de la structure
     current->nbMoves = 0;
 
     current->grid = malloc(DIMENSION * sizeof(int*));       // Création de la grille de jeu
     for (int i = 0; i<DIMENSION; i++){
         current->grid[i] = malloc(DIMENSION * sizeof(int));
+	for (int j = 1; j<DIMENSION; ++j){
+	  current->grid[i][j] = -1;
+	}
     }
-    
+
     int nomPiece = 1;
-    for (int i = 0; i< sizeof(g->pieces / sizeof(struct piece); i++){    //Parcours du tableau de pieces NE FONCTIONNE PAS POUR UNE PIECE de coordonnées (0,x)
-        if (is_horizontal(pieces)){
-            for (int j = get_x(pieces); j <= get_width(pieces); j++){ //j sert de point de départ pour placer la piece
-                current->grid[get_y(pieces)][j] = nomPiece;     //abscisse fixe ordonnée variable
+    for (int i = 0; i< (sizeof(pieces) / sizeof(struct piece_s)); i++){    //Parcours du tableau de pieces NE FONCTIONNE PAS POUR UNE PIECE de coordonnées (0,x)
+        if (is_horizontal(*pieces)){
+            for (int j = get_x(*pieces); j <= get_width(*pieces); j++){ //j sert de point de départ pour placer la piece
+                current->grid[get_y(*pieces)][j] = nomPiece;     //abscisse fixe ordonnée variable
             }
         }
         else{
-           for(int j = get_y(pieces); j <= get_height(pieces); j++){
-               current->grid[j][get_x(pieces)] = nomPiece;
+           for(int j = get_y(*pieces); j <= get_height(*pieces); j++){
+               current->grid[j][get_x(*pieces)] = nomPiece;
            } 
         }
         ++nomPiece;
@@ -65,7 +68,7 @@ cpiece game_piece(cgame g, int piece_num) {
   for (int i =0; i<DIMENSION; i++)     // Parcours du tableau
     for (int j = 0; j<DIMENSION; j++)
       if (g->grid[i][j] == piece_num)
-	for (int k = 0;k < sizeof(g->pieces / sizeof(struct piece); ++k)
+	for (int k = 0;k < (sizeof(g->pieces) / sizeof(struct piece_s)); ++k)
 	       if (i == g->pieces[k]-> y && j == g->pieces[k]-> x)
 		 res = g->pieces[k];
   return res;
@@ -79,3 +82,4 @@ bool game_over_hr(cgame g) {
 int game_nb_moves(cgame g) {
   return g->nbMoves;
 }
+
