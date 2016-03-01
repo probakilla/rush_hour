@@ -25,7 +25,7 @@
  */
 struct piece_s {
   int x, y;
-  bool size;
+  bool small;
   const int color; //later
   bool horizontal;
 };

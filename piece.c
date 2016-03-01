@@ -6,50 +6,49 @@
 
 
 piece new_piece_rh (int x, int y, bool small, bool horizontal) {
-  piece new = new piece;
+  piece new = malloc(sizeof(struct piece_s));
   new->x = x;
   new->y = y;
-  new->shape = small;
-  new->orientation = horizontal;
+  new->small = small;
+  new->horizontal = horizontal;
   return new;
 }
 
 void delete_piece (piece p) { // pas sûr
-    p->x = NULL;
-    p->y = NULL;
+    p->x = -1;
+    p->y = -1;
     free(p); //libère la mémoire de la pièce
 }
 
 void copy_piece (cpiece src, piece dst) {
     dst->x = src->x;
     dst->y = src->y;
-    dst->shape = src->shape;
-    dst->color = src->color;
-    dst->orientation = src->orientation;
+    dst->small = src->small;
+    //dst->color = src->color;
+    dst->horizontal = src->horizontal;
 }
 
 void move_piece (piece p, dir d, int distance) {
-    p->d += distance;
+   
 }
 
 
 bool intersect(cpiece p1, cpiece p2) {
   
-    if (p1->horizontal == p2->horizontal){  //Verifie si les pieces sont horizontales et ont des ordonnées différentes
-        if (p1->horizontal == true ){
-            if (p1->y != p2->y){
+    if ( p1->horizontal == p2->horizontal ){  //Verifie si les pieces sont horizontales et ont des ordonnées différentes
+        if ( p1->horizontal == true ){
+            if ( p1->y != p2->y ){
                 return false;
             }
         }
     }
     
-    if (p1->horizontal == p2->horizontal){ //Verifie si les pieces sont verticales et ont des abscisses différentes
-        if (p1->horizontal == false ){
-            if (p1->x != p2->x){
+if ( p1->horizontal == p2->horizontal ) //Verifie si les pieces sont verticales et ont des abscisses différentes
+        if (p1->horizontal == false )
+            if ( p1->x != p2->x )
                 return false;
-            }
-        }
-    }
+        
+    
     
     int tailleP1 = 0;
     int tailleP2 = 0;
@@ -66,9 +65,8 @@ bool intersect(cpiece p1, cpiece p2) {
     
     for (int i =0; i<tailleP1; ++i){
         for (int j = 0; j<tailleP2; ++j){
-            if (p1->x == p2->x && p1->y == p2->y){
-                return true;
-            }
+            if (p1->x == p2->x && p1->y == p2->y)
+                return true;   
         }
     }
     return false;
