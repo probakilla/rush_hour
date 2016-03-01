@@ -17,7 +17,7 @@ game new_game_hr (int nb_pieces, piece *pieces){ //On suppose que dans le taleau
     }
     
     int nomPiece = 1;
-    for (int i = 0; i< /* Trouver la taille du tableau */; i++){    //Parcours du tableau de pieces NE FONCTIONNE PAS POUR UNE PIECE de coordonnées (0,x)
+    for (int i = 0; i< sizeof(g->pieces / sizeof(struct piece); i++){    //Parcours du tableau de pieces NE FONCTIONNE PAS POUR UNE PIECE de coordonnées (0,x)
         if (is_horizontal(pieces)){
             for (int j = get_x(pieces); j <= get_width(pieces); j++){ //j sert de point de départ pour placer la piece
                 current->grid[get_y(pieces)][j] = nomPiece;     //abscisse fixe ordonnée variable
@@ -65,11 +65,14 @@ cpiece game_piece(cgame g, int piece_num) {
   for (int i =0; i<DIMENSION; i++)     // Parcours du tableau
     for (int j = 0; j<DIMENSION; j++)
       if (g->grid[i][j] == piece_num)
-  return piece;
+	for (int k = 0;k < sizeof(g->pieces / sizeof(struct piece); ++k)
+	       if (i == g->pieces[k]-> y && j == g->pieces[k]-> x)
+		 res = g->pieces[k];
+  return res;
 }
 
 bool game_over_hr(cgame g) {
-  return g->grid[4][3] == 0;
+  return g->grid[3][4] == 0;
 }
 
 

@@ -28,8 +28,9 @@
 
 
 struct game_s{
-    int **grid;
-    int nbMoves;
+  int **grid;
+  int nbMoves;
+  piece *pieces;
 };
 
 typedef struct game_s* game;
