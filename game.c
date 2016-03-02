@@ -80,7 +80,75 @@ bool game_over_hr(cgame g) {
 }
 
 bool play_move(game g, int piece_num, dir d, int distance) {
-  return true;
+  piece move = game_piece(g,piece_num);
+  piece moveCp = move;
+  
+if (move->horizontal){ //LEFT or RIGHT
+    
+    if ( d == 1 && move->x - distance >= 0 ){ //LEFT
+      moveCp->x -= distance;
+      for (int i = 0; i<DIMENSION; i++){
+	for (int j = 0; j<DIMENSION; j++){
+	  if ( grid[i][j] != -1){
+	    if (intersect(game_piece(g,grid[i][j]), moveCp)
+		return false;
+	  }
+	}
+      }
+    move->x -= distance;
+    return true;
+    }
+
+    if ( d == 1 && move->x - distance >= 0 ){ //RIGHT
+      moveCp->x += distance;
+      for (int i = 0; i<DIMENSION; i++){
+	for (int j = 0; j<DIMENSION; j++){
+	  if ( grid[i][j] != -1){
+	    if (intersect(game_piece(g,grid[i][j]), moveCp)
+		return false;
+	  }
+	}
+      }
+    move->x -= distance;
+    return true;
+    }
+
+if (move->horizontal != true){ //UP or DOWN
+    
+    if ( d == 1 && move->x - distance >= 0 ){ //DOWN
+      moveCp->y -= distance;
+      for (int i = 0; i<DIMENSION; i++){
+	for (int j = 0; j<DIMENSION; j++){
+	  if ( grid[i][j] != -1){
+	    if (intersect(game_piece(g,grid[i][j]), moveCp)
+		return false;
+	  }
+	}
+      }
+    move->y -= distance;
+    return true;
+    }
+
+    if ( d == 1 && move->x - distance >= 0 ){ //UP
+      moveCp->x -= distance;
+      for (int i = 0; i<DIMENSION; i++){
+	for (int j = 0; j<DIMENSION; j++){
+	  if ( grid[i][j] != -1){
+	    if (intersect(game_piece(g,grid[i][j]), moveCp)
+		return false;
+	  }
+	}
+      }
+    move->x -= distance;
+    return true;
+    }
+	 
+	    	      
+	 
+       
+     
+    
+ 
 }
 
 
