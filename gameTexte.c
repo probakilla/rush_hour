@@ -10,7 +10,7 @@ void display_grid (int ** grid) {
   char num = 97;
   printf("      1       2       3       4       5       6\n");
   for (int i = 0; i < DIMENSION; ++i){
-    if (i != 2){
+    if (i != 3){
       printf("  |-------|-------|-------|-------|-------|-------|\n");
       printf("  |       |       |       |       |       |       |\n");
       printf("%c ", num+i);
