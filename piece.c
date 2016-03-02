@@ -29,7 +29,18 @@ void copy_piece (cpiece src, piece dst) {
 }
 
 void move_piece (piece p, dir d, int distance) {
-   
+  if (p->horizontal == true){
+    if (d == 1)
+      p->x -= distance;
+    else if (d == 3)
+      p->x += distance;
+  }
+  else{
+    if (d == 0)
+      p->y += distance;
+    else if (d == 2)
+      p->y -= distance;
+  }     
 }
 
 
