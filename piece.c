@@ -33,7 +33,7 @@ void move_piece (piece p, dir d, int distance) {
 }
 
 
-/* bool intersect(cpiece p1, cpiece p2) {
+bool intersect(cpiece p1, cpiece p2) {
   
     if ( p1->horizontal == p2->horizontal ){  //Verifie si les pieces sont horizontales et ont des ordonnées différentes
         if ( p1->horizontal == true ){
@@ -53,7 +53,7 @@ if ( p1->horizontal == p2->horizontal ) //Verifie si les pieces sont verticales 
     int tailleP1 = 0;
     int tailleP2 = 0;
     
-1    if (p1->small == false)
+    if (p1->small == false)
         tailleP1 = 3;
     else 
         tailleP1 = 2;
@@ -65,13 +65,18 @@ if ( p1->horizontal == p2->horizontal ) //Verifie si les pieces sont verticales 
     
     for (int i =0; i<tailleP1; ++i){
         for (int j = 0; j<tailleP2; ++j){
-            if (p1->x == p2->x && p1->y == p2->y)
-                return true;   
+            if (p1->horizontal == true && p2 ->horizontal == false){
+                if (p1->x+i == p2->x && p1->y == p2->y+j)
+                    return true;
+            }
+            else {
+                if (p1->x == p2->x+j && p1->y+i == p2->y)
+                    return true;
+            }   
         }
     }
     return false;
-    
-    } */
+}
 
 int get_x(cpiece p) {
   return p->x;
