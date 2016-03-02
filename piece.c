@@ -66,11 +66,11 @@ if ( p1->horizontal == p2->horizontal ) //Verifie si les pieces sont verticales 
     for (int i =0; i<tailleP1; ++i){
         for (int j = 0; j<tailleP2; ++j){
             if (p1->horizontal == true && p2 ->horizontal == false){
-                if (p1->x+i == p2->x && p1->y == p2->y-j)
+                if (p1->x+i == p2->x && p1->y == p2->y+j)
                     return true;
             }
             else {
-                if (p1->x == p2->x+j && p1->y-j == p2->y)
+                if (p1->x == p2->x+j && p1->y+i == p2->y)
                     return true;
             }   
         }
