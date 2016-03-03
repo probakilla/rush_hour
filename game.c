@@ -13,11 +13,16 @@ struct game_s{
 };
 
 game new_game_hr (int nb_pieces, piece *pieces){ //We suppose that the piece i = 0 is the "red one", the one we have to lead to exit).
-
   game  current = malloc(sizeof(struct game_s)); //Allocation of the structure
   current->nb_moves = 0;
+
+  current->pieces = malloc(sizeof(piece) * nb_pieces);
+  if (current->pieces == NULL)
+    printf("ERREUR D'ALLOCATION");
+
   for (int i = 0; i<nb_pieces;i++){
-    copy_piece(pieces[i],current->pieces[i]);
+    current->pieces[i] = new_piece_rh(0,0,false,false);
+    copy_piece(pieces[i],current->pieces[i]); 
   }
   return current;
   
@@ -31,7 +36,7 @@ void delete_game (game g) {
  
 void copy_game (cgame src, game dst) {
   dst->nb_moves = src ->nb_moves;
-  for (int i = 0; i<game_nb_pieces(src);i++){
+  for (int i = 0; i<game_nb_pieces(src) + 2;i++){
     copy_piece(src->pieces[i],dst->pieces[i]);
   }
 }
@@ -72,6 +77,7 @@ bool play_move(game g, int piece_num, dir d, int distance) {
       }
     }
     move_piece(move,d,distance);
+    g->nb_moves +=1;
     return true;
 
     int extends_piece = get_width(move);
@@ -82,6 +88,7 @@ bool play_move(game g, int piece_num, dir d, int distance) {
       }
     }
     move_piece(move,d,distance);
+    g->nb_moves +=1;
     return true;
   }
 
@@ -93,6 +100,7 @@ bool play_move(game g, int piece_num, dir d, int distance) {
       }
     }
     move_piece(move,d,distance);
+    g->nb_moves +=1;
     return true;
 
 
@@ -104,6 +112,7 @@ bool play_move(game g, int piece_num, dir d, int distance) {
       }
     }
     move_piece(move,d,distance);
+    g->nb_moves +=1;
     return true;
   }
 }
