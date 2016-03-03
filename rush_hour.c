@@ -4,7 +4,7 @@
 
 #include "game.h"
 #include "piece.h"
-#include "gameTexte.h"
+#include "game_texte.h"
 
 
 

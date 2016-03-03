@@ -1,5 +1,5 @@
-#ifndef _GAMETEXTE_H_
-#define _GAMETEXTE_H_
+#ifndef _GAME_TEXTE_H_
+#define _GAME_TEXTE_H_
 
 #include <stdlib.h>
 #include <stdio.h>
