@@ -12,10 +12,11 @@
 int main (void) {
   srand(time(NULL));
 
-  piece* pieces1 = malloc (sizeof(struct piece_s) * 5);
-  piece* pieces2 = malloc (sizeof(struct piece_s) * 5);
-  piece* pieces3 = malloc (sizeof(struct piece_s) * 4);
-
+  // initialisation of different game configurations
+  piece* pieces1 = malloc (sizeof(struct piece_s) * 6);
+  piece* pieces2 = malloc (sizeof(struct piece_s) * 6);
+  piece* pieces3 = malloc (sizeof(struct piece_s) * 6);
+  
   // FIRST GAME
   pieces1[0] = new_piece_rh (3, 0, true,  true);
   pieces1[1] = new_piece_rh (2, 4, false, false);
@@ -46,11 +47,61 @@ int main (void) {
   games[1] = pieces2;
   games[2] = pieces3;
 
-  cgame game = new_game_hr (6, games[rand() % 2]);
-    
+  // select a random game from the array of games
+  game game = new_game_hr (6, pieces2); 
+  
+  // GAME START
   while (!game_over_hr(game)){
 
-  
-    return EXIT_SUCCESS;
+    // variables of command
+    char car_number [10];
+    char direction [10];
+    char dir_num [10];
+
+    // RULES
+    printf("You have to move the 0 piece to the exit.\nTo move a piece, type it's number and a direction then the number of case you want to move.\n\n");
+    // COMMANDS
+    printf("Directions commands : 1 = up, 2 = down, 3 = right, 4 = left\n");
+
+    // display the game
+    display_grid(game->grid);
+
+    // user choices
+    printf("Select a piece :\n");
+    scanf("%s", car_number);
+    printf("Select a move :\n");
+    scanf("%s", direction);
+    printf("How many cases ?\n");
+    scanf("%s", dir_num);
+
+    
+    dir d;
+    switch (atoi(direction)){
+    case 1:
+      d = UP;
+      break;
+    case 2:
+      d = DOWN;
+      break;
+    case 3:
+      d = RIGHT;
+      break;
+    case 4:
+      d = LEFT;
+      break;
+
+    }
+
+        
+    if (play_move(game, atoi(car_number), d, atoi(dir_num)))
+      //refresh grid
+      printf(" ");
+    else
+      printf("Wrong arguments !!");
+      
+    
   }
+
+  printf("Congratulation, you won ! You beat this level in %d moves !", game_nb_moves(game));
+  return EXIT_SUCCESS;
 }
