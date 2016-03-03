@@ -8,16 +8,15 @@
 #define DIMENSION 6
 
 struct game_s{
-  int **grid;
-  int nbMoves;
+  int nb_moves;
   piece *pieces;
 };
 
-game new_game_hr (int nb_pieces, piece *pieces){ //On suppose que dans le tableau de piece, la piece à i = 0 est la piece a faire sortir pour gagner (voiture rouge)
-  game  current = malloc(sizeof(struct game_s)); //Allocation de la structure
-  current.nbMoves = 0;
+game new_game_hr (int nb_pieces, piece *pieces){ //We suppose that the piece i = 0 is the "red one", the one we have to lead to exit).
+  game  current = malloc(sizeof(struct game_s)); //Allocation of the structure
+  current.nb_moves = 0;
    
-  current.grid = malloc(DIMENSION * sizeof(int*));       // Création de la grille de jeu
+  current.grid = malloc(DIMENSION * sizeof(int*));       // Creation of the game board
   for (int i = 0; i<DIMENSION; i++){
     current.grid[i] = malloc(DIMENSION * sizeof(int));
     for (int j = 1; j<DIMENSION; ++j){
@@ -25,33 +24,32 @@ game new_game_hr (int nb_pieces, piece *pieces){ //On suppose que dans le tablea
     }
   }
   
-  int nomPiece = 1;
-  for (int i = 0; i< (sizeof(pieces) / sizeof(struct piece_s)); i++){    //Parcours du tableau de pieces NE FONCTIONNE PAS POUR UNE PIECE de coordonnées (0,x)
+  int piece_name = 1;
+  for (int i = 0; i< (sizeof(pieces) / sizeof(struct piece_s)); i++){    // search in the array of pieces DOESN'T WORK WITH THE PIECE IN THE CASE (0,x)
     if (is_horizontal(*pieces)){
-      for (int j = get_x(*pieces); j <= get_width(*pieces); j++){ //j sert de point de départ pour placer la piece
-	current.grid[get_y(*pieces)][j] = nomPiece;     //abscisse fixe ordonnée variable
+      for (int j = get_x(*pieces); j <= get_width(*pieces); j++){ //j is the starting point to place the piece
+	current.grid[get_y(*pieces)][j] = piece_name;
       }
     }
     else{
       for(int j = get_y(*pieces); j <= get_height(*pieces); j++){
-	current.grid[j][get_x(*pieces)] = nomPiece;
+	current.grid[j][get_x(*pieces)] = piece_name;
       }
     }
-    ++nomPiece;
+    ++piece_name;
     ++pieces;
   }
   return current;
 }
 void delete_game (game g) {
-  for (int i = 0; i<DIMENSION; i++){ //free des sous tableaux
-    free(g.grid[i]);
-  }
-  free(g.grid); //free du tableau restant
-  free(g);    //free de la structure
+  g->nb_moves = -1;
+  for (int i = 0; i < (sizeof(g->pieces) / sizeof(piece[0])); ++i)
+    free(pieces[i]);
+  free(pieces);
 }
  
 void copy_game (cgame src, game dst) {
-  dst.nbMoves = src .nbMoves;
+  dst.nb_moves = src .nb_moves;
   for (int i =0; i<DIMENSION; i++){
     for (int j = 0; j<DIMENSION; j++){
       dst.grid[i][j] = src.grid[i][j];
@@ -60,18 +58,18 @@ void copy_game (cgame src, game dst) {
 }
  
 int game_nb_pieces(cgame g) {
-  int max = 0;                         // Le nombre de pièces du tableau est le nombre maximum qu'on trouvera dans la grille +1 (en comptant la pièce 0)
-  for (int i =0; i<DIMENSION; i++)     // Parcours du tableau
+  int max = 0;                         // The number of pieces in the array. Its the maximum we should find in the grid + 1 (with the 0 piece)
+  for (int i =0; i<DIMENSION; i++)
     for (int j = 0; j<DIMENSION; j++)
       if (g.grid[i][j] > max)
-	max = g.grid[i][j];          // calcul du max
+	max = g.grid[i][j];
   
   return max + 1;
 }
  
 cpiece game_piece(cgame g, int piece_num) {
   cpiece res;
-  for (int i =0; i<DIMENSION; i++)     // Parcours du tableau
+  for (int i =0; i<DIMENSION; i++)
     for (int j = 0; j<DIMENSION; j++)
       if (g.grid[i][j] == piece_num)
 	for (int k = 0;k < (sizeof(g.pieces) / sizeof(struct piece_s)); ++k)
@@ -86,10 +84,10 @@ bool game_over_hr(cgame g) {
  
 bool play_move(game g, int piece_num, dir d, int distance) {
   piece move = game_piece(g,piece_num);
-  piece moveCp = move;
+  piece move_copy = move;
   int taille = 0;
   
-  if (moveCp.small == true)
+  if (move_copy.small == true)
     taille = 2;
   else
     taille = 3;
@@ -97,11 +95,11 @@ bool play_move(game g, int piece_num, dir d, int distance) {
   if (move.horizontal){ //LEFT or RIGHT
     
     if ( d == 1 && move.x - distance >= 0 ){ //LEFT
-      moveCp.x -= distance;
+      move_copy.x -= distance;
       for (int i = 0; i<DIMENSION; i++){
 	for (int j = 0; j<DIMENSION; j++){
 	  if ( g.grid[i][j] != -1){
-	    if (intersect(game_piece(g,g.grid[i][j]), moveCp))
+	    if (intersect(game_piece(g,g.grid[i][j]), move_copy))
 	      return false;
 	  }
 	}
@@ -112,11 +110,11 @@ bool play_move(game g, int piece_num, dir d, int distance) {
      
        
     if ( d == 3 && move.x + distance + taille < DIMENSION ){ //RIGHT
-      moveCp.x += distance;
+      move_copy.x += distance;
       for (int i = 0; i<DIMENSION; i++){
 	for (int j = 0; j<DIMENSION; j++){
 	  if (g. grid[i][j] != -1){
-	    if (intersect(game_piece(g,g.grid[i][j]), moveCp))
+	    if (intersect(game_piece(g,g.grid[i][j]), move_copy))
 	      return false;
 	  }
 	}
@@ -130,11 +128,11 @@ bool play_move(game g, int piece_num, dir d, int distance) {
   if (move.horizontal != true){ //UP or DOWN
      
     if ( d == 2 && move.y + distance < DIMENSION ){ //DOWN
-      moveCp.y += distance;
+      move_copy.y += distance;
       for (int i = 0; i<DIMENSION; i++){
 	for (int j = 0; j<DIMENSION; j++){
 	  if ( g.grid[i][j] != -1){
-	    if (intersect(game_piece(g,g.grid[i][j]), moveCp))
+	    if (intersect(game_piece(g,g.grid[i][j]), move_copy))
 	      return false;
 	  }
 	}
@@ -145,11 +143,11 @@ bool play_move(game g, int piece_num, dir d, int distance) {
      
        
     if ( d == 4 && move.y - distance + taille >= 0 ){ //UP
-      moveCp.y -= distance;
+      move_copy.y -= distance;
       for (int i = 0; i<DIMENSION; i++){
 	for (int j = 0; j<DIMENSION; j++){
 	  if ( g.grid[i][j] != -1){
-	    if (intersect(game_piece(g,g.grid[i][j]), moveCp))
+	    if (intersect(game_piece(g,g.grid[i][j]), move_copy))
 	      return false;
 	  }
 	}
@@ -163,5 +161,5 @@ bool play_move(game g, int piece_num, dir d, int distance) {
  
  
 int game_nb_moves(cgame g) {
-  return g.nbMoves;
+  return g.nb_moves;
 }

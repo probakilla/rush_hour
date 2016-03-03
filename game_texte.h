@@ -6,17 +6,17 @@
 
 
 /**
- * @brief this function display a grid in terminal from a two dimension array 
- * @param a two dimension array
+ * @brief this function create display a grid in terminal from a two dimension array. This array is created with parameters of a game
+ * @param the game you want to display, the array of pieces and the number of pieces
  */
-void display_grid (int ** grid);
+void display_grid (game g, piece* pieces, int nb_pieces);
 
 
 /**
- * @brief create a two dimension array and set all indexes of this array with a value
- * @param the value you want to put in all indexes of the array and the dimension of the array (the array will be "square")
+ * @brief create a two dimension array and set place all pieces taken from an array of pieces
+ * @param an array on pieces and the number of pieces
  */
-int** init_grid (int x, int dim);
+int** init_grid (piece* pieces, int nb_pieces);
 
 
 #endif

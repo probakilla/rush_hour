@@ -6,6 +6,8 @@
 #include "piece.h"
 #include "game_texte.h"
 
+#define NM_PIECES 6
+
 
 
 
@@ -13,9 +15,9 @@ int main (void) {
   srand(time(NULL));
 
   // initialisation of different game configurations
-  piece* pieces1 = malloc (sizeof(struct piece_s) * 6);
-  piece* pieces2 = malloc (sizeof(struct piece_s) * 6);
-  piece* pieces3 = malloc (sizeof(struct piece_s) * 6);
+  piece* pieces1 = malloc (sizeof(piece) * NB_PIECES);
+  piece* pieces2 = malloc (sizeof(struct piece) * NB_PIECES);
+  piece* pieces3 = malloc (sizeof(struct piece) * NB_PIECES);
   
   // FIRST GAME
   pieces1[0] = new_piece_rh (3, 0, true,  true);
@@ -64,7 +66,7 @@ int main (void) {
     printf("Directions commands : 1 = up, 2 = down, 3 = right, 4 = left\n");
 
     // display the game
-    display_grid(game->grid);
+    display_grid(game, pieces2, NB_PIECES);
 
     // user choices
     printf("Select a piece :\n");
