@@ -82,6 +82,12 @@ bool game_over_hr(cgame g) {
 bool play_move(game g, int piece_num, dir d, int distance) {
   piece move = game_piece(g,piece_num);
   piece moveCp = move;
+  int taille = 0;
+
+  if (moveCp->small == true)
+    taille = 2;
+  else
+    taille = 3;
   
 if (move->horizontal){ //LEFT or RIGHT
     
@@ -89,67 +95,66 @@ if (move->horizontal){ //LEFT or RIGHT
       moveCp->x -= distance;
       for (int i = 0; i<DIMENSION; i++){
 	for (int j = 0; j<DIMENSION; j++){
-	  if ( grid[i][j] != -1){
-	    if (intersect(game_piece(g,grid[i][j]), moveCp)
+	  if ( g->grid[i][j] != -1){
+	    if (intersect(game_piece(g,g->grid[i][j]), moveCp))
 		return false;
+	    }
 	  }
 	}
       }
-    move->x -= distance;
-    return true;
-    }
+      move->x -= distance;
+      return true;
+ 
 
-    if ( d == 1 && move->x - distance >= 0 ){ //RIGHT
+    if ( d == 3 && move->x + distance + taille < DIMENSION ){ //RIGHT
       moveCp->x += distance;
       for (int i = 0; i<DIMENSION; i++){
 	for (int j = 0; j<DIMENSION; j++){
-	  if ( grid[i][j] != -1){
-	    if (intersect(game_piece(g,grid[i][j]), moveCp)
+	  if (g-> grid[i][j] != -1){
+	    if (intersect(game_piece(g,g->grid[i][j]), moveCp))
 		return false;
+	    }
 	  }
-	}
-      }
+        }
+    }
     move->x -= distance;
     return true;
-    }
+ }
+
 
 if (move->horizontal != true){ //UP or DOWN
     
-    if ( d == 1 && move->x - distance >= 0 ){ //DOWN
+    if ( d == 2 && move->y + distance < DIMENSION ){ //DOWN
+      moveCp->y += distance;
+      for (int i = 0; i<DIMENSION; i++){
+	for (int j = 0; j<DIMENSION; j++){
+	  if ( g->grid[i][j] != -1){
+	    if (intersect(game_piece(g,g->grid[i][j]), moveCp))
+		return false;
+	  }
+	}
+      }
+    }
+    move->y += distance;
+    return true;
+ 
+
+    if ( d == 4 && move->y - distance + taille >= 0 ){ //UP
       moveCp->y -= distance;
       for (int i = 0; i<DIMENSION; i++){
 	for (int j = 0; j<DIMENSION; j++){
-	  if ( grid[i][j] != -1){
-	    if (intersect(game_piece(g,grid[i][j]), moveCp)
+	  if ( g->grid[i][j] != -1){
+	    if (intersect(game_piece(g,g->grid[i][j]), moveCp))
 		return false;
 	  }
 	}
       }
+    }
     move->y -= distance;
     return true;
-    }
-
-    if ( d == 1 && move->x - distance >= 0 ){ //UP
-      moveCp->x -= distance;
-      for (int i = 0; i<DIMENSION; i++){
-	for (int j = 0; j<DIMENSION; j++){
-	  if ( grid[i][j] != -1){
-	    if (intersect(game_piece(g,grid[i][j]), moveCp)
-		return false;
-	  }
-	}
-      }
-    move->x -= distance;
-    return true;
-    }
-	 
-	    	      
-	 
-       
-     
-    
- 
+ }
 }
+
 
 
 int game_nb_moves(cgame g) {
