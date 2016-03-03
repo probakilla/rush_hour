@@ -13,6 +13,13 @@ struct game_s{
   piece *pieces;
 };
 
+struct piece_s {
+  int x, y;
+  bool small;
+  bool horizontal;
+};
+
+
 /**
  * @brief test if pieces are well placed on a new game
  * @param 
@@ -36,7 +43,7 @@ void array_display (int ** t) {
  * @brief test if number of pieces is correct
  */
 bool nbpiece_test (cgame g) {
-  return (sizeof(g->pieces)*sizeof(piece)) + 1 == NB_PIECES + 1;
+  return (sizeof(g->pieces)*sizeof(struct piece_s)) + 1 == NB_PIECES + 1;
 }
 
 
@@ -63,18 +70,16 @@ bool equals (cgame g1, cgame g2) {
  * @brief display different fields of a piece
  */
 void display_piece (cpiece p) {
-  printf ("Coord: x = %d, y = %d\n", get_x(p), get_y(p));
-  if (is_horizontal(p) && get_width(p) == 1)
-    printf("horizontal small\n");
-  else if (is_horizontal(p))
-    printf("horizontal big\n");
+  printf ("Coord: x = %d, y = %d\n", p->x, p->y);
+  if (p->small)
+    printf("small\n");
+  else
+    printf("big\n");
 
-  if ((!is_horizontal(p)) && get_height(p) == 1)
-    printf("vertical small\n");
-  else if (!is_horizontal(p))
-    printf("vertical big\n");
-
-
+  if (p->horizontal)
+    printf("horizontal\n");
+  else
+    printf("vertical\n");
 }
 
 /**
@@ -89,68 +94,85 @@ bool game_over_test (bool fct, cgame g) {
 
 
 
-
 // ************** MAIN ***************
+
+
+
+
 
 int main (void) {
 
+  
   // VARIABLES
   
-  piece *pieces = malloc(sizeof(piece) * NB_PIECES);  //Allocation of an array of pieces (length = 3)
+  piece *pieces = malloc(sizeof(struct piece_s) * NB_PIECES);  //Allocation of an array of pieces (length = 3)
   pieces[0] = new_piece_rh(2, 2, true, false);        // piece coord (2,2) small, vertical
   pieces[1] = new_piece_rh(5, 5, false, false);       // piece coord (5,5) big, vertical
   pieces[2] = new_piece_rh(1, 4, true, true);         // piece coord (1,4) small, horizontal
   
   game g = new_game_hr (5, pieces);
 
+
+  
   // NEW GAME TEST
 
   printf ("Test of new game : \n");
 
   if (!test_new(g)){
-    fprintf(stderr, "pieces are not well placed on the board\n");
+    fprintf(stderr, "Pieces not well placed on the board\n");
     exit(EXIT_FAILURE);
   }
-   printf("pieces are well placed on the board\n");
+  printf("Pieces well placed on the board\n");
 
 
-  printf ("-- array display --\n");
+  printf ("-- Array display --\n");
   array_display (g->grid);
 
+  
 
   // DELETE_GAME TEST
 
+  printf("Test delete game\n");
+  game delete = new_game_hr (NB_PIECES, pieces);
+  delete_game(delete);
+  if(delete->nbMoves != -1){
+    fprintf(stderr, "Game not deleted");
+    exit(EXIT_FAILURE);
+  }
+  else
+    printf("Game deleted");
 
-  // keskonmé ?????!
 
+  
   // COPY_GAME TEST
 
   printf("Test copy game\n");
-  game copy = malloc(sizeof(piece) * 3);
+  game copy = new_game_hr(NB_PIECES, pieces);
   copy_game (g, copy);
   if (!equals (g, copy)){
-    fprintf(stderr, "copy failed\n");
+    fprintf(stderr, "Copy failed\n");
     exit(EXIT_FAILURE);
   }
-  printf("copy is successfully done\n");
+  printf("Copy successfully done\n");
 
 
 
   // GAME_NB_PIECES TEST
 
   printf("Test game_nb_pieces\n");
-  if (!nbpiece_test){
-    fprintf(stderr, "Error, function return a bad amount of pieces");
+  game number = new_game_hr (NB_PIECES, pieces);
+  if (nbpiece_test(number) != true){
+    fprintf(stderr, "Error, function returns a bad amount of pieces");
     exit(EXIT_FAILURE);
   }
-  printf ("Good amount of pieces");
+  printf("Good amount of pieces");
 
 
 
   // GAME_PIECE TEST
 
   printf("Test game_piece\n");
-  cpiece p = malloc(sizeof(piece));
+  cpiece p = malloc(sizeof(struct piece_s));
   p = game_piece(g, 2);
   display_piece(p);
 
@@ -158,34 +180,34 @@ int main (void) {
 
   // GAME_OVER TEST
 
-  printf("test game_over_hr\n");
+  printf("Test game_over_hr\n");
   if (!game_over_test(game_over_hr(g), g)){
-    printf ("game is not well over");
+    fprintf (stderr, "Game is not well over");
     exit(EXIT_FAILURE);
   }
-  printf ("game is well over");
+  printf ("Game well over");
 
-
-
+  
   
   // PLAY_MOVE TEST
   
-  printf("test play_move\n");
+  printf("Test play_move\n");
   array_display(g->grid);
   play_move(g, 2, UP, 1);
   array_display(g->grid);
-  
 
+
+  
   //GAME_NB_MOVES TEST
 
-  printf("test game_nb_moves\n");
+  printf("Test game_nb_moves\n");
   int move = game_nb_moves(g);
   move_piece(g->pieces[1], DOWN, 1);
   if (game_nb_moves(g) != move +1){
-    printf("game_nb_moves is not working\n");
+    fprintf(stderr, "game_nb_moves not working\n");
     exit(EXIT_FAILURE);
   }
-  printf("game_nb_moves is working\n");
+  printf("game_nb_moves works\n");
 
 
   return EXIT_SUCCESS;
