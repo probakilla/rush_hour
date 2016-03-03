@@ -13,10 +13,6 @@ struct game_s{
   piece *pieces;
 };
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 004a85afcdfbe420e0ae6d400d3230c2f4a497c9
 game new_game_hr (int nb_pieces, piece *pieces){ //On suppose que dans le tableau de piece, la piece à i = 0 est la piece a faire sortir pour gagner (voiture rouge)
   game  current = malloc(sizeof(struct game_s)); //Allocation de la structure
   current.nbMoves = 0;
