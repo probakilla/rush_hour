@@ -11,13 +11,6 @@ struct piece_s {
   bool horizontal;
 };
 
-<<<<<<< HEAD
-=======
-
-
-
-
->>>>>>> 004a85afcdfbe420e0ae6d400d3230c2f4a497c9
 piece new_piece_rh (int x, int y, bool small, bool horizontal) {
   piece new = malloc(sizeof(struct piece_s));
   new->x = x;
