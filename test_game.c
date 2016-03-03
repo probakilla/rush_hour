@@ -13,10 +13,6 @@ struct game_s{
   piece *pieces;
 };
 
-typedef struct game_s* game;
-typedef const struct game_s* cgame;
-
-
 /**
  * @brief test if pieces are well placed on a new game
  * @param 

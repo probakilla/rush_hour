@@ -9,6 +9,9 @@
  *
  **/
 
+typedef struct piece_s* piece;
+typedef const struct piece_s* cpiece;
+
 /**
  * @enum dir_e
  * @brief The enumeration of possible directions of a move

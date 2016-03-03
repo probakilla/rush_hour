@@ -23,11 +23,6 @@ struct piece_s {
   bool horizontal;
 };
 
-
-typedef struct piece_s* piece;
-typedef const struct piece_s* cpiece;
-
-
 piece new_piece_rh (int x, int y, bool small, bool horizontal) {
   piece new = malloc(sizeof(struct piece_s));
   new->x = x;
