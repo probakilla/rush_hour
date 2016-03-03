@@ -13,6 +13,23 @@ typedef struct piece_s* piece;
 typedef const struct piece_s* cpiece;
 
 /**
+ * @struct piece_s
+ * @brief A piece represents a vehicle of the game rush hour placed on the board.
+ *
+ * A piece is characterized by its position, its shape and its ability to move vertically or horizontally.
+ * piece is a pointer to the structure that describes a vehicle on the board.
+ *
+ * cpiece is a pointer toward a constant piece.
+ * This means that it is not possible to modify the piece through to this pointer.
+ * See also: http://www.geeksforgeeks.org/const-qualifier-in-c/
+ * See also this more technical discussion: http://stackoverflow.com/questions/8504411/typedef-pointer-const-weirdness
+ *
+ */
+
+typedef struct piece_s* piece;
+typedef const struct piece_s* cpiece;
+
+/**
  * @enum dir_e
  * @brief The enumeration of possible directions of a move
  */
