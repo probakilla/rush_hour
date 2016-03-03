@@ -12,7 +12,7 @@ struct piece_s {
 };
 
 piece new_piece_rh (int x, int y, bool small, bool horizontal) {
-  piece new = malloc(sizeof(struct piece_s));
+  piece new = malloc(sizeof(piece));
   new->x = x;
   new->y = y;
   new->small = small;
@@ -35,15 +35,15 @@ void copy_piece (cpiece src, piece dst) {
 
 void move_piece (piece p, dir d, int distance) {
   if (p->horizontal == true){
-    if (d == 1)
+    if (d == LEFT)
       p->x -= distance;
-    else if (d == 3)
+    else if (d == RIGHT)
       p->x += distance;
   }
   else{
-    if (d == 0)
+    if (d == UP)
       p->y += distance;
-    else if (d == 2)
+    else if (d == DOWN)
       p->y -= distance;
   }     
 }
