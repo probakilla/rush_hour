@@ -9,6 +9,9 @@
  *
  **/
 
+typedef struct piece_s* piece;
+typedef const struct piece_s* cpiece;
+
 /**
  * @struct piece_s
  * @brief A piece represents a vehicle of the game rush hour placed on the board.
