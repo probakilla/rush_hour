@@ -105,17 +105,21 @@ int get_y(cpiece p) {
 
 
 int get_height(cpiece p) {
-  if(p->small==true && p->horizontal==false)
+  if (p->horizontal == true)
     return 1;
-  if(p->small==false && p->horizontal==false)
+  if(p->small==true && p->horizontal==false)
     return 2;
+  if(p->small==false && p->horizontal==false)
+    return 3;
 }
 
 int get_width(cpiece p) {
-  if(p->small==true && p->horizontal==true)
+  if (!p->horizontal)
     return 1;
-  if(p->small==false && p->horizontal==true)
+  if(p->small==true && p->horizontal==true)
     return 2;
+  if(p->small==false && p->horizontal==true)
+    return 3;
 }
 
 bool is_horizontal(cpiece p) {
