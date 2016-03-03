@@ -13,73 +13,43 @@ struct game_s{
 };
 
 game new_game_hr (int nb_pieces, piece *pieces){ //We suppose that the piece i = 0 is the "red one", the one we have to lead to exit).
+
   game  current = malloc(sizeof(struct game_s)); //Allocation of the structure
-  current.nb_moves = 0;
-   
-  current->grid = malloc(DIMENSION * sizeof(int*));       // Creation of the game board
-  for (int i = 0; i<DIMENSION; i++){
-    current->grid[i] = malloc(DIMENSION * sizeof(int));
-    for (int j = 1; j<DIMENSION; ++j){
-      current->grid[i][j] = -1;
-    }
-  }
-  
-  int piece_name = 1;
-  for (int i = 0; i< (sizeof(pieces) / sizeof(struct piece_s)); i++){    // search in the array of pieces DOESN'T WORK WITH THE PIECE IN THE CASE (0,x)
-    if (is_horizontal(*pieces)){
-      for (int j = get_x(*pieces); j <= get_width(*pieces); j++){ //j is the starting point to place the piece
-	current->grid[get_y(*pieces)][j] = piece_name;
-      }
-    }
-    else{
-      for(int j = get_y(*pieces); j <= get_height(*pieces); j++){
-	current->grid[j][get_x(*pieces)] = piece_name;
-      }
-    }
-    ++piece_name;
-    ++pieces;
+  current->nb_moves = 0;
+  for (int i = 0; i<nb_pieces;i++){
+    copy_piece(pieces[i],current->pieces[i]);
   }
   return current;
+  
 }
 void delete_game (game g) {
   g->nb_moves = -1;
-  for (int i = 0; i < (sizeof(g->pieces) / sizeof(piece[0])); ++i)
-    free(pieces[i]);
-  free(pieces);
+  for (int i = 0; i < game_nb_pieces(g); ++i)
+    free(g->pieces[i]);
+  free(g->pieces);
 }
  
 void copy_game (cgame src, game dst) {
-  dst->nbMoves = src ->nbMoves;
-  for (int i =0; i<DIMENSION; i++){
-    for (int j = 0; j<DIMENSION; j++){
-      dst->grid[i][j] = src->grid[i][j];
-    }
+  dst->nb_moves = src ->nb_moves;
+  for (int i = 0; i<game_nb_pieces(src);i++){
+    copy_piece(src->pieces[i],dst->pieces[i]);
   }
 }
+  
+  
+ 
  
 int game_nb_pieces(cgame g) {
-  int max = 0;                         // The number of pieces in the array. Its the maximum we should find in the grid + 1 (with the 0 piece)
-  for (int i =0; i<DIMENSION; i++)
-    for (int j = 0; j<DIMENSION; j++)
-      if (g->grid[i][j] > max)
-	max = g->grid[i][j];          // calcul du max
-  
-  return max + 1;
+  return sizeof(g->pieces) / sizeof(g->pieces[0]);
 }
  
 cpiece game_piece(cgame g, int piece_num) {
-  cpiece res;
-  for (int i =0; i<DIMENSION; i++)
-    for (int j = 0; j<DIMENSION; j++)
-      if (g->grid[i][j] == piece_num)
-	for (int k = 0;k < (sizeof(g->pieces) / sizeof(g->pieces[0])); ++k)
-	  if (i == get_x(g->pieces[k]) && j == get_y(g->pieces[k]))
-	    res = g->pieces[k];
-  return res;
+  return g->pieces[piece_num];
+    
 }
  
 bool game_over_hr(cgame g) {
-  return g->grid[3][4] == 0;
+  return get_x(g->pieces[0] ) == 4 && get_y(g->pieces[0]) == 3;
 }
  
 bool play_move(game g, int piece_num, dir d, int distance) {
@@ -92,16 +62,7 @@ bool play_move(game g, int piece_num, dir d, int distance) {
     return false; 
   }
   
-  piece move = game_piece(g,piece_num);
-  int taille = 0;
-  
-  if (move_copy.small == true)
-    taille = 2;
-  else
-    taille = 3;
-   
-
-  int taille = 0;
+  piece move = (piece)game_piece(g,piece_num);
    
   if (is_horizontal(move)){ //LEFT or RIGHT
     if ( d == LEFT && get_x(move) - distance >= 0 ){ //LEFT and check if the piece is still in the grid
@@ -153,6 +114,6 @@ bool play_move(game g, int piece_num, dir d, int distance) {
  
 int game_nb_moves(cgame g) {
 
-  return g->nbMoves;
+  return g->nb_moves;
 
 }

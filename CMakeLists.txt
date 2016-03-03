@@ -4,7 +4,7 @@ project(rush_hour)
 
 add_definitions(-std=c99)
 
-add_library (game game.c piece.c game_texte.c)
+add_library (game game.c piece.c game_texte.c game_texte.h)
 
 add_executable(rush_hour game_texte.c game.c piece.c rush_hour.c)
 add_executable(test_piece1 test_piece1.c)

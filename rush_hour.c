@@ -6,7 +6,7 @@
 #include "piece.h"
 #include "game_texte.h"
 
-#define NM_PIECES 6
+#define NB_PIECES 6
 
 
 
@@ -16,8 +16,8 @@ int main (void) {
 
   // initialisation of different game configurations
   piece* pieces1 = malloc (sizeof(piece) * NB_PIECES);
-  piece* pieces2 = malloc (sizeof(struct piece) * NB_PIECES);
-  piece* pieces3 = malloc (sizeof(struct piece) * NB_PIECES);
+  piece* pieces2 = malloc (sizeof(piece) * NB_PIECES);
+  piece* pieces3 = malloc (sizeof(piece) * NB_PIECES);
   
   // FIRST GAME
   pieces1[0] = new_piece_rh (3, 0, true,  true);

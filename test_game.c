@@ -36,7 +36,7 @@ void array_display (int ** t) {
  * @brief test if number of pieces is correct
  */
 bool nbpiece_test (cgame g) {
-  return (sizeof(g->pieces)*sizeof(struct piece_s)) + 1 == NB_PIECES + 1;
+  return (sizeof(g->pieces)*sizeof(piece)) + 1 == NB_PIECES + 1;
 }
 
 
@@ -63,16 +63,18 @@ bool equals (cgame g1, cgame g2) {
  * @brief display different fields of a piece
  */
 void display_piece (cpiece p) {
-  printf ("Coord: x = %d, y = %d\n", p->x, p->y);
-  if (p->small)
-    printf("small\n");
-  else
-    printf("big\n");
+  printf ("Coord: x = %d, y = %d\n", get_x(p), get_y(p));
+  if (is_horizontal(p) && get_width(p) == 1)
+    printf("horizontal small\n");
+  else if (is_horizontal(p))
+    printf("horizontal big\n");
 
-  if (p->horizontal)
-    printf("horizontal\n");
-  else
-    printf("vertical\n");
+  if ((!is_horizontal(p)) && get_height(p) == 1)
+    printf("vertical small\n");
+  else if (!is_horizontal(p))
+    printf("vertical big\n");
+
+
 }
 
 /**
@@ -94,7 +96,7 @@ int main (void) {
 
   // VARIABLES
   
-  piece *pieces = malloc(sizeof(struct piece_s) * NB_PIECES);  //Allocation of an array of pieces (length = 3)
+  piece *pieces = malloc(sizeof(piece) * NB_PIECES);  //Allocation of an array of pieces (length = 3)
   pieces[0] = new_piece_rh(2, 2, true, false);        // piece coord (2,2) small, vertical
   pieces[1] = new_piece_rh(5, 5, false, false);       // piece coord (5,5) big, vertical
   pieces[2] = new_piece_rh(1, 4, true, true);         // piece coord (1,4) small, horizontal
@@ -124,7 +126,7 @@ int main (void) {
   // COPY_GAME TEST
 
   printf("Test copy game\n");
-  game copy = malloc(sizeof(struct piece_s) * 3);
+  game copy = malloc(sizeof(piece) * 3);
   copy_game (g, copy);
   if (!equals (g, copy)){
     fprintf(stderr, "copy failed\n");
@@ -148,7 +150,7 @@ int main (void) {
   // GAME_PIECE TEST
 
   printf("Test game_piece\n");
-  cpiece p = malloc(sizeof(struct piece_s));
+  cpiece p = malloc(sizeof(piece));
   p = game_piece(g, 2);
   display_piece(p);
 

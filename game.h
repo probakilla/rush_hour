@@ -2,7 +2,7 @@
 #define _GAME_H_
 #include <stdbool.h>
 #include "piece.h"
-#include "game_texte.h"
+
 
 
 
@@ -30,24 +30,6 @@ typedef const struct game_s* cgame;
  *
  **/
 
-/**
- * @struct game_s
- * @brief The state of the game is described by the position of the pieces (i.e. vehicles) on the board and the number of moves since the beginning of the game.
- *
- * The game board is a 6*6 grid. The lower left corner has coordinates (0,0).
- * The piece number 0 represents the "red car" that needs to be moved away from the parking.
- * Its initial position is (0,3).
- * A winning game (state) is when the red car touches the right border of the game board (i.e. when its position is (4,3)).
- *
- * cgame is a pointer toward a constant game.
- * That means that it is not possible to modify the game thanks to this pointer.
- * See also: http://www.geeksforgeeks.org/const-qualifier-in-c/
- * See also this more technical discussion: http://stackoverflow.com/questions/8504411/typedef-pointer-const-weirdness
- *
- **/
-
-typedef struct game_s* game;
-typedef const struct game_s* cgame;
 
 /**
  * @brief Creates a new game given a starting position defined by a set of pieces.
