@@ -99,10 +99,11 @@ int main (void) {
 
   printf ("Test of new game : \n");
 
-  if (test_new(g))
-    printf("pieces are well placed on the board\n");
-  else
+  if (!test_new(g)){
     fprintf(stderr, "pieces are not well placed on the board\n");
+    exit(EXIT_FAILURE);
+  }
+   printf("pieces are well placed on the board\n");
 
 
   printf ("-- array display --\n");
@@ -119,20 +120,22 @@ int main (void) {
   printf("Test copy game\n");
   game copy = malloc(sizeof(struct piece_s) * 3);
   copy_game (g, copy);
-  if (equals (g, copy))
-    printf("copy is successfully done\n");
-  else
+  if (!equals (g, copy)){
     fprintf(stderr, "copy failed\n");
+    exit(EXIT_FAILURE);
+  }
+  printf("copy is successfully done\n");
 
 
 
   // GAME_NB_PIECES TEST
 
   printf("Test game_nb_pieces\n");
-  if (nbpiece_test)
-    printf ("Good amount of pieces");
-  else
+  if (!nbpiece_test){
     fprintf(stderr, "Error, function return a bad amount of pieces");
+    exit(EXIT_FAILURE);
+  }
+  printf ("Good amount of pieces");
 
 
 
@@ -148,10 +151,11 @@ int main (void) {
   // GAME_OVER TEST
 
   printf("test game_over_hr\n");
-  if (game_over_test(game_over_hr(g), g))
-    printf ("game is well over");
-  else
+  if (!game_over_test(game_over_hr(g), g)){
     printf ("game is not well over");
+    exit(EXIT_FAILURE);
+  }
+  printf ("game is well over");
 
 
 
@@ -169,10 +173,11 @@ int main (void) {
   printf("test game_nb_moves\n");
   int move = game_nb_moves(g);
   move_piece(g->pieces[1], DOWN, 1);
-  if (game_nb_moves(g) == move +1)
-    printf("game_nb_moves is working\n");
-  else
+  if (game_nb_moves(g) != move +1){
     printf("game_nb_moves is not working\n");
+    exit(EXIT_FAILURE);
+  }
+  printf("game_nb_moves is working\n");
 
 
   return EXIT_SUCCESS;
