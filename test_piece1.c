@@ -5,6 +5,14 @@
 
 #define NB_PIECES 4
 
+struct piece_s {
+  int x, y;
+  bool small;
+  const int color; //later
+  bool horizontal;
+};
+
+
 /**
  * @brief test if value is equal to expected; if not, displays an error message containing msg to standard error output 
  * @return true if expected==value
