@@ -37,6 +37,10 @@ void delete_game (game g) { //Resetting fields and freeing fields and subarrays
 }
  
 void copy_game (cgame src, game dst) { // Copying fileds, and copying each piece
+  if (src -> nb_pieces != dst -> nb_pieces){
+    fprintf(stderr,"Copy impossible, number of pieces are different");
+    exit(EXIT_FAILURE);
+  }
   dst->nb_moves = src->nb_moves;
   dst->nb_pieces = src->nb_pieces;
   for (int i = 0; i<game_nb_pieces(src);i++){
@@ -54,7 +58,7 @@ cpiece game_piece(cgame g, int piece_num) {
 }
  
 bool game_over_hr(cgame g) {
-  return get_y(g->pieces[0]) == 4 && get_x(g->pieces[0]) == 3;
+  return get_y(g->pieces[0]) == 3 && get_x(g->pieces[0]) == 4;
 }
 
 

@@ -7,28 +7,18 @@
 
 #define DIMENSION 6
 
-void display_array (int ** grid) {
-  for (int i = 0; i < DIMENSION; ++i){
-    for (int j = 0; j < DIMENSION; ++j)
-      printf("%d ", grid[i][j]);
-    printf("\n");
-  }
-}
-
 void display_grid (game g, piece* pieces, int nb_pieces) {
-  char num = 97; // ascii code of a.
+  char num = 102;    // ascii code of a.
   
-  int ** grid = init_grid (g, nb_pieces);
-  printf("\npd\n");
-  display_array(grid);
-  printf("      1       2       3       4       5       6\n"); // Display of collumn's numbers
+  int ** grid = init_grid (g, nb_pieces);    // This grid will be use to display the game.
 
-  // Create lines and place pieces number
+  
+  // Create lines and place pieces number.
   for (int i = 0; i < DIMENSION; ++i){
     if (i != 2){
       printf("  |-------|-------|-------|-------|-------|-------|\n");
       printf("  |       |       |       |       |       |       |\n");
-      printf("%c ", num + i);
+      printf("%c ", num - i);
       for (int j = 0; j < DIMENSION; ++j){
 	printf("|   ");
 	if (grid[i][j] == -1)
@@ -37,15 +27,15 @@ void display_grid (game g, piece* pieces, int nb_pieces) {
 	  printf ("%d   ", grid[i][j]);
       }
       printf("|\n");
-      printf("  |       |       |       |       |       |       |\n");
-      
+      printf("  |       |       |       |       |       |       |\n");      
     }
-  
-    // Exception of the fourth line, which one with the exit
+
+    
+    // Exception of the third line, which one with the exit.
     else {
       printf("  |-------|-------|-------|-------|-------|-------|\n");
       printf("  |       |       |       |       |       |       ------- \n");
-      printf("%c ", num+i);
+      printf("%c ", num - i);
       for (int j = 0; j < DIMENSION; ++j){
 	printf("|   ");
 	if (grid[i][j] == -1)
@@ -55,23 +45,22 @@ void display_grid (game g, piece* pieces, int nb_pieces) {
       }
       printf("  EXIT\n");
       printf("  |       |       |       |       |       |       ------- \n");
-    }
-    
+    }    
   }
   printf("  |-------|-------|-------|-------|-------|-------|\n");
+  printf("      1       2       3       4       5       6\n");
 
   
-  // free of the grid
+  // Free of the grid.
   for (int i = 0; i < nb_pieces; ++i)
     free(grid[i]);
   free(grid);
-
 }
 
 
 int ** init_grid (game g, int nb_pieces) {
 
-  // Initialisation of the grid
+  // Initialisation of the grid, all indexes are set to -1.
   int ** grid = malloc (sizeof(int*) * (DIMENSION));
   if (grid == NULL)
     exit(EXIT_FAILURE);
@@ -85,67 +74,25 @@ int ** init_grid (game g, int nb_pieces) {
     }
   }
       
-  //Filling of the grid
+  // Fill of the grid.
   for (int i = 0; i < nb_pieces; ++i){
-    //piece current_p = (piece)game_piece(g,i);
-    //int get_x(game_piece(g, i)) = get_x(current_p);
-    //printf("get_x(game_piece(g, i)) %d = %d ",i ,  get_x(game_piece(g, i)));
-    //int new_y = (DIMENSION - 1) - get_y(current_p);
-    //printf("new_y %d = %d\n",i , new_y);
-    
+
     grid[(DIMENSION - 1) - get_y(game_piece(g,i))][get_x(game_piece(g,i))] = i;
-    if (!(is_horizontal(game_piece(g, i))) && get_height(game_piece(g, i)) == 2){  // Vertical small
+    if (!(is_horizontal(game_piece(g, i))) && get_height(game_piece(g, i)) == 2){  // Test if the piece is vertical and small.
       grid[((DIMENSION -1) - get_y(game_piece(g, i))) - 1][get_x(game_piece(g, i))] = i;
     }
-  if ( !(is_horizontal(game_piece(g, i))) && get_height(game_piece(g, i)) == 3){ // Vertical big
+    if ( !(is_horizontal(game_piece(g, i))) && get_height(game_piece(g, i)) == 3){ // Test if the piece is vertical and big.
       grid[((DIMENSION -1) - get_y(game_piece(g, i))) - 1][get_x(game_piece(g, i))] = i;
       grid[((DIMENSION -1) - get_y(game_piece(g, i))) - 2][get_x(game_piece(g, i))] = i;
     }
 
-    if (is_horizontal(game_piece(g, i)) && get_width(game_piece(g, i)) == 2){     // Horizontal small
+    if (is_horizontal(game_piece(g, i)) && get_width(game_piece(g, i)) == 2){     // Test if the piece is horizontal and small.
       grid[((DIMENSION -1) - get_y(game_piece(g, i)))][get_x(game_piece(g, i)) + 1] = i;
     }
-    if (is_horizontal(game_piece(g, i)) && get_width(game_piece(g, i)) == 3){    // Horizontal big
+    if (is_horizontal(game_piece(g, i)) && get_width(game_piece(g, i)) == 3){     // Test if the piece is horizontal big.
       grid[((DIMENSION -1) - get_y(game_piece(g, i)))][get_x(game_piece(g, i)) + 1] = i;
       grid[((DIMENSION -1) - get_y(game_piece(g, i)))][get_x(game_piece(g, i)) + 2] = i;
-      }
-    }
-  return grid;
-}
-/*
-int** init_grid (game g, int nb_pieces) {
-  // Initialisation of grid with the value -1
-  int ** grid = malloc (sizeof(int*) * (DIMENSION));
-  if (grid == NULL)
-    exit(EXIT_FAILURE);
-  
-  for (int i = 0; i < DIMENSION; ++i){
-    grid[i] = malloc (sizeof(int)*DIMENSION + 1);
-    if (grid[i] == NULL)
-      exit(EXIT_FAILURE);
-    for (int j = 0; j < DIMENSION; ++j)
-      grid[i][j] = -1;
-  }
-  // Place the piece
-  for (int i = 0; i < DIMENSION; ++i) {
-    grid[get_x(game_piece(g, i))][get_y(game_piece(g, i))] = i;
-    
-    if (is_horizontal(game_piece(g, i)) && get_width(game_piece(g, i)) == 2) // small horizontal
-      grid[get_x(game_piece(g, i))][get_y(game_piece(g, i))+1] = i;
-    else if (is_horizontal(game_piece(g, i)) && get_width(game_piece(g, i)) == 3){ // big horizontal
-      grid[get_x(game_piece(g, i))][get_y(game_piece(g, i))+1] = i;
-      grid[get_x(game_piece(g, i))][get_y(game_piece(g, i))+2] = i;
-    }
-
-    else if (!is_horizontal(game_piece(g, i)) && get_height(game_piece(g, i)) == 2){ // small vertical
-      grid[get_x(game_piece(g, i))-1][get_y(game_piece(g, i))] = i;
-    }
-    else if (!is_horizontal(game_piece(g, i)) && get_height(game_piece(g, i)) == 3){ // big vertical
-      grid[get_x(game_piece(g, i))-1][get_y(game_piece(g, i))] = i;
-      grid[get_x(game_piece(g, i))-2][get_y(game_piece(g, i))] = i;  
     }
   }
   return grid;
 }
-
-*/
