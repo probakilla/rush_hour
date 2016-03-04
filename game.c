@@ -57,7 +57,7 @@ cpiece game_piece(cgame g, int piece_num) {
 }
  
 bool game_over_hr(cgame g) {
-  return get_x(g->pieces[0] ) == 4 && get_y(g->pieces[0]) == 3;
+  return get_y(g->pieces[0] ) == 4 && get_x(g->pieces[0]) == 3;
 }
  
 bool play_move(game g, int piece_num, dir d, int distance) {
