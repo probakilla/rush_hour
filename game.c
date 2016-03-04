@@ -30,7 +30,7 @@ game new_game_hr (int nb_pieces, piece *pieces){ //We suppose that the piece i =
   
 }
 void delete_game (game g) { //Resetting fields and freeing fields and subarrays
-  g->nb_moves = -1;
+  g->nb_moves = 0;
   for (int i = 0; i < game_nb_pieces(g); ++i)
     free(g->pieces[i]);
   free(g->pieces);
