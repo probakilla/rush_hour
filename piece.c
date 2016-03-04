@@ -36,15 +36,15 @@ void copy_piece (cpiece src, piece dst) {
 void move_piece (piece p, dir d, int distance) { //MIS DES PLUS A LA PLACE DES MOINS
   if (p->horizontal == true){
     if (d == LEFT)
-      p->y -= distance;
+      p->x -= distance;
     else if (d == RIGHT)
-      p->y += distance;
+      p->x += distance;
   }
   else{
     if (d == UP)
-      p->x -= distance;
+      p->y -= distance;
     else if (d == DOWN)
-      p->x += distance;
+      p->y += distance;
   }     
 }
 
