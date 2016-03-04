@@ -61,7 +61,7 @@ bool game_over_hr(cgame g) {
 }
  
 bool play_move(game g, int piece_num, dir d, int distance) {
-
+  
 
   if (distance < 0){
     return false;
@@ -70,14 +70,14 @@ bool play_move(game g, int piece_num, dir d, int distance) {
   if (piece_num <= 0 && piece_num >= game_nb_pieces(g) ){
     return false; 
   }
-  if (is_horizontal(game_piece(g,piece_num))){ //LEFT or RIGHT
+  if (is_horizontal(game_piece((cgame)g,piece_num))){ //LEFT or RIGHT
     if ( d == LEFT && get_x(game_piece(g,piece_num)) - distance <= 0 ){ //LEFT and check if the piece is still in the grid
       for (int i = 0; i < game_nb_pieces(g); ++i){
-	if (intersect(game_piece(g,piece_num),g->pieces[i]))
+	if (intersect(game_piece((cgame)g,piece_num),g->pieces[i]))
 	  return false;
       }
     }
-    move_piece(game_piece(g,piece_num),d,distance);
+    move_piece((piece)game_piece((cgame)g,piece_num),d,distance);
     g->nb_moves +=1;
     return true;
 
@@ -88,7 +88,7 @@ bool play_move(game g, int piece_num, dir d, int distance) {
 	  return false;
       }
     }
-    move_piece(game_piece(g,piece_num),d,distance);
+    move_piece((piece)game_piece(g,piece_num),d,distance);
     g->nb_moves +=1;
     return true;
   }
@@ -100,7 +100,7 @@ bool play_move(game g, int piece_num, dir d, int distance) {
 	  return false;
       }
     }
-    move_piece(game_piece(g,piece_num),d,distance);
+    move_piece((piece)game_piece(g,piece_num),d,distance);
     g->nb_moves +=1;
     return true;
 
@@ -112,7 +112,7 @@ bool play_move(game g, int piece_num, dir d, int distance) {
 	  return false;
       }
     }
-    move_piece(game_piece(g,piece_num),d,distance);
+    move_piece((piece)game_piece(g,piece_num),d,distance);
     g->nb_moves +=1;
     return true;
   }

@@ -9,6 +9,25 @@
 #define DIMENSION 6
 
 
+
+/**
+ * @brief display different fields of a piece
+ */
+
+void display_piece (cpiece p) {
+  printf ("Coord: x = %d, y = %d\n", get_x(p), get_y(p));
+  if (is_horizontal(p) && get_width(p) == 2)
+    printf("horizontal small\n");
+  else if (is_horizontal(p))
+    printf("horizontal big\n");
+
+  if ((!is_horizontal(p)) && get_height(p) == 2)
+    printf("vertical small\n");
+  else if (!is_horizontal(p))
+    printf("vertical big\n");
+}
+
+
 /**
  * @brief test if pieces are well placed on a new game
  * @param 
@@ -60,22 +79,6 @@ bool equals (game g1, game g2) {
 }
 
 
-/**
- * @brief display different fields of a piece
- */
-
-void display_piece (piece p) {
-  printf ("Coord: x = %d, y = %d\n", get_x(p), get_y(p));
-  if (is_horizontal(p) && get_width(p) == 2)
-    printf("horizontal small\n");
-  else if (is_horizontal(p))
-    printf("horizontal big\n");
-
-  if ((!is_horizontal(p)) && get_height(p) == 2)
-    printf("vertical small\n");
-  else if (!is_horizontal(p))
-    printf("vertical big\n");
-}
 
 /**
  * @brief test if game_over_hr is working
@@ -185,8 +188,7 @@ int main (void) {
   // GAME_PIECE TEST
 
   printf("Test game_piece\n");
-  piece p = malloc(sizeof(piece));
-  p = game_piece(g, 2);
+  cpiece p = game_piece(g, 2);
   display_piece(p);
 
 
