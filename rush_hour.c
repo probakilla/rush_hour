@@ -24,13 +24,13 @@ int main (void) {
   }
 
   // FIRST GAME
-  pieces1[0] = new_piece_rh (3, 0, true,  true); // x, y , small , horizontal
-  pieces1[1] = new_piece_rh (2, 4, false, false);
-  pieces1[2] = new_piece_rh (1, 5, true, false);
-  pieces1[3] = new_piece_rh (4, 3, true, false);
-  pieces1[4] = new_piece_rh (4, 5, true, true);
-  pieces1[5] = new_piece_rh (1, 0, false, true);
-    
+  pieces1[0] = new_piece_rh (0, 3, true,  true);// x, y , small , horizontal
+  pieces1[1] = new_piece_rh (1, 0, false , false); 
+  pieces1[2] = new_piece_rh (1, 4, false , true); 
+  pieces1[3] = new_piece_rh (4, 0, true , false);
+  pieces1[4] = new_piece_rh (4, 4, true , true);
+  pieces1[5] = new_piece_rh (4, 2, true , true);
+  
   piece *pieces2 = malloc (sizeof(*pieces2) * NB_PIECES);
   // SECOND GAME
   pieces2[0] = new_piece_rh (3, 0, true,  true);
@@ -50,7 +50,7 @@ int main (void) {
   pieces3[5] = new_piece_rh (0, 5, true, true);
 
   
- 
+  
 
   // ARRAY OF DIFFERENT GAMES
   piece** games = malloc (sizeof(piece) * 3);
@@ -65,13 +65,14 @@ int main (void) {
   // RULES
   printf("\nYou have to move the 0 piece to the exit.\nTo move a piece, type it's number and a direction then the number of case you want to move.\n\n");
   
-
-
+  
   // GAME START
-  while (!game_over_hr(game)){
+  while (!(game_over_hr(game))){
 
-    // COMMANDS
+       // COMMANDS
     printf("Directions commands : 1 = up, 2 = down, 3 = right, 4 = left\n");
+
+    printf("\n\n%d %d\n\n", get_x(game_piece(game, 0)), get_y(game_piece(game,0)));
 
     // variables of command
     char car_number [10];
@@ -80,11 +81,12 @@ int main (void) {
 
     // display the game
     display_grid(game, pieces1, NB_PIECES);
+    printf("\n\npiece 0 : x = %d, y = %d\n\n", get_x(game_piece(game, 0)), get_y(game_piece(game,0)));
 
     // user choices & test if choices are correct
     printf("Select a piece :\n");
     scanf("%s", car_number);
-    if (atoi(car_number) < 0 || atoi(car_number) > NB_PIECES - 1 || !(isdigit(atoi(car_number)))){ // if car number does not exists
+    if (atoi(car_number) < 0 || atoi(car_number) > NB_PIECES - 1 ){ // if car number does not exists
       printf("\nMAUVAISE SAISIE ! Veuillez rentrer un numéro entre 0 et %d\n\n", NB_PIECES - 1);
       continue;
     }

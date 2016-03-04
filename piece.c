@@ -42,9 +42,9 @@ void move_piece (piece p, dir d, int distance) { //MIS DES PLUS A LA PLACE DES M
   }
   else{
     if (d == UP)
-      p->y -= distance;
-    else if (d == DOWN)
       p->y += distance;
+    else if (d == DOWN)
+      p->y -= distance;
   }     
 }
 
