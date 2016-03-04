@@ -7,6 +7,14 @@
 
 #define DIMENSION 6
 
+void display_array (int ** grid) {
+  for (int i = 0; i < DIMENSION; ++i){
+    for (int j = 0; j < DIMENSION; ++j)
+      printf("%d ", grid[i][j]);
+    printf("\n");
+  }
+}
+
 void display_grid (game g, piece* pieces, int nb_pieces) {
   char num = 97; // ascii code of a.
   
@@ -96,10 +104,3 @@ int** init_grid (game g, int nb_pieces) {
   return grid;
 }
 
-void display_array (int ** grid) {
-  for (int i = 0; i < DIMENSION; ++i){
-    for (int j = 0; j < DIMENSION; ++j)
-      printf("%d ", grid[i][j]);
-    printf("\n");
-  }
-}
