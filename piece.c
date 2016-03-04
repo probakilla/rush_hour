@@ -33,24 +33,25 @@ void copy_piece (cpiece src, piece dst) {
   dst->horizontal = src->horizontal;
 }
 
-void move_piece (piece p, dir d, int distance) {
+void move_piece (piece p, dir d, int distance) { //MIS DES PLUS A LA PLACE DES MOINS
   if (p->horizontal == true){
     if (d == LEFT)
-      p->x -= distance;
+      p->y -= distance;
     else if (d == RIGHT)
-      p->x += distance;
+      p->y += distance;
   }
   else{
     if (d == UP)
-      p->y += distance;
+      p->x -= distance;
     else if (d == DOWN)
-      p->y -= distance;
+      p->x += distance;
   }     
 }
 
 
 bool intersect(cpiece p1, cpiece p2) {
-  
+
+  printf("\nARIZONA !\n");
   if ( p1->horizontal == p2->horizontal ){  //Check if pieces are horizontal and have differents y
     if ( p1->horizontal == true ){
       if ( p1->y != p2->y ){
@@ -87,8 +88,7 @@ bool intersect(cpiece p1, cpiece p2) {
   else {
     if (p1->x >= p2->x && p1->x <= p2->x + piece2_extends) // Test if abscissa of p1 is between the abscissa of p2 
       if (p2->y >= p1->y && p2->y <= p1->y + piece1_extends)// Same test for the y of p2 
-	return true;
-     
+	return true;     
   }   
        
   

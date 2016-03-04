@@ -15,49 +15,56 @@ int main (void) {
   srand(time(NULL));
 
   // initialisation of different game configurations
-  piece* pieces1 = malloc (sizeof(piece) * NB_PIECES);
-  piece* pieces2 = malloc (sizeof(piece) * NB_PIECES);
-  piece* pieces3 = malloc (sizeof(piece) * NB_PIECES);
-  
-  // FIRST GAME
-  pieces1[0] = new_piece_rh (3, 0, true,  true);
+  piece *pieces1 = malloc (sizeof(*pieces1) * NB_PIECES);
+  if (pieces1 == NULL){
+    fprintf(stderr,"Error : bad allocation");
+    exit(EXIT_FAILURE);
+  }
+
+    // FIRST GAME
+  pieces1[0] = new_piece_rh (3, 0, true,  true); // x, y , small , horizontal
   pieces1[1] = new_piece_rh (2, 4, false, false);
   pieces1[2] = new_piece_rh (1, 5, true, false);
   pieces1[3] = new_piece_rh (4, 3, true, false);
   pieces1[4] = new_piece_rh (4, 5, true, true);
   pieces1[5] = new_piece_rh (1, 0, false, true);
-
+    
+  piece *pieces2 = malloc (sizeof(*pieces2) * NB_PIECES);
   // SECOND GAME
-  pieces1[0] = new_piece_rh (3, 0, true,  true);
-  pieces2[1] = new_piece_rh (2, 2, false, true);
-  pieces2[2] = new_piece_rh (1, 2, false, false);
+  pieces2[0] = new_piece_rh (3, 0, true,  true);
+  pieces2[1] = new_piece_rh (4, 0, false, true);
+  pieces2[2] = new_piece_rh (2, 0, false, false);
   pieces2[3] = new_piece_rh (3, 4, true, false);
-  pieces2[4] = new_piece_rh (5, 1, true, false);
-  pieces2[5] = new_piece_rh (1, 5, true, true);
-
-  // THIRD GAME
-  pieces1[0] = new_piece_rh (3, 0, true,  true);
+  pieces2[4] = new_piece_rh (5, 5, true, false);
+  pieces2[5] = new_piece_rh (1, 3, true, true);
+ 
+  piece *pieces3 = malloc (sizeof(*pieces3) * NB_PIECES);
+   // THIRD GAME
+  pieces3[0] = new_piece_rh (3, 0, true,  true);
   pieces3[1] = new_piece_rh (3, 4, false, true);
   pieces3[2] = new_piece_rh (5, 3, false, false);
   pieces3[3] = new_piece_rh (3, 2, true, false);
   pieces3[4] = new_piece_rh (4, 1, true, false);
   pieces3[5] = new_piece_rh (0, 5, true, true);
 
+  
+ 
+
   // ARRAY OF DIFFERENT GAMES
-  piece** games = malloc (sizeof(struct piece_s*) * 3);
+  piece** games = malloc (sizeof(piece) * 3);
   games[0] = pieces1;
   games[1] = pieces2;
   games[2] = pieces3;
 
   // select a random game from the array of games
-  game game = new_game_hr (6, pieces2); 
-  
+  game game = new_game_hr (NB_PIECES, pieces2); 
+
   // GAME START
   while (!game_over_hr(game)){
 
     // variables of command
     char car_number [10];
-    char direction [10];
+    int direction;
     char dir_num [10];
 
     // RULES
@@ -72,17 +79,17 @@ int main (void) {
     printf("Select a piece :\n");
     scanf("%s", car_number);
     printf("Select a move :\n");
-    scanf("%s", direction);
+    scanf("%d", &direction);
     printf("How many cases ?\n");
     scanf("%s", dir_num);
 
     
     dir d;
-    switch (atoi(direction)){
+    switch (direction){
     case 1:
       d = UP;
       break;
-    case 2:
+    case 2 :
       d = DOWN;
       break;
     case 3:
@@ -94,16 +101,16 @@ int main (void) {
 
     }
 
-        
     if (play_move(game, atoi(car_number), d, atoi(dir_num)))
-      //refresh grid
-      printf(" ");
+      printf("Move possible and %d\n",d);
     else
-      printf("Wrong arguments !!");
+      printf("Nope\n");
+   
       
-    
+  
   }
 
   printf("Congratulation, you won ! You beat this level in %d moves !", game_nb_moves(game));
+ 
   return EXIT_SUCCESS;
 }

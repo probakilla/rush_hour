@@ -18,7 +18,7 @@ void display_grid (game g, piece* pieces, int nb_pieces);
  * @brief create a two dimension array and set place all pieces taken from an array of pieces
  * @param an array on pieces and the number of pieces
  */
-int** init_grid (piece* pieces, int nb_pieces);
+int** init_grid (game g, int nb_pieces);
 
 
 #endif

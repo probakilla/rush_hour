@@ -5,7 +5,7 @@
 #include "game.h"
 #include "piece.h"
 
-#define NB_PIECES 3
+#define NB_PIECES 6
 #define DIMENSION 6
 
 
@@ -104,6 +104,9 @@ int main (void) {
   pieces[0] = new_piece_rh(4, 3, true, false);        // piece coord (2,2) small, vertical
   pieces[1] = new_piece_rh(2, 2, false, false);       // piece coord (5,5) big, vertical
   pieces[2] = new_piece_rh(0, 0, true, true);         // piece coord (1,4) small, horizontal
+  pieces[3] = new_piece_rh (3, 4, true, false);
+  pieces[4] = new_piece_rh (5, 1, true, false);
+  pieces[5] = new_piece_rh (1, 5, true, true);
   
 
   piece *pieces_copy = malloc(sizeof(piece) * NB_PIECES);  //Allocation of an array of pieces (length = 3)
