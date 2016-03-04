@@ -50,8 +50,8 @@ void move_piece (piece p, dir d, int distance) { //MIS DES PLUS A LA PLACE DES M
 
 
 bool intersect(cpiece p1, cpiece p2) {
+  printf(" DEBUT INTERSECT p1x %d p1y %d p2x %d p2y %d\n\n",p1->x,p1->y,p2->x,p2->y);
 
-  printf("\nARIZONA !\n");
   if ( p1->horizontal == p2->horizontal ){  //Check if pieces are horizontal and have differents y
     if ( p1->horizontal == true ){
       if ( p1->y != p2->y ){
@@ -69,6 +69,8 @@ bool intersect(cpiece p1, cpiece p2) {
     
   int piece1_extends = 0;
   int piece2_extends= 0;
+
+
     
   if (p1->small == false)
     piece1_extends = 2;
@@ -79,19 +81,27 @@ bool intersect(cpiece p1, cpiece p2) {
     piece2_extends= 2;
   else 
     piece2_extends= 1;
+
+    printf("PIECE EXTENDS %d %d\n\n",piece1_extends ,piece2_extends);
     
   if (p1->horizontal == true && p2 ->horizontal == false){ 
-    if (p2->x >= p1->x && p2->x <= p1->x + piece1_extends) // Test if abscissa of p2 is between the abscissa of p1
-      if (p1->y >= p2->y && p1->y <= p2->y +piece2_extends) // Same test for the y of p1
+    if (p2->x >= p1->x && p2->x <= p1->x + piece1_extends){ // Test if abscissa of p2 is between the abscissa of p1
+      printf("IF 2  p1x %d p1y %d p2x %d p2y %d\n\n",p1->x,p1->y,p2->x,p2->y);
+      if (p1->y >= p2->y && p1->y <= p2->y +piece2_extends) {// Same test for the y of p1
+	printf("IF 3  p1x %d p1y %d p2x %d p2y %d\n\n",p1->x,p1->y,p2->x,p2->y);
 	return true;
+      }
+    }
   }
   else {
-    if (p1->x >= p2->x && p1->x <= p2->x + piece2_extends) // Test if abscissa of p1 is between the abscissa of p2 
-      if (p2->y >= p1->y && p2->y <= p1->y + piece1_extends)// Same test for the y of p2 
-	return true;     
+    if (p1->x >= p2->x && p1->x <= p2->x + piece2_extends){ // Test if abscissa of p1 is between the abscissa of p2
+      printf("IF 4  p2y %d p1y %d p2y %d p1y + extends %d\n\n",p2->y,p1->y,p2->y,p1->y+piece1_extends);
+      if (p2->y >= p1->y && p2->y <= p1->y + piece1_extends){// Same test for the y of p2
+	printf("IF 5  p1x %d p1y %d p2x %d p2y %d\n\n",p1->x,p1->y,p2->x,p2->y);
+	return true;
+      }
+    }
   }   
-       
-  
   return false;
 }
 

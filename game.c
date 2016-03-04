@@ -71,32 +71,49 @@ bool play_move(game g, int piece_num, dir d, int distance) {
     return false; 
   }
 
+    
+
+
   if (is_horizontal((piece)game_piece(g,piece_num))){ //LEFT or RIGHT
     if ( d == LEFT && get_x((piece)game_piece(g,piece_num)) - distance >= 0 ){ //LEFT and check if the piece is still in the grid
-      for (int i = 0; i < piece_num; ++i){
-	if(intersect((piece)game_piece(g,piece_num),g->pieces[i]))
-	  return false;
-      }
-      for (int i = piece_num + 1; i<game_nb_pieces(g); i++){
-	if(intersect((piece)game_piece(g,piece_num),g->pieces[i]))
-	  return false;
+      piece move_copy = new_piece_rh(0,0,true,true);
+      copy_piece(game_piece(g,piece_num),move_copy);
+      for (int test_distance = 0; test_distance < distance; ++test_distance){
+	move_piece(move_copy,d,1);
+	for (int i = 0; i < piece_num; ++i){
+	  if(intersect(move_copy,g->pieces[i]))
+	    return false;
+	}
+	for (int i = piece_num + 1; i<game_nb_pieces(g); i++){
+	  if(intersect(move_copy,g->pieces[i]))
+	    return false;
+	}
       }
       move_piece((piece)game_piece(g,piece_num),d,distance);
       g->nb_moves +=1;
+      free(move_copy);
+      
       return true;
     }
 
     int extends_piece = get_width((piece)game_piece(g,piece_num)) - 1;
-    if ( d == RIGHT  && get_x((piece)game_piece(g,piece_num)) + distance + extends_piece < DIMENSION - 1 ){ //RIGHT and check if the piece is still in the grid
-      for (int i = 0; i < piece_num; ++i){
-	if(intersect((piece)game_piece(g,piece_num),g->pieces[i]))
-	  return false;
-      }
-      for (int i = piece_num + 1; i<game_nb_pieces(g); i++){
-	if(intersect((piece)game_piece(g,piece_num),g->pieces[i]))
-	  return false;
+    if ( d == RIGHT  && get_x((piece)game_piece(g,piece_num)) + distance + extends_piece < DIMENSION){ //RIGHT and check if the piece is still in the grid
+      piece move_copy = new_piece_rh(-5,-5,true,true);
+      copy_piece(game_piece(g,piece_num),move_copy);
+      for (int test_distance = 0; test_distance < distance; ++test_distance){
+	move_piece(move_copy,d,1);
+	for (int i = 0; i < piece_num; ++i){
+	  if(intersect(move_copy,g->pieces[i]))
+	    return false;
+	}
+	for (int i = piece_num + 1; i<game_nb_pieces(g); i++){
+	  if(intersect(move_copy,g->pieces[i]))
+	    return false;
+	}
+	
       }
       move_piece((piece)game_piece(g,piece_num),d,distance);
+      free(move_copy);
       g->nb_moves +=1;
       return true;
     }
@@ -104,41 +121,50 @@ bool play_move(game g, int piece_num, dir d, int distance) {
 
   if (!is_horizontal((piece)game_piece(g,piece_num))){ //UP or DOWN
     if ( d == DOWN && get_y((piece)game_piece(g,piece_num)) - distance >= 0 ){//DOWN and check if the piece is still in the grid
-      for (int i = 0; i < piece_num; ++i){
-	if(intersect((piece)game_piece(g,piece_num),g->pieces[i]))
-	  return false;
-      }
-      for (int i = piece_num + 1; i<game_nb_pieces(g); i++){
-	if(intersect((piece)game_piece(g,piece_num),g->pieces[i]))
-	  return false;
+      piece move_copy = new_piece_rh(-5,-5,true,true);
+      copy_piece(game_piece(g,piece_num),move_copy);
+      for (int test_distance = 0; test_distance < distance; ++test_distance){
+	move_piece(move_copy,d,1);
+	for (int i = 0; i < piece_num; ++i){
+	  if(intersect(move_copy,g->pieces[i]))
+	    return false;
+	}
+	for (int i = piece_num + 1; i<game_nb_pieces(g); i++){
+	  if(intersect(move_copy,g->pieces[i]))
+	    return false;
+	}
+	
       }
       move_piece((piece)game_piece(g,piece_num),d,distance);
+      free(move_copy);
       g->nb_moves +=1;
       return true;
     }
 
-    move_piece((piece)game_piece(g,piece_num),d,distance);
-    g->nb_moves +=1;
-    return true;
-
-
-
     int extends_piece = get_height((piece)game_piece(g,piece_num)) -1 ;
-    if ( d == UP  && get_y((piece)game_piece(g,piece_num)) + distance + extends_piece < DIMENSION - 1 ){ //RIGHT and check if the piece is still in the grid
-      for (int i = 0; i < piece_num; ++i){
-	if(intersect((piece)game_piece(g,piece_num),g->pieces[i]))
-	  return false;
-      }
-      for (int i = piece_num + 1; i<game_nb_pieces(g); i++){
-	if(intersect((piece)game_piece(g,piece_num),g->pieces[i]))
-	  return false;
+    if ( d == UP  && get_y((piece)game_piece(g,piece_num)) + distance + extends_piece < DIMENSION){ //RIGHT and check if the piece is still in the grid
+      piece move_copy = new_piece_rh(-5,-5,true,true);
+      copy_piece(game_piece(g,piece_num),move_copy);
+      for (int test_distance = 0; test_distance < distance; ++test_distance){
+	move_piece(move_copy,d,1);
+	for (int i = 0; i < piece_num; ++i){
+	  if(intersect(move_copy,g->pieces[i]))
+	    return false;
+	}
+	for (int i = piece_num + 1; i<game_nb_pieces(g); i++){
+	  if(intersect(move_copy,g->pieces[i]))
+	    return false;
+	}
       }
       move_piece((piece)game_piece(g,piece_num),d,distance);
+      free(move_copy);
       g->nb_moves +=1;
       return true;
     }
   }
 }
+
+
    
     
 int game_nb_moves(cgame g) {
