@@ -7,11 +7,10 @@
 struct piece_s {
   int x, y;
   bool small;
-  const int color; //later
   bool horizontal;
 };
 
-piece new_piece_rh (int x, int y, bool small, bool horizontal) {
+piece new_piece_rh (int x, int y, bool small, bool horizontal) { //Allocation of the structure and the fields
   piece new = malloc(sizeof(piece));
   new->x = x;
   new->y = y;
@@ -20,20 +19,20 @@ piece new_piece_rh (int x, int y, bool small, bool horizontal) {
   return new;
 }
 
-void delete_piece (piece p) { 
+void delete_piece (piece p) { //Resetting coordinates and freeing structure
   p->x = -1;
   p->y = -1;
   free(p);
 }
 
-void copy_piece (cpiece src, piece dst) {
+void copy_piece (cpiece src, piece dst) { // Copy each field from the source to the destination
   dst->x = src->x;
   dst->y = src->y;
   dst->small = src->small;
   dst->horizontal = src->horizontal;
 }
 
-void move_piece (piece p, dir d, int distance) { //MIS DES PLUS A LA PLACE DES MOINS
+void move_piece (piece p, dir d, int distance) { //The move is supposed correct. Add or substract the distance to the coordinates
   if (p->horizontal == true){
     if (d == LEFT)
       p->x -= distance;
@@ -50,9 +49,7 @@ void move_piece (piece p, dir d, int distance) { //MIS DES PLUS A LA PLACE DES M
 
 
 bool intersect(cpiece p1, cpiece p2) {
-  printf(" DEBUT INTERSECT p1x %d p1y %d p2x %d p2y %d\n\n",p1->x,p1->y,p2->x,p2->y);
-
-  if ( p1->horizontal == p2->horizontal ){  //Check if pieces are horizontal and have differents y
+  if ( p1->horizontal == p2->horizontal ){  //Check if pieces are horizontal and have differents y so don't intersect
     if ( p1->horizontal == true ){
       if ( p1->y != p2->y ){
 	return false;
@@ -60,19 +57,15 @@ bool intersect(cpiece p1, cpiece p2) {
     }
   }
     
-  if ( p1->horizontal == p2->horizontal ) //Check if pieces are vertical and have differents x
+  if ( p1->horizontal == p2->horizontal ) //Check if pieces are vertical and have differents x so don't intersect
     if (p1->horizontal == false )
       if ( p1->x != p2->x )
 	return false;
-        
-    
-    
-  int piece1_extends = 0;
+       
+  int piece1_extends = 0;  
   int piece2_extends= 0;
-
-
-    
-  if (p1->small == false)
+  
+  if (p1->small == false) // Add the "extension" to the piece
     piece1_extends = 2;
   else 
    piece1_extends = 1;
@@ -81,23 +74,17 @@ bool intersect(cpiece p1, cpiece p2) {
     piece2_extends= 2;
   else 
     piece2_extends= 1;
-
-    printf("PIECE EXTENDS %d %d\n\n",piece1_extends ,piece2_extends);
     
   if (p1->horizontal == true && p2 ->horizontal == false){ 
     if (p2->x >= p1->x && p2->x <= p1->x + piece1_extends){ // Test if abscissa of p2 is between the abscissa of p1
-      printf("IF 2  p1x %d p1y %d p2x %d p2y %d\n\n",p1->x,p1->y,p2->x,p2->y);
       if (p1->y >= p2->y && p1->y <= p2->y +piece2_extends) {// Same test for the y of p1
-	printf("IF 3  p1x %d p1y %d p2x %d p2y %d\n\n",p1->x,p1->y,p2->x,p2->y);
 	return true;
       }
     }
   }
   else {
     if (p1->x >= p2->x && p1->x <= p2->x + piece2_extends){ // Test if abscissa of p1 is between the abscissa of p2
-      printf("IF 4  p2y %d p1y %d p2y %d p1y + extends %d\n\n",p2->y,p1->y,p2->y,p1->y+piece1_extends);
       if (p2->y >= p1->y && p2->y <= p1->y + piece1_extends){// Same test for the y of p2
-	printf("IF 5  p1x %d p1y %d p2x %d p2y %d\n\n",p1->x,p1->y,p2->x,p2->y);
 	return true;
       }
     }
