@@ -78,7 +78,7 @@ int main (void) {
     
     // GAME START
     while (!(game_over_hr(game))){
-
+    
       // COMMANDS
       printf("Directions commands : 1 = up, 2 = down, 3 = right, 4 = left\n");
 
@@ -95,17 +95,17 @@ int main (void) {
       printf("Select a piece :\n");
       scanf("%s", car_number);
       if (atoi(car_number) < 0 || atoi(car_number) > NB_PIECES - 1 ){ // if car number does not exists
-	printf("\nMAUVAISE SAISIE ! Veuillez rentrer un numéro entre 0 et %d\n\n", NB_PIECES - 1);
+        printf("\nWrong number! Pleas type a number between 0 and %d\n\n", NB_PIECES - 1);
 	continue;
       }
       printf("Select a move :\n");
       scanf("%d", &direction);
       if (is_horizontal(game_piece(game, atoi(car_number))) && (direction < 3 || direction > 4)){
-	printf("\nMAUVAISE SAISIE ! La voiture ne peut être déplacé que vers la droite (touche 3) ou vers la gauche (touche 4)\n\n");
+        printf("\nWrong number! The car can only be moved to the left (number 4) or the right (number 3)\n\n");
 	continue;
       }
       if ((!is_horizontal(game_piece(game, atoi(car_number)))) && (direction < 1 || direction > 2)){
-	printf("\nMAUVAISE SAISIE ! La voiture ne peut être déplacé que vers le haut (touche 1) ou vers le bas (touche 2)\n\n");
+	printf("\nWrong number! The car can only be moved up (number 1) or down (number 2)\n\n");
 	continue;
       }    
       printf("How many cases ?\n");
