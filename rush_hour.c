@@ -137,7 +137,7 @@ int main (void) {
 
 
   // Free of the game.
-  for (int i = 0; i < 3; ++i)
+  for (int i = 0; i < NB_GAMES; ++i)
     delete_piece_array(games[i]);
   free(games);
 
