@@ -5,11 +5,13 @@
 #include "piece.h"
 #include "game_texte.h"
  
-#define DIMENSION 6
+#define DIMENSION_RH 6
 
 struct game_s{
   int nb_moves;
   int nb_pieces;
+  int width;
+  int height;
   piece *pieces;
 };
 
@@ -17,6 +19,9 @@ game new_game_hr (int nb_pieces, piece *pieces){ //We suppose that the piece i =
   game  current = malloc(sizeof(struct game_s)); //Allocation of the structure
   current->nb_pieces = nb_pieces;
   current->nb_moves = 0;
+  current->width = 0;
+  current->height = 0;
+  
 
   current->pieces = malloc(sizeof(piece) * nb_pieces);
   if (current->pieces == NULL)
@@ -30,6 +35,8 @@ game new_game_hr (int nb_pieces, piece *pieces){ //We suppose that the piece i =
   
 }
 void delete_game (game g) { //Resetting fields and freeing fields and subarrays
+  g->width = 0;
+  g->height = 0;
   g->nb_moves = 0;
   g->nb_pieces = 0;
   for (int i = 0; i < game_nb_pieces(g); ++i)
@@ -108,7 +115,7 @@ bool play_move(game g, int piece_num, dir d, int distance) {
     }
 
     int extends_piece = get_width((piece)game_piece(g,piece_num)) - 1;    //The piece is supposed to move right. Adding the "extension" to the piece for checking if the move is correct.
-    if ( d == RIGHT  && get_x((piece)game_piece(g,piece_num)) + distance + extends_piece < DIMENSION){    //Same for RIGHT direction.
+    if ( d == RIGHT  && get_x((piece)game_piece(g,piece_num)) + distance + extends_piece < DIMENSION_RH){    //Same for RIGHT direction.
 
       piece move_copy = new_piece_rh(0,0,true,true);
       copy_piece(game_piece(g,piece_num),move_copy);
@@ -160,7 +167,7 @@ bool play_move(game g, int piece_num, dir d, int distance) {
     }
 
     int extends_piece = get_height((piece)game_piece(g,piece_num)) -1 ;
-    if ( d == UP  && get_y((piece)game_piece(g,piece_num)) + distance + extends_piece < DIMENSION){    //Same for UP direction
+    if ( d == UP  && get_y((piece)game_piece(g,piece_num)) + distance + extends_piece < DIMENSION_RH){    //Same for UP direction
 
       piece move_copy = new_piece_rh(0,0,true,true);
       copy_piece(game_piece(g,piece_num),move_copy);
@@ -189,19 +196,43 @@ int game_nb_moves(cgame g) {
   return g->nb_moves;
 }
 
+
 game new_game (int width, int height, int nb_pieces, piece *pieces){
-	game g;
-	return g;
+  game  current = malloc(sizeof(struct game_s)); //Allocation of the structure
+  
+  current->nb_pieces = nb_pieces;
+  current->nb_moves = 0;
+  current->width = width;
+  current->height = height;
+
+  current->pieces = malloc(sizeof(piece) * nb_pieces);
+  if (current->pieces == NULL)
+    printf("ERREUR D'ALLOCATION");
+
+  for (int i = 0; i<nb_pieces;i++){
+    current->pieces[i] = new_piece_rh(0,0,false,false);
+    copy_piece(pieces[i],current->pieces[i]); 
+  }
+  return current;
 }
+
 
 int game_width(cgame g){
-	return 0;
+  return g->width;
 }
+
 
 int game_height(cgame g){
-	return 0;
+  return g->height;
 }
 
+
 int game_square_piece (game g, int x, int y){
-	return 0;
+
+  cpiece p = new_piece(x, y, 1, 1, false, false);
+  
+  for (int i = 0; i < game_nb_pieces(g); ++i)
+    if (intersect((cpiece)g->pieces[i], p))
+      return i;
+  return -1;
 }
