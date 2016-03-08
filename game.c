@@ -188,3 +188,20 @@ bool play_move(game g, int piece_num, dir d, int distance) {
 int game_nb_moves(cgame g) {
   return g->nb_moves;
 }
+
+game new_game (int width, int height, int nb_pieces, piece *pieces){
+	game g;
+	return g;
+}
+
+int game_width(cgame g){
+	return 0;
+}
+
+int game_height(cgame g){
+	return 0;
+}
+
+int game_square_piece (game g, int x, int y){
+	return 0;
+}

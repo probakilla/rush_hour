@@ -123,3 +123,15 @@ bool is_horizontal(cpiece p) {
   return p->horizontal;
 }
 
+bool can_move_x(cpiece p){
+	return true;
+}
+bool can_move_y(cpiece p){
+	return true;
+}
+
+piece new_piece (int x, int y, int width, int height, bool move_x, bool move_y){
+	piece p;
+	return p;
+}
+
