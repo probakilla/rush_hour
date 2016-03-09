@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <assert.h>
 
 #include "piece.h"
 
@@ -8,14 +9,41 @@ struct piece_s {
   int x, y;
   bool small;
   bool horizontal;
+  int width;
+  int height;
+  bool move_x;
+  bool move_y;
 };
 
 piece new_piece_rh (int x, int y, bool small, bool horizontal) { //Allocation of the structure and the fields.
   piece new = malloc(sizeof(new));
+  assert(new != NULL);
+
   new->x = x;
   new->y = y;
   new->small = small;
   new->horizontal = horizontal;
+
+  // Useless values for RushHour
+  int width = 0;
+  int height = 0;
+  bool move_x = false;
+  bool move_y = false;
+
+  return new;
+}
+
+piece new_piece (int x, int y, int width, int height, bool move_x, bool move_y){
+  piece new = malloc(sizeof(new));
+  assert(new != NULL);
+
+  new->x = x;
+  new->y = y;
+  new->width = width;
+  new->height = height;
+  new->move_x = move_x;
+  new->move_y = move_y;
+
   return new;
 }
 
@@ -124,14 +152,9 @@ bool is_horizontal(cpiece p) {
 }
 
 bool can_move_x(cpiece p){
-	return true;
+  return p->move_x;
 }
 bool can_move_y(cpiece p){
-	return true;
-}
-
-piece new_piece (int x, int y, int width, int height, bool move_x, bool move_y){
-	piece p;
-	return p;
+  return p->move_y;
 }
 
