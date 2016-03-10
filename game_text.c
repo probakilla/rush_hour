@@ -53,54 +53,13 @@ void display_grid (game g, piece* pieces, int nb_pieces) {
       printf("|\n");
     }
   }
-  printf("  ");
+  printf("  ");   // Display the very last line.
   for (int i = 0; i < DIMENSION; ++i){
     printf("|-------");
   }
   printf("|\n  ");
   for (int i = 0; i < DIMENSION; ++i)
-    printf("    %d   ", i);
-  
-
-  
-  // Create lines and place pieces number.
-  /*
-    for (int i = 0; i < DIMENSION; ++i){
-    if (i != 2){
-    printf("  |-------|-------|-------|-------|-------|-------|\n");
-    printf("  |       |       |       |       |       |       |\n");
-    printf("%c ", num - i);
-    for (int j = 0; j < DIMENSION; ++j){
-    printf("|   ");
-    if (grid[i][j] == -1)
-    printf ("    ");
-    else
-    printf ("%d   ", grid[i][j]);
-      }
-      printf("|\n");
-      printf("  |       |       |       |       |       |       |\n");      
-    }
-
-    
-    // Exception of the third line, which one with the exit.
-    else {
-      printf("  |-------|-------|-------|-------|-------|-------|\n");
-      printf("  |       |       |       |       |       |       ------- \n");
-      printf("%c ", num - i);
-      for (int j = 0; j < DIMENSION; ++j){
-	printf("|   ");
-	if (grid[i][j] == -1)
-	  printf ("    ");
-	else
-	  printf ("%d   ", grid[i][j]);
-      }
-      printf("  EXIT\n");
-      printf("  |       |       |       |       |       |       ------- \n");
-    }    
-  }
-  printf("  |-------|-------|-------|-------|-------|-------|\n");
-  printf("      1       2       3       4       5       6\n");
-  */
+    printf("    %d   ", i);   // Display the number of the collunms.
   
   // Free of the grid.
   for (int i = 0; i < nb_pieces; ++i)
