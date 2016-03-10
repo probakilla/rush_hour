@@ -6,6 +6,8 @@
 #include "game.h"
 #include "piece.h"
 
+#define DIMENSION 6
+
 
 /**
  * @brief this function create display a grid in terminal from a two dimension array. This array is created with parameters of a game

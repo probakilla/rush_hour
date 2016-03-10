@@ -47,9 +47,7 @@ piece new_piece (int x, int y, int width, int height, bool move_x, bool move_y){
   return new;
 }
 
-void delete_piece (piece p) { //Resetting coordinates and freeing structure.
-  p->x = -1;
-  p->y = -1;
+void delete_piece (piece p) { //free the structure.
   free(p);
 }
 

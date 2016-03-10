@@ -5,51 +5,61 @@
 #include "game.h"
 #include "game_text.h"
 
-#define DIMENSION 6
-
 void display_grid (game g, piece* pieces, int nb_pieces) {
-  char num = 102;    // ascii code of a.
+  char num = 64 + DIMENSION;    // ascii code of A + DIMENSION.
   
   int ** grid = init_grid (g, nb_pieces);    // This grid will be use to display the game.
 
-  
-  // Create lines and place pieces number.
-  for (int i = 0; i < DIMENSION; ++i){
-    if (i != 2){
-      printf("  |-------|-------|-------|-------|-------|-------|\n");
-      printf("  |       |       |       |       |       |       |\n");
-      printf("%c ", num - i);
-      for (int j = 0; j < DIMENSION; ++j){
-	printf("|   ");
-	if (grid[i][j] == -1)
-	  printf ("    ");
+  for (int i = 0; i < DIMENSION; ++i){     // Vertical parcour.
+
+    printf("  ");
+    if (i == 2){   // Exception of the exit.
+      for (int k = 0; k < DIMENSION; ++k)    // Display of top of the line.
+	printf("|-------");
+      printf("|\n  ");
+      for (int k = 0; k < DIMENSION; ++k)    // Display the second line.
+	printf("|       ");
+      printf("------\n%c ", num - i);
+      for (int k = 0; k < DIMENSION; ++k){    // Display the third line.
+	int nb = grid[i][k];
+	if (nb == -1)    // If square is empty (-1).
+	  printf("|       ");
 	else
-	  printf ("%d   ", grid[i][j]);
+	  printf("|   %d   ", grid[i][k]);
       }
-      printf("|\n");
-      printf("  |       |       |       |       |       |       |\n");      
+      printf("  EXIT\n  ");
+      for (int k = 0; k < DIMENSION; ++k) // Display the last line.
+	printf("|       ");
+      printf("------\n");
     }
-
-    
-    // Exception of the third line, which one with the exit.
-    else {
-      printf("  |-------|-------|-------|-------|-------|-------|\n");
-      printf("  |       |       |       |       |       |       ------- \n");
-      printf("%c ", num - i);
-      for (int j = 0; j < DIMENSION; ++j){
-	printf("|   ");
-	if (grid[i][j] == -1)
-	  printf ("    ");
+  
+    else {   // Rest of the grid.     
+      for (int k = 0; k < DIMENSION; ++k)    // Display of top of the line.
+	printf("|-------");
+      printf("|\n  ");
+      for (int k = 0; k < DIMENSION; ++k)    // Display the second line.
+	printf("|       ");
+      printf("|\n%c ", num - i);
+      for (int k = 0; k < DIMENSION; ++k){    // Display the third line.
+	int nb = grid[i][k];
+	if (nb == -1)    // If square is empty (-1).
+	  printf("|       ");
 	else
-	  printf ("%d   ", grid[i][j]);
+	  printf("|   %d   ", grid[i][k]);
       }
-      printf("  EXIT\n");
-      printf("  |       |       |       |       |       |       ------- \n");
-    }    
+      printf("|\n  ");
+      for (int k = 0; k < DIMENSION; ++k) // Display the last line.
+	printf("|       ");
+      printf("|\n");
+    }
   }
-  printf("  |-------|-------|-------|-------|-------|-------|\n");
-  printf("      1       2       3       4       5       6\n");
-
+  printf("  ");   // Display the very last line.
+  for (int i = 0; i < DIMENSION; ++i){
+    printf("|-------");
+  }
+  printf("|\n  ");
+  for (int i = 0; i < DIMENSION; ++i)
+    printf("    %d   ", i);   // Display the number of the collunms.
   
   // Free of the grid.
   for (int i = 0; i < nb_pieces; ++i)
