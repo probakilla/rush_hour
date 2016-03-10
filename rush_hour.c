@@ -4,7 +4,7 @@
 
 #include "game.h"
 #include "piece.h"
-#include "game_texte.h"
+#include "game_text.h"
 
 #define NB_PIECES 6
 #define DIMENSION 6

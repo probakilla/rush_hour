@@ -3,7 +3,6 @@
  
 #include "game.h"
 #include "piece.h"
-#include "game_texte.h"
  
 #define DIMENSION_RH 6
 
