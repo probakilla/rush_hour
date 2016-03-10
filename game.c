@@ -4,7 +4,7 @@
 #include "game.h"
 #include "piece.h"
  
-#define DIMENSION_RH 6
+#define DIMENSION 6
 
 struct game_s{
   int nb_moves;
@@ -33,11 +33,7 @@ game new_game_hr (int nb_pieces, piece *pieces){ //We suppose that the piece i =
   return current;
   
 }
-void delete_game (game g) { //Resetting fields and freeing fields and subarrays
-  g->width = 0;
-  g->height = 0;
-  g->nb_moves = 0;
-  g->nb_pieces = 0;
+void delete_game (game g) { //Freeing subarrays and the main array
   for (int i = 0; i < game_nb_pieces(g); ++i)
     free(g->pieces[i]);
   free(g->pieces);
@@ -114,7 +110,7 @@ bool play_move(game g, int piece_num, dir d, int distance) {
     }
 
     int extends_piece = get_width((piece)game_piece(g,piece_num)) - 1;    //The piece is supposed to move right. Adding the "extension" to the piece for checking if the move is correct.
-    if ( d == RIGHT  && get_x((piece)game_piece(g,piece_num)) + distance + extends_piece < DIMENSION_RH){    //Same for RIGHT direction.
+    if ( d == RIGHT  && get_x((piece)game_piece(g,piece_num)) + distance + extends_piece < DIMENSION){    //Same for RIGHT direction.
 
       piece move_copy = new_piece_rh(0,0,true,true);
       copy_piece(game_piece(g,piece_num),move_copy);
@@ -166,7 +162,7 @@ bool play_move(game g, int piece_num, dir d, int distance) {
     }
 
     int extends_piece = get_height((piece)game_piece(g,piece_num)) -1 ;
-    if ( d == UP  && get_y((piece)game_piece(g,piece_num)) + distance + extends_piece < DIMENSION_RH){    //Same for UP direction
+    if ( d == UP  && get_y((piece)game_piece(g,piece_num)) + distance + extends_piece < DIMENSION){    //Same for UP direction
 
       piece move_copy = new_piece_rh(0,0,true,true);
       copy_piece(game_piece(g,piece_num),move_copy);
