@@ -76,7 +76,14 @@ void move_piece (piece p, dir d, int distance) { //The move is supposed correct.
 }
 
 
-bool intersect(cpiece p1, cpiece p2) {
+/* --------------------- 
+
+This fonction tests if two pieces intersect. 
+The first two if check two dispositions where no intersection is made.
+After that the fonction test the bounds of each piece to tell if there is intersection or not.
+
+--------------------- */
+ bool intersect(cpiece p1, cpiece p2) {
   if ( p1->horizontal == p2->horizontal ){  //Check if pieces are horizontal and have differents y so don't intersect.
     if ( p1->horizontal == true ){
       if ( p1->y != p2->y ){
@@ -90,7 +97,7 @@ bool intersect(cpiece p1, cpiece p2) {
       if ( p1->x != p2->x )
 	return false;
        
-  int piece1_extends = 0;  
+  int piece1_extends = 0;  // Initialisation of two variables correspondig to the remaining size of a piece.
   int piece2_extends= 0;
   
   if (p1->small == false) // Add the "extension" to the piece.
@@ -118,7 +125,7 @@ bool intersect(cpiece p1, cpiece p2) {
     }
   }   
   return false;
-}
+ }
 
 int get_x(cpiece p) {
   return p->x;
