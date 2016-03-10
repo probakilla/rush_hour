@@ -4,8 +4,7 @@
 
 #include "piece.h"
 
-
-struct piece_s {
+struct piece_s { //struct with : coord of the inital point, length, orientation, possibility of move.
   int x, y;
   bool small;
   bool horizontal;
@@ -96,7 +95,7 @@ After that the fonction test the bounds of each piece to tell if there is inters
 	return false;
        
   int piece1_extends = 0;  // Initialisation of two variables correspondig to the remaining size of a piece.
-  int piece2_extends= 0;
+  int piece2_extends = 0;
   
   if (p1->small == false) // Add the "extension" to the piece.
     piece1_extends = 2;
@@ -104,9 +103,9 @@ After that the fonction test the bounds of each piece to tell if there is inters
    piece1_extends = 1;
     
   if (p2->small == false)
-    piece2_extends= 2;
+    piece2_extends = 2;
   else 
-    piece2_extends= 1;
+    piece2_extends = 1;
     
   if (p1->horizontal == true && p2 ->horizontal == false){ 
     if (p2->x >= p1->x && p2->x <= p1->x + piece1_extends){ // Test if abscissa of p2 is between the abscissa of p1.
