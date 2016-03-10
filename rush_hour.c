@@ -7,7 +7,6 @@
 #include "game_text.h"
 
 #define NB_PIECES 6
-#define DIMENSION 6
 #define NB_GAMES 3
 
 
