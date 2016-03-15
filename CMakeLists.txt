@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 2.6)
 
 project(rush_hour)
 
-add_definitions(-std=c99 -g -Wall)
+add_definitions(-std=c99 -Wall -g)
 
-add_library (game game.c piece.c game_text.c game_text.h)
+add_library (game game.c piece.c game_text.c)
 
 add_executable(rush_hour game_text.c game.c piece.c rush_hour.c)
 add_executable(ane_rouge ane_rouge.c game_text.c game.c piece.c)
