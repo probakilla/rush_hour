@@ -16,7 +16,7 @@ struct piece_s {
 };
 
 piece new_piece_rh (int x, int y, bool small, bool horizontal) { //Allocation of the structure and the fields.
-  piece new = malloc(sizeof(new));
+  piece new = malloc(sizeof(*new));
   assert(new != NULL);
 
   new->x = x;
@@ -34,7 +34,7 @@ piece new_piece_rh (int x, int y, bool small, bool horizontal) { //Allocation of
 }
 
 piece new_piece (int x, int y, int width, int height, bool move_x, bool move_y){
-  piece new = malloc(sizeof(new));
+  piece new = malloc(sizeof(*new));
   assert(new != NULL);
 
   new->x = x;
