@@ -6,6 +6,7 @@
 #include "game.h"
 #include "game_text.h"
 
+
 void display_array_ar (int ** grid) {
 
   for (int i = 0; i < DIM_Y_AR; ++i)
@@ -35,10 +36,11 @@ void display_grid_rh (game g, piece* pieces, int nb_pieces, int x, int y) {
       printf("------\n%c ", num - i);
       for (int k = 0; k < x; ++k){    // Display the third line.
 	int nb = grid[i][k];
+	
 	if (nb == -1)    // If square is empty (-1).
 	  printf("|       ");
 	else
-	  printf("|   %d   ", grid[i][k]);
+	  printf("|   %d   ", nb);
       }
       printf("  EXIT\n  ");
       for (int k = 0; k < x; ++k) // Display the last line.
@@ -58,7 +60,7 @@ void display_grid_rh (game g, piece* pieces, int nb_pieces, int x, int y) {
 	if (nb == -1)    // If square is empty (-1).
 	  printf("|       ");
 	else
-	  printf("|   %d   ", grid[i][k]);
+	  printf("|   %d   ", nb);
       }
       printf("|\n  ");
       for (int k = 0; k < x; ++k) // Display the last line.
@@ -88,7 +90,7 @@ void display_grid_ar (game g, piece* pieces, int nb_pieces){
   char num = 64 + y;    // ascii code of A + DIMENSION.
   
   int ** grid = init_grid (g, nb_pieces, x, y);    // This grid will be use to display the game.
-  init_grid(g, nb_pieces, x, y);
+  //init_grid(g, nb_pieces, x, y);
 
   for (int i = 0; i < y; ++i){     // Vertical parcour.
 
@@ -100,11 +102,11 @@ void display_grid_ar (game g, piece* pieces, int nb_pieces){
       printf("|       ");
     printf("|\n%c ", num - i);
     for (int k = 0; k < x; ++k){    // Display the third line.
-      int nb = grid[i][k];
+      int nb = grid[(y - 1) - i][k];
       if (nb == -1)    // If square is empty (-1).
 	printf("|       ");
       else
-	printf("|   %d   ", grid[i][k]);
+	printf("|   %d   ", nb /*game_square_piece(g, k, i)grid[i][k]*/);
     }
     printf("|\n  ");
     for (int k = 0; k < x; ++k) // Display the last line.
@@ -115,7 +117,7 @@ void display_grid_ar (game g, piece* pieces, int nb_pieces){
   for (int i = 0; i < x; ++i) {
     if (i == 1 || i == 2){
       printf ("|       ");
-	}
+    }
     else
       printf ("|-------");
   }
@@ -141,17 +143,24 @@ int ** init_grid (game g, int nb_pieces, int x, int y) {
   }
 
   // Fill the grid.
-  for (int i = 0; i < nb_pieces; ++i) {
-    piece tmp_piece = (piece) game_piece(g, i);
-    int piece_x = get_x(tmp_piece);
-    int piece_y = (y - 1) - get_y(tmp_piece);
-    for (int ord = piece_y; ord > (piece_y - (get_height(tmp_piece) - 1)); --ord)
-      for (int abs = piece_x; abs < (piece_x + (get_width(tmp_piece) - 1)); ++abs)
-	grid[ord][abs] = i;
-	
-    
-      
-  }
+  /*
+  for (int i = 0; i < y; ++i)
+    for (int j = 0; j < x; ++j){
+      //int i_piece = game_square_piece(g, j, i);
+      if (game_square_piece(g, j, i) == -1)
+	break;
+      //int new_y = (y - 1) - get_y(game_piece(g, game_square_piece(g, j, i)));
+      grid[(y - 1) - get_y(game_piece(g, game_square_piece(g, j, i)))][j] = game_square_piece(g, j, i);
+    }*/
+
+   for (int i = 0; i < y; ++i)
+    for (int j = 0; j < x; ++j){
+      if (game_square_piece(g, j, i) == -1)
+	break;
+      grid[i][j] = game_square_piece(g, j, i);
+    }
+
+
   /*   
   // Fill of the grid. ATTENTION J'AI ENLEVER LES Y - 1
   for (int i = 0; i < nb_pieces; ++i){
