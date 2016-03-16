@@ -24,12 +24,31 @@ piece new_piece_rh(int x, int y, bool small, bool horizontal) { //Allocation of 
     new->horizontal = horizontal;
 
     // Useless values for RushHour
-    new->width = 0;
-    new->height = 0;
-    new->move_x = false;
-    new->move_y = false;
-
-    return new;
+    if (new->small && new->horizontal){
+      new->width = 2;
+      new->height = 1;
+      new->move_x = true;
+      new->move_y = false;
+    }
+    else if (new->small == false && new->horizontal){
+      new->width = 3;
+      new->height = 1;
+      new->move_x = true;
+      new->move_y = false;
+    }
+    else if (new->small && new->horizontal == false){
+      new->width = 1;
+      new->height = 2;
+      new->move_x = false;
+      new->move_y = true;
+    }
+    else if (new->small == false && new->horizontal == false){
+      new->width = 1;
+      new->height = 3;
+      new->move_x = false;
+      new->move_y = true;
+    }
+   return new;
 }
 
 piece new_piece(int x, int y, int width, int height, bool move_x, bool move_y) { //Allocation of the structure and the fields.
@@ -89,49 +108,18 @@ After that the fonction test the bounds of each piece to tell if there is inters
 
 --------------------- */
 bool intersect(cpiece p1, cpiece p2) {
-    if (p1->horizontal == p2->horizontal) {  //Check if pieces are horizontal and have differents y so don't intersect.
-        if (p1->horizontal == true) {
-            if (p1->y != p2->y) {
-                return false;
-            }
-        }
+   
+  if ( (p2-> x >= p1->x && p2->x <= p1->x + get_width(p1)-1 ) || (p1->x+get_width(p1)-1 >= p2->x &&  p1->x+get_width(p1)-1 <= p2->x + get_width(p2) -1) ){
+    if ( (p2-> y >= p1->y && p2->y <= p1->y + get_height(p1)-1 ) || (p1->y+get_height(p1)-1 >= p2->y &&  p1->y+get_height(p1)-1 <= p2->y + get_height(p2) -1) ){
+      return true;
     }
-
-    if (p1->horizontal == p2->horizontal) //Check if pieces are vertical and have differents x so don't intersect.
-    if (p1->horizontal == false) if (p1->x != p2->x)
-        return false;
-
-    int piece1_extends = 0;  // Initialisation of two variables correspondig to the remaining size of a piece.
-    int piece2_extends = 0;
-
-    if (p1->small == false) // Add the "extension" to the piece.
-        piece1_extends = 2;
-    else
-        piece1_extends = 1;
-
-    if (p2->small == false)
-        piece2_extends = 2;
-    else
-        piece2_extends = 1;
-
-    if (p1->horizontal == true && p2->horizontal == false) {
-        if (p2->x >= p1->x &&
-            p2->x <= p1->x + piece1_extends) { // Test if abscissa of p2 is between the abscissa of p1.
-            if (p1->y >= p2->y && p1->y <= p2->y + piece2_extends) {// Same test for the y of p1.
-                return true;
-            }
-        }
-    }
-    else {
-        if (p1->x >= p2->x &&
-            p1->x <= p2->x + piece2_extends) { // Test if abscissa of p1 is between the abscissa of p2.
-            if (p2->y >= p1->y && p2->y <= p1->y + piece1_extends) {// Same test for the y of p2.
-                return true;
-            }
-        }
-    }
-    return false;
+  }
+  return false;
 }
+  
+  
+
+
 
 int get_x(cpiece p) {
     return p->x;
