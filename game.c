@@ -41,23 +41,28 @@ void delete_game(game g) { //Freeing subarrays and the main array
 }
 
 void copy_game(cgame src, game dst) { // Copying fileds, and copying each piece
-    dst->nb_moves = src->nb_moves;
-    dst->nb_pieces = src->nb_pieces;
-    dst->width = src->width;
-    dst->height = src->height;
+  dst->nb_moves = src->nb_moves;
+  dst->nb_pieces = src->nb_pieces;
+  dst->width = src->width;
+  dst->height = src->height;
 
-    //Test if the arrays of pieces are equals. If not, freeing the dst array and realloc it of the right size.
+  //Test if the arrays of pieces are equals. If not, freeing the dst array and realloc it of the right size.
 
-    if (dst->nb_pieces != src->nb_pieces) {
-        for (int i = 0; i < dst->nb_pieces; ++i) {
-            delete_piece(dst->pieces[i]);
-            free(dst->pieces);
-        }
-        dst->pieces = malloc(sizeof(piece) * src->nb_moves);
-        for (int i = 0; i < src->nb_moves; ++i){
-            copy_piece(src->pieces[i], dst->pieces[i]);
-        }
+  if (dst->nb_pieces != src->nb_pieces) {
+    for (int i = 0; i < dst->nb_pieces; ++i) {
+      delete_piece(dst->pieces[i]);
+      free(dst->pieces);
     }
+    dst->pieces = malloc(sizeof(piece) * src->nb_pieces);
+    for (int i = 0; i < src->nb_moves; ++i){
+      copy_piece(src->pieces[i], dst->pieces[i]);
+    }
+  }
+  else {
+    for (int i = 0; i < src->nb_moves; ++i){
+      copy_piece(src->pieces[i], dst->pieces[i]);
+    }
+  } 
 }
 
 int game_nb_pieces(cgame g) {
@@ -83,124 +88,125 @@ This is the main fonction of the game. The fonction test if the piece stays is t
 
 bool play_move(game g, int piece_num, dir d, int distance) {
 
-    // The two first test eliminates two easy cases.
+  // The two first test eliminates two easy cases.
 
-    if (distance < 0) {
-        return false;
+  if (distance < 0) {
+    return false;
+  }
+
+  if (piece_num <= 0 && piece_num >= game_nb_pieces(g)) {
+    return false;
+  }
+
+  if (is_horizontal((piece) game_piece(g, piece_num))) {    //Check if the piece is horizontal
+    if (d == LEFT && get_x((piece) game_piece(g, piece_num)) - distance >=
+	0) {    // Piece is horizontal and check if the piece is still in the grid after the move.
+
+      piece move_copy = new_piece_rh(0, 0, true,
+				     true);    //Create a copy of the piece to calculate later if the move don't intersect and so don't change the real piece.
+      copy_piece(game_piece(g, piece_num), move_copy);
+
+      for (int test_distance = 0; test_distance <
+	     distance; ++test_distance) {    //This loop test the move 1 by 1 to be sure the piece don't transperce and exceed another piece.
+
+	move_piece(move_copy, d, 1);
+	for (int i = 0; i < piece_num; ++i) {    //Double loop to skip the intersect test with the piece itself.
+	  if (intersect(move_copy, g->pieces[i]))
+	    return false;
+	}
+	for (int i = piece_num + 1; i < game_nb_pieces(g); i++) {
+	  if (intersect(move_copy, g->pieces[i]))
+	    return false;
+	}
+      }
+
+      move_piece((piece) game_piece(g, piece_num), d,
+		 distance); //Move the real piece, increase the number of moves and free the copy.
+      g->nb_moves += 1;
+      free(move_copy);
+      return true;
     }
 
-    if (piece_num <= 0 && piece_num >= game_nb_pieces(g)) {
-        return false;
+    int extends_piece = get_width((piece) game_piece(g, piece_num)) -
+      1;    //The piece is supposed to move right. Adding the "extension" to the piece for checking if the move is correct.
+    if (d == RIGHT && get_x((piece) game_piece(g, piece_num)) + distance + extends_piece <
+	DIMENSION) {    //Same for RIGHT direction.
+
+      piece move_copy = new_piece_rh(0, 0, true, true);
+      copy_piece(game_piece(g, piece_num), move_copy);
+
+      for (int test_distance = 0; test_distance < distance; ++test_distance) {
+	move_piece(move_copy, d, 1);
+	for (int i = 0; i < piece_num; ++i) {
+	  if (intersect(move_copy, g->pieces[i]))
+	    return false;
+	}
+	for (int i = piece_num + 1; i < game_nb_pieces(g); i++) {
+	  if (intersect(move_copy, g->pieces[i]))
+	    return false;
+	}
+
+      }
+
+      move_piece((piece) game_piece(g, piece_num), d, distance);
+      free(move_copy);
+      g->nb_moves += 1;
+      return true;
+    }
+  }
+
+  if (!is_horizontal((piece) game_piece(g, piece_num))) {    //Check if the piece is vertical
+
+    if (d == DOWN && get_y((piece) game_piece(g, piece_num)) - distance >= 0) {    //Same for DOWN direction
+
+      piece move_copy = new_piece_rh(0, 0, true, true);
+      copy_piece(game_piece(g, piece_num), move_copy);
+
+      for (int test_distance = 0; test_distance < distance; ++test_distance) {
+	move_piece(move_copy, d, 1);
+	for (int i = 0; i < piece_num; ++i) {
+	  if (intersect(move_copy, g->pieces[i]))
+	    return false;
+	}
+	for (int i = piece_num + 1; i < game_nb_pieces(g); i++) {
+	  if (intersect(move_copy, g->pieces[i]))
+	    return false;
+	}
+
+      }
+
+      move_piece((piece) game_piece(g, piece_num), d, distance);
+      free(move_copy);
+      g->nb_moves += 1;
+      return true;
     }
 
-    if (is_horizontal((piece) game_piece(g, piece_num))) {    //Check if the piece is horizontal
-        if (d == LEFT && get_x((piece) game_piece(g, piece_num)) - distance >=
-                         0) {    // Piece is horizontal and check if the piece is still in the grid after the move.
+    int extends_piece = get_height((piece) game_piece(g, piece_num)) - 1;
+    if (d == UP &&
+	get_y((piece) game_piece(g, piece_num)) + distance + extends_piece < DIMENSION) {    //Same for UP direction
 
-            piece move_copy = new_piece_rh(0, 0, true,
-                                           true);    //Create a copy of the piece to calculate later if the move don't intersect and so don't change the real piece.
-            copy_piece(game_piece(g, piece_num), move_copy);
+      piece move_copy = new_piece_rh(0, 0, true, true);
+      copy_piece(game_piece(g, piece_num), move_copy);
 
-            for (int test_distance = 0; test_distance <
-                                        distance; ++test_distance) {    //This loop test the move 1 by 1 to be sure the piece don't transperce and exceed another piece.
+      for (int test_distance = 0; test_distance < distance; ++test_distance) {
+	move_piece(move_copy, d, 1);
+	for (int i = 0; i < piece_num; ++i) {
+	  if (intersect(move_copy, g->pieces[i]))
+	    return false;
+	}
+	for (int i = piece_num + 1; i < game_nb_pieces(g); i++) {
+	  if (intersect(move_copy, g->pieces[i]))
+	    return false;
+	}
+      }
 
-                move_piece(move_copy, d, 1);
-                for (int i = 0; i < piece_num; ++i) {    //Double loop to skip the intersect test with the piece itself.
-                    if (intersect(move_copy, g->pieces[i]))
-                        return false;
-                }
-                for (int i = piece_num + 1; i < game_nb_pieces(g); i++) {
-                    if (intersect(move_copy, g->pieces[i]))
-                        return false;
-                }
-            }
-
-            move_piece((piece) game_piece(g, piece_num), d,
-                       distance); //Move the real piece, increase the number of moves and free the copy.
-            g->nb_moves += 1;
-            free(move_copy);
-            return true;
-        }
-
-        int extends_piece = get_width((piece) game_piece(g, piece_num)) -
-                            1;    //The piece is supposed to move right. Adding the "extension" to the piece for checking if the move is correct.
-        if (d == RIGHT && get_x((piece) game_piece(g, piece_num)) + distance + extends_piece <
-                          DIMENSION) {    //Same for RIGHT direction.
-
-            piece move_copy = new_piece_rh(0, 0, true, true);
-            copy_piece(game_piece(g, piece_num), move_copy);
-
-            for (int test_distance = 0; test_distance < distance; ++test_distance) {
-                move_piece(move_copy, d, 1);
-                for (int i = 0; i < piece_num; ++i) {
-                    if (intersect(move_copy, g->pieces[i]))
-                        return false;
-                }
-                for (int i = piece_num + 1; i < game_nb_pieces(g); i++) {
-                    if (intersect(move_copy, g->pieces[i]))
-                        return false;
-                }
-
-            }
-
-            move_piece((piece) game_piece(g, piece_num), d, distance);
-            free(move_copy);
-            g->nb_moves += 1;
-            return true;
-        }
+      move_piece((piece) game_piece(g, piece_num), d, distance);
+      free(move_copy);
+      g->nb_moves += 1;
+      return true;
     }
-
-    if (!is_horizontal((piece) game_piece(g, piece_num))) {    //Check if the piece is vertical
-
-        if (d == DOWN && get_y((piece) game_piece(g, piece_num)) - distance >= 0) {    //Same for DOWN direction
-
-            piece move_copy = new_piece_rh(0, 0, true, true);
-            copy_piece(game_piece(g, piece_num), move_copy);
-
-            for (int test_distance = 0; test_distance < distance; ++test_distance) {
-                move_piece(move_copy, d, 1);
-                for (int i = 0; i < piece_num; ++i) {
-                    if (intersect(move_copy, g->pieces[i]))
-                        return false;
-                }
-                for (int i = piece_num + 1; i < game_nb_pieces(g); i++) {
-                    if (intersect(move_copy, g->pieces[i]))
-                        return false;
-                }
-
-            }
-
-            move_piece((piece) game_piece(g, piece_num), d, distance);
-            free(move_copy);
-            g->nb_moves += 1;
-            return true;
-        }
-
-        int extends_piece = get_height((piece) game_piece(g, piece_num)) - 1;
-        if (d == UP &&
-            get_y((piece) game_piece(g, piece_num)) + distance + extends_piece < DIMENSION) {    //Same for UP direction
-
-            piece move_copy = new_piece_rh(0, 0, true, true);
-            copy_piece(game_piece(g, piece_num), move_copy);
-
-            for (int test_distance = 0; test_distance < distance; ++test_distance) {
-                move_piece(move_copy, d, 1);
-                for (int i = 0; i < piece_num; ++i) {
-                    if (intersect(move_copy, g->pieces[i]))
-                        return false;
-                }
-                for (int i = piece_num + 1; i < game_nb_pieces(g); i++) {
-                    if (intersect(move_copy, g->pieces[i]))
-                        return false;
-                }
-            }
-
-            move_piece((piece) game_piece(g, piece_num), d, distance);
-            free(move_copy);
-            g->nb_moves += 1;
-            return true;
-        }
-    }
+  }
+  return false;
 }
 
 int game_nb_moves(cgame g) {

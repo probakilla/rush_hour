@@ -111,7 +111,7 @@ int main (void) {
       scanf("%s", dir_num);
     
       // direction convertion
-      dir d;
+      dir d = UP;
       switch (direction){
       case 1:
 	d = UP;

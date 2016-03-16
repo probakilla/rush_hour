@@ -37,6 +37,7 @@ bool test_new (game g,piece *pieces) {
     }
     return true;
   }
+  return false;
 }
 
 /**
