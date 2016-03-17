@@ -4,6 +4,19 @@
 
 #include "piece.h"
 
+int max (int a, int b) {
+  if (a > b)
+    return a;
+  return b;
+}
+
+int min (int a, int b) {
+  if (a < b)
+    return a;
+  return b;
+}
+
+
 struct piece_s { //struct with : coord of the inital point, length, orientation, possibility of move.
     int x, y;
     bool small;
@@ -107,18 +120,17 @@ The first two if check two dispositions where no intersection is made.
 After that the fonction test the bounds of each piece to tell if there is intersection or not.
 
 --------------------- */
+
+
 bool intersect(cpiece p1, cpiece p2) {
    
-  if ( (p2-> x >= p1->x && p2->x <= p1->x + get_width(p1)-1 ) || (p1->x+get_width(p1)-1 >= p2->x &&  p1->x+get_width(p1)-1 <= p2->x + get_width(p2) -1) ){
+  if ( (p2->x >= p1->x && p2->x <= p1->x + get_width(p1)-1 ) || (p1->x+get_width(p1)-1 >= p2->x &&  p1->x+get_width(p1)-1 <= p2->x + get_width(p2) -1) ){
     if ( (p2-> y >= p1->y && p2->y <= p1->y + get_height(p1)-1 ) || (p1->y+get_height(p1)-1 >= p2->y &&  p1->y+get_height(p1)-1 <= p2->y + get_height(p2) -1) ){
       return true;
     }
   }
   return false;
 }
-  
-  
-
 
 
 int get_x(cpiece p) {
@@ -149,4 +161,3 @@ bool can_move_x(cpiece p) {
 bool can_move_y(cpiece p) {
     return p->move_y;
 }
-

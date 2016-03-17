@@ -241,16 +241,16 @@ int game_width(cgame g) {
 
 
 int game_height(cgame g) {
-    return g->height;
+  return g->height;
 }
 
 
 int game_square_piece(game g, int x, int y) {
 
-    cpiece p = new_piece(x, y, 1, 1, false, false);
+  cpiece tmp_p = new_piece(x, y, 1, 1, true, true);  // Create a piece with coordonates (x, y) in order to test if another piece intersect this one.
 
-    for (int i = 0; i < game_nb_pieces(g); ++i)
-        if (intersect((cpiece) g->pieces[i], p))
-            return i;
-    return -1;
+  for (int i = 0; i < game_nb_pieces(g); ++i)
+    if (intersect(tmp_p, (cpiece)g->pieces[i]))
+      return i;
+  return -1;
 }
