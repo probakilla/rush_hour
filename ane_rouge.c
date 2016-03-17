@@ -20,14 +20,14 @@ int main(void){
   // Filling of the array of pieces.
   pieces[0] = new_piece (1, 3, 2, 2, true, true);   // Red piece (x, y, height, width, can_move_x, can_move_y).
   pieces[1] = new_piece (0, 0, 1, 1, true, true);
-  pieces[2] = new_piece (0, 1, 2, 1, true, false);
-  pieces[3] = new_piece (0, 3, 2, 1, true, false);
+  pieces[2] = new_piece (0, 1, 1, 2, true, false);
+  pieces[3] = new_piece (0, 3, 1, 2, true, false);
   pieces[4] = new_piece (1, 1, 1, 1, true, true);
-  pieces[5] = new_piece (1, 2, 1, 2, false, true);
+  pieces[5] = new_piece (1, 2, 2, 1, false, true);
   pieces[6] = new_piece (2, 1, 1, 1, true, true);
   pieces[7] = new_piece (3, 0, 1, 1, true, true);
-  pieces[8] = new_piece (3, 1, 2, 1, true, false); 
-  pieces[9] = new_piece (3, 3, 2, 1, true, false);
+  pieces[8] = new_piece (3, 1, 1, 2, true, false); 
+  pieces[9] = new_piece (3, 3, 1, 2, true, false);
 
 
   game current_game = new_game (DIM_X_AR, DIM_Y_AR, NB_PIECES, pieces);

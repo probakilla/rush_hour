@@ -35,7 +35,7 @@ void display_grid_rh (game g, piece* pieces, int nb_pieces, int x, int y) {
 	printf("|       ");
       printf("------\n%c ", num - i);
       for (int k = 0; k < x; ++k){    // Display the third line.
-	int nb = grid[i][k];
+	int nb = grid[(y - 1) - i][k];
 	
 	if (nb == -1)    // If square is empty (-1), it will be empty.
 	  printf("|       ");
@@ -56,7 +56,7 @@ void display_grid_rh (game g, piece* pieces, int nb_pieces, int x, int y) {
 	printf("|       ");
       printf("|\n%c ", num - i);
       for (int k = 0; k < x; ++k){    // Display the third line.
-	int nb = grid[i][k];
+	int nb = grid[(y - 1) - i][k];
 	if (nb == -1)    // If square is empty (-1).
 	  printf("|       ");
 	else
@@ -138,21 +138,23 @@ int ** init_grid (game g, int nb_pieces, int x, int y) {
     grid[i] = malloc (sizeof(int) * x + 1);
     assert (grid[i] != NULL);
     for (int j = 0; j < x; ++j){
-      grid[i][j] = -1;
+      grid[i][j] = game_square_piece(g, j, i);
     }
   }
 
   /* Fill the grid with numbers of pieces
    * Each time an index is visited, the function game_square_piece returns the number of the piece
    * witch supposed to be at this index.
-   */
+   
   
-   for (int i = 0; i < y; ++i)
+  for (int i = 0; i < y; ++i){
     for (int j = 0; j < x; ++j){
       if (game_square_piece(g, j, i) == -1)
 	break;
-      grid[(y - 1) - i][j] = game_square_piece(g, j, i);
+      grid[(y - 1) - i][j] = game_square_piece(g, j, i);  // The ordinate index have to be converted because the game grid (0,0) is in left bottom.
     }
+  }
+  */
   display_array_ar(grid);
   return grid;
 }
