@@ -41,11 +41,6 @@ void delete_game(game g) { //Freeing subarrays and the main array
 }
 
 void copy_game(cgame src, game dst) { // Copying fileds, and copying each piece
-  dst->nb_moves = src->nb_moves;
-  dst->nb_pieces = src->nb_pieces;
-  dst->width = src->width;
-  dst->height = src->height;
-
   //Test if the arrays of pieces are equals. If not, freeing the dst array and realloc it of the right size.
 
   if (dst->nb_pieces != src->nb_pieces) {
@@ -59,10 +54,16 @@ void copy_game(cgame src, game dst) { // Copying fileds, and copying each piece
     }
   }
   else {
-    for (int i = 0; i < src->nb_moves; ++i){
+    for (int i = 0; i < src->nb_pieces; ++i){
       copy_piece(src->pieces[i], dst->pieces[i]);
     }
-  } 
+  }
+
+  dst->nb_moves = src->nb_moves;
+  dst->nb_pieces = src->nb_pieces;
+  dst->width = src->width;
+  dst->height = src->height;
+
 }
 
 int game_nb_pieces(cgame g) {
@@ -122,7 +123,7 @@ bool play_move(game g, int piece_num, dir d, int distance) {
 
       move_piece((piece) game_piece(g, piece_num), d,
 		 distance); //Move the real piece, increase the number of moves and free the copy.
-      g->nb_moves += 1;
+      g->nb_moves += distance;
       free(move_copy);
       return true;
     }
@@ -150,7 +151,7 @@ bool play_move(game g, int piece_num, dir d, int distance) {
 
       move_piece((piece) game_piece(g, piece_num), d, distance);
       free(move_copy);
-      g->nb_moves += 1;
+      g->nb_moves += distance;
       return true;
     }
   }
@@ -177,7 +178,7 @@ bool play_move(game g, int piece_num, dir d, int distance) {
 
       move_piece((piece) game_piece(g, piece_num), d, distance);
       free(move_copy);
-      g->nb_moves += 1;
+      g->nb_moves += distance;
       return true;
     }
 
@@ -202,7 +203,7 @@ bool play_move(game g, int piece_num, dir d, int distance) {
 
       move_piece((piece) game_piece(g, piece_num), d, distance);
       free(move_copy);
-      g->nb_moves += 1;
+      g->nb_moves += distance;
       return true;
     }
   }

@@ -55,20 +55,26 @@ bool equals (game g1, game g2) {
   if (game_nb_moves(g1) != game_nb_moves(g2))
     return false;
   for (int i = 0; i<NB_PIECES; ++i){
-    if ( get_x(game_piece(g1,i)) != get_x(game_piece(g2,i)) || get_y(game_piece(g1,i)) != get_y(game_piece(g2,i)))
+    if ( get_x(game_piece(g1,i)) != get_x(game_piece(g2,i)) || get_y(game_piece(g1,i)) != get_y(game_piece(g2,i))){
+      printf("%d %d", get_x(game_piece(g1,i)), get_x(game_piece(g2,i)));
       return false;
+    }
 
-    if ( is_horizontal(game_piece(g1,i)) != is_horizontal(game_piece(g2,i)) )
+    if ( is_horizontal(game_piece(g1,i)) != is_horizontal(game_piece(g2,i)) ) {
       return false;
-
+    }
+	
     if (is_horizontal(game_piece(g1,i))){
-      if (get_width(game_piece(g1,i)) != get_width(game_piece(g2,i)))
+      if (get_width(game_piece(g1,i)) != get_width(game_piece(g2,i))){
+	printf("if3");
 	return false;
+      }
     }
 
     if (!is_horizontal(game_piece(g1,i))){
-      if (get_height(game_piece(g1,i)) != get_height(game_piece(g2,i)))
+      if (get_height(game_piece(g1,i)) != get_height(game_piece(g2,i))){
 	return false;
+      }
     }
   }
   return true;
@@ -88,17 +94,17 @@ bool game_over_test (bool fct, game g) {
  */
 bool game_play (game g) {
   if (!play_move(g, 2, RIGHT, 1))
-    return true;
+    return false;
   if (!play_move(g, 3, LEFT, 1))
-    return true;
-  if (!play_move(g, 5, UP, 1))
-    return true;
+    return false;
+  if (!play_move(g, 1, UP, 1))
+    return false;
   if (!play_move(g, 4, DOWN, 1))
-    return true;
-  if (play_move(g, 0, RIGHT, 1)) // test intersect
-    return true;
-  if (play_move(g, 1, DOWN, 1))
-    return true;// test out of grid
+    return false;
+  if (play_move(g, 3, RIGHT, 2)) // test intersect
+    return false;
+  if (play_move(g, 5, DOWN, 1))
+    return false;// test out of grid
   return true; 
 }
 
@@ -122,12 +128,12 @@ int main (void) {
   
 
   piece *pieces_copy = malloc(sizeof(piece) * NB_PIECES);  
-  pieces_copy[0] = new_piece_rh(2, 2, true, false);       
-  pieces_copy[1] = new_piece_rh(3, 3, false, false);      
-  pieces_copy[2] = new_piece_rh(4, 4, true, true);
-  pieces_copy[3] = new_piece_rh (2, 0, true, true);
-  pieces_copy[4] = new_piece_rh (2, 3, false, false);
-  pieces_copy[5] = new_piece_rh (4, 0, false, false);       
+  pieces_copy[0] = new_piece_rh (0, 3, true, true);
+  pieces_copy[1] = new_piece_rh (0, 2, true, true);
+  pieces_copy[2] = new_piece_rh (1, 0, true, false);
+  pieces_copy[3] = new_piece_rh (3, 0, false, false);
+  pieces_copy[4] = new_piece_rh (4, 1, true, true);
+  pieces_copy[5] = new_piece_rh (5, 2, false, false);      
   
   game g = new_game_hr(NB_PIECES, pieces);
   printf("%d\n", game_nb_pieces(g));
@@ -162,14 +168,13 @@ int main (void) {
     fprintf(stderr,"copy is not allocated");
     exit(EXIT_FAILURE);
   }
-  printf("fzf");
-  copy_game (g, copy);
+  copy_game(g, copy);
   for (int i = 0; i<NB_PIECES; ++i){
     display_piece(game_piece(g,i));
     display_piece(game_piece(copy,i));
     printf("\n");
   }
-  if (!equals (g, copy)){
+  if (!equals(g, copy)){
     fprintf(stderr, "copy failed\n");
     exit(EXIT_FAILURE);
   }
@@ -217,17 +222,16 @@ int main (void) {
   //GAME_NB_MOVES TEST
 
   printf("Test game_nb_moves\n");
-  int move = game_nb_moves(g);
-  printf("%d\n",game_nb_moves(g)); 
-  play_move(g,1, DOWN, 1);
-  printf("%d\n",game_nb_moves(g)); 
-  if (game_nb_moves(g) == move +1){
-    fprintf(stderr, "game_nb_moves not working\n");
-    exit(EXIT_FAILURE);
+  int move = game_nb_moves(play_test);
+  printf("%d\n",game_nb_moves(play_test)); 
+  play_move(play_test,1, DOWN, 1);
+  printf("%d\n",game_nb_moves(play_test)); 
+  if (game_nb_moves(play_test) == move +1){
+    printf("game_nb_moves works\n");
   }
-
-  printf("game_nb_moves works\n");
+  else
+    fprintf(stderr,"game_nb_moves works\n");
   
-
+  printf("Youpi!");
   return EXIT_SUCCESS;
 }
