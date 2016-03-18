@@ -152,13 +152,16 @@ int main (void) {
   
   printf("Test delete game\n");
   game delete = new_game_hr (NB_PIECES, pieces);
+  printf("%x\n", game_nb_moves(delete));
   delete_game(delete);
   if(game_nb_moves(delete) != 0){
+    printf("Game deleted");
+  }
+  else{
     fprintf(stderr, "Game not deleted");
     exit(EXIT_FAILURE);
   }
-  else
-    printf("Game deleted");
+
   
   // COPY_GAME TEST
 
