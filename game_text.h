@@ -12,21 +12,24 @@
 
 
 /**
- * @brief this function create display a grid in terminal from a two dimension array. This array is created with parameters of a game of RushHour
- * @param the game you want to display, the array of pieces and the number of pieces
+ * @brief this function create, by calling init_grid, and display a two dimension array in terminal. This array is created with parameters of a game of rush_hour
+ * @param the game you want to display, an array of pieces, the number of pieces in the array, and dimensions of the game (width and height).
  */
 void display_grid_rh (game g, piece* pieces, int nb_pieces, int x, int y);
 
 
+
 /**
- * Same for ane rouge
+ * @brief this function create, by calling init_grid, and display a two dimension array in terminal. This array is created with parameters of a game of ane_rouge
+ * @param the game you want to display, an array of pieces, the number of pieces in the array, and dimensions of the game (width and height).
  */
-void display_grid_ar (game g, piece* pieces, int nb_pieces);
+
+void display_grid_ar (game g, piece* pieces, int nb_pieces, int x, int y);
 
 
 /**
  * @brief create a two dimension array and set place all pieces taken from an array of pieces
- * @param an array on pieces and the number of pieces
+ * @param an array on pieces, the amount of pieces and dimensions of the grid.
  */
 int** init_grid (game g, int nb_pieces, int x, int y);
 

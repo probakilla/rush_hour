@@ -72,9 +72,8 @@ void display_grid_rh (game g, piece* pieces, int nb_pieces, int x, int y) {
 
 
 
-void display_grid_ar (game g, piece* pieces, int nb_pieces){
-  int x = game_width(g);
-  int y = game_height(g);
+void display_grid_ar (game g, piece* pieces, int nb_pieces, int x, int y){
+
   char num = 64 + y;    // ascii code of A + y.
   
   int ** grid = init_grid (g, nb_pieces, x, y);    // This grid will be use to display the game.
@@ -102,7 +101,7 @@ void display_grid_ar (game g, piece* pieces, int nb_pieces){
     printf("|\n");
   }
   printf("  ");
-  for (int i = 0; i < x; ++i) {
+  for (int i = 0; i < x; ++i) {  // Display the very last line and the exit of the grid.
     if (i == 1 || i == 2){
       printf ("|       ");
     }
@@ -124,10 +123,11 @@ void display_grid_ar (game g, piece* pieces, int nb_pieces){
 
 int ** init_grid (game g, int nb_pieces, int x, int y) {
 
-  // Initialisation of the grid, all values are set to -1.
+  // Initialisation of the grid, 
   int ** grid = malloc (sizeof(int*) * (y));
   assert(grid != NULL);
-  
+
+  // Fill the grid with pieces indexes.
   for (int i = 0; i < y; ++i){
     grid[i] = malloc (sizeof(int) * x + 1);
     assert (grid[i] != NULL);

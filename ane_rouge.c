@@ -45,7 +45,7 @@ int main(void){
     int dir_num;
 
     // Display the game.
-    display_grid_ar(current_game, pieces, NB_PIECES);
+    display_grid_ar(current_game, pieces, NB_PIECES, DIM_X_AR, DIM_Y_AR);
     printf("\n\npiece 0 : x = %d, y = %d\n\n", get_x(game_piece(current_game, 0)), get_y(game_piece(current_game,0)));
 
     // Check if user choices & test if choices are correct.
@@ -58,7 +58,7 @@ int main(void){
     printf("How many cases ?\n");
     scanf("%d", &dir_num);
     
-    // direction convertion
+    // direction conversion
     dir d = UP;
     switch (direction){
     case 1:
@@ -82,7 +82,7 @@ int main(void){
   for (int i = 0; i < NB_PIECES; ++i){
     free(pieces[i]);
   }
-  free(pieces);
+  free(*pieces);
   
   return EXIT_SUCCESS;
 }
