@@ -93,18 +93,30 @@ bool game_over_test (bool fct, game g) {
  * @brief test if pieces are moved if they can  
  */
 bool game_play (game g) {
-  if (!play_move(g, 2, RIGHT, 1))
+  if (!play_move(g, 2, RIGHT, 1)){
+    printf("f1");
     return false;
-  if (!play_move(g, 3, LEFT, 1))
+  }
+  if (!play_move(g, 3, LEFT, 1)){
+    printf("f2");
     return false;
-  if (!play_move(g, 1, UP, 1))
+  }
+  if (!play_move(g, 1, UP, 1)){
+    printf("f3");
     return false;
-  if (!play_move(g, 4, DOWN, 1))
+  }
+  if (!play_move(g, 4, DOWN, 1)){
+    printf("f4");
     return false;
-  if (play_move(g, 3, RIGHT, 2)) // test intersect
+  }
+  if (play_move(g, 3, RIGHT, 2)){ // test intersect
+    printf("f5");
     return false;
-  if (play_move(g, 5, DOWN, 1))
-    return false;// test out of grid
+  }
+  if (play_move(g, 5, DOWN, 1)){
+    printf("f6");
+    return false; // test out of grid
+  }
   return true; 
 }
 

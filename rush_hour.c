@@ -88,7 +88,6 @@ int main (void) {
 
       // Display the game.
       display_grid_rh (game, pieces1, NB_PIECES, DIMENSION, DIMENSION);
-      printf("\n\npiece 0 : x = %d, y = %d\n\n", get_x(game_piece(game, 0)), get_y(game_piece(game,0)));
 
       // Check if user choices & test if choices are correct.
       printf("Select a piece :\n");

@@ -18,8 +18,8 @@ game new_game_hr(int nb_pieces,
     game current = malloc(sizeof(struct game_s)); //Allocation of the structure
     current->nb_pieces = nb_pieces;
     current->nb_moves = 0;
-    current->width = 0;
-    current->height = 0;
+    current->width = DIMENSION;
+    current->height = DIMENSION;
 
 
     current->pieces = malloc(sizeof(piece) * nb_pieces);
