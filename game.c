@@ -100,7 +100,7 @@ bool play_move(game g, int piece_num, dir d, int distance) {
     return false;
   }
 
-  if (is_horizontal((piece) game_piece(g, piece_num))) {    //Check if the piece is horizontal
+  if (can_move_x((piece) game_piece(g, piece_num))) {    //Check if the piece is horizontal
     if (d == LEFT && get_x((piece) game_piece(g, piece_num)) - distance >=
 	0) {    // Piece is horizontal and check if the piece is still in the grid after the move.
 
@@ -126,6 +126,7 @@ bool play_move(game g, int piece_num, dir d, int distance) {
 		 distance); //Move the real piece, increase the number of moves and free the copy.
       g->nb_moves += distance;
       free(move_copy);
+      printf("%d %d\n", get_x(game_piece(g, piece_num)), get_y(game_piece(g, piece_num)));
       return true;
     }
 
@@ -157,7 +158,7 @@ bool play_move(game g, int piece_num, dir d, int distance) {
     }
   }
 
-  if (!is_horizontal((piece) game_piece(g, piece_num))) {    //Check if the piece is vertical
+  if (can_move_y((piece) game_piece(g, piece_num))) {    //Check if the piece is vertical
 
     if (d == DOWN && get_y((piece) game_piece(g, piece_num)) - distance >= 0) {    //Same for DOWN direction
 

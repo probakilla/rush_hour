@@ -20,14 +20,14 @@ int main(void){
   // Filling of the array of pieces.
   pieces[0] = new_piece (1, 3, 2, 2, true, true);   // Red piece (x, y, height, width, can_move_x, can_move_y).
   pieces[1] = new_piece (0, 0, 1, 1, true, true);
-  pieces[2] = new_piece (0, 1, 1, 2, true, false);
-  pieces[3] = new_piece (0, 3, 1, 2, true, false);
+  pieces[2] = new_piece (0, 1, 1, 2, true, true);
+  pieces[3] = new_piece (0, 3, 1, 2, true, true);
   pieces[4] = new_piece (1, 1, 1, 1, true, true);
-  pieces[5] = new_piece (1, 2, 2, 1, false, true);
+  pieces[5] = new_piece (1, 2, 2, 1, true, true);
   pieces[6] = new_piece (2, 1, 1, 1, true, true);
   pieces[7] = new_piece (3, 0, 1, 1, true, true);
-  pieces[8] = new_piece (3, 1, 1, 2, true, false); 
-  pieces[9] = new_piece (3, 3, 1, 2, true, false);
+  pieces[8] = new_piece (3, 1, 1, 2, true, true); 
+  pieces[9] = new_piece (3, 3, 1, 2, true, true);
 
 
   game current_game = new_game (DIM_X_AR, DIM_Y_AR, NB_PIECES, pieces);
@@ -40,9 +40,9 @@ int main(void){
     printf("Directions commands : 1 = up, 2 = down, 3 = right, 4 = left\n");
 
     // Variables of command.
-    char car_number [10];
+    int car_number;
     int direction;
-    char dir_num [10];
+    int dir_num;
 
     // Display the game.
     display_grid_ar(current_game, pieces, NB_PIECES);
@@ -50,13 +50,13 @@ int main(void){
 
     // Check if user choices & test if choices are correct.
     printf("Select a piece :\n");
-    scanf("%s", car_number);
+    scanf("%d", &car_number);
 
     printf("Select a move :\n");
     scanf("%d", &direction);
 
     printf("How many cases ?\n");
-    scanf("%s", dir_num);
+    scanf("%d", &dir_num);
     
     // direction convertion
     dir d = UP;
@@ -74,10 +74,15 @@ int main(void){
       d = LEFT;
       break;
     }
-    play_move (current_game, atoi(car_number), d, atoi(dir_num));
+    play_move (current_game, car_number, d, dir_num);
   }
   printf("\n\nCongratulation, you  beat this level in %d moves !\n\n", game_nb_moves(current_game));
   delete_game(current_game);
+
+  for (int i = 0; i < NB_PIECES; ++i){
+    free(pieces[i]);
+  }
+  free(pieces);
   
   return EXIT_SUCCESS;
 }

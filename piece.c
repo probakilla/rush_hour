@@ -75,10 +75,14 @@ piece new_piece(int x, int y, int width, int height, bool move_x, bool move_y) {
     new->move_x = move_x;
     new->move_y = move_y;
 
-    //Useless values for AneRouge
-    new->small = false;
-    new->horizontal = false;
-
+    if (move_x == true && move_y == false){
+      new->small = false;
+      new->horizontal = true;
+    }
+    if (move_x == false && move_y == true){
+      new->small = false;
+      new->horizontal = false;
+    }
     return new;
 }
 
@@ -98,19 +102,30 @@ void copy_piece(cpiece src, piece dst) { // Copy each field from the source to t
 }
 
 void move_piece(piece p, dir d, int distance) { //The move is supposed correct. Add or substract the distance to the coordinates.
-    if (p->horizontal == true) {
-        if (d == LEFT)
-            p->x -= distance;
-        else if (d == RIGHT)
-            p->x += distance;
-    }
-    else {
-        if (d == UP)
-            p->y += distance;
-        else if (d == DOWN)
-            p->y -= distance;
-    }
+  if (p->move_x == true && p->move_y == true) {
+    if (d == LEFT)
+      p->x -= distance;
+    else if (d == RIGHT)
+      p->x += distance;
+    if (d == UP)
+      p->y += distance;
+    else if (d == DOWN)
+      p->y -= distance;
+  }
+  if (p->move_x == true && p->move_y == false) {
+    if (d == LEFT)
+      p->x -= distance;
+    else if (d == RIGHT)
+      p->x += distance;
+  }
+  else if(p->move_x == false && p->move_y == true){
+    if (d == UP)
+      p->y += distance;
+    else if (d == DOWN)
+      p->y -= distance;
+  }
 }
+
 
 
 /* --------------------- 
