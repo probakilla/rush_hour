@@ -70,7 +70,7 @@ int main (void) {
   printf("\nYou have to move the 0 piece to the exit.\nTo move a piece, type it's number and a direction then the number of case you want to move.\n\n");
   
   for (int k = 0; k < NB_GAMES; ++k){
-    game game = new_game_hr (NB_PIECES, games[k]);
+    game game = new_game_hr(NB_PIECES, games[k]);
 
     printf("\n\n ------ LEVEL %d ------ \n\n", k + 1);
     
@@ -136,8 +136,15 @@ int main (void) {
 
 
   // Free of the game.
-  for (int i = 0; i < NB_GAMES; ++i)
-    delete_piece_array(games[i]);
+  for (int i = 0; i < NB_PIECES; ++i){
+    free(pieces1[i]);
+    free(pieces2[i]);
+    free(pieces3[i]);
+  }
+  free(pieces1);
+  free(pieces2);
+  free(pieces3);
+
   free(games);
 
   return EXIT_SUCCESS;
