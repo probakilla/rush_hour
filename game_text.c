@@ -67,7 +67,7 @@ void display_grid_rh (game g, piece* pieces, int nb_pieces, int x, int y) {
   // Free of the grid.
   for (int i = 0; i < nb_pieces; ++i)
     free(grid[i]);
-  free(*grid);
+  free(grid);
 }
 
 
@@ -93,7 +93,7 @@ void display_grid_ar (game g, piece* pieces, int nb_pieces){
       int nb = grid[(y - 1) - i][k];
       if (nb == -1)    // If square is empty (-1).
 	printf("|       ");
-      else
+	      else
 	printf("|   %d   ", nb /*game_square_piece(g, k, i)grid[i][k]*/);
     }
     printf("|\n  ");
@@ -114,7 +114,8 @@ void display_grid_ar (game g, piece* pieces, int nb_pieces){
   // Free of the grid
   for (int i = 0; i < x; ++ i)
     free(grid[i]);
-  free(*grid);
+  free(grid);
+  
 }
 
 

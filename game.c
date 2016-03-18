@@ -130,10 +130,8 @@ bool play_move(game g, int piece_num, dir d, int distance) {
       return true;
     }
 
-    int extends_piece = get_width((piece) game_piece(g, piece_num)) -
-      1;    //The piece is supposed to move right. Adding the "extension" to the piece for checking if the move is correct.
-    if (d == RIGHT && get_x((piece) game_piece(g, piece_num)) + distance + extends_piece <
-	DIMENSION) {    //Same for RIGHT direction.
+    int extends_piece = get_width((piece) game_piece(g, piece_num)) - 1;    //The piece is supposed to move right. Adding the "extension" to the piece for checking if the move is correct.
+    if (d == RIGHT && get_x((piece) game_piece(g, piece_num)) + distance + extends_piece < game_width(g)) {    //Same for RIGHT direction.
 
       piece move_copy = new_piece_rh(0, 0, true, true);
       copy_piece(game_piece(g, piece_num), move_copy);
@@ -186,7 +184,7 @@ bool play_move(game g, int piece_num, dir d, int distance) {
 
     int extends_piece = get_height((piece) game_piece(g, piece_num)) - 1;
     if (d == UP &&
-	get_y((piece) game_piece(g, piece_num)) + distance + extends_piece < DIMENSION) {    //Same for UP direction
+	get_y((piece) game_piece(g, piece_num)) + distance + extends_piece < game_height(g)) {    //Same for UP direction
 
       piece move_copy = new_piece_rh(0, 0, true, true);
       copy_piece(game_piece(g, piece_num), move_copy);
