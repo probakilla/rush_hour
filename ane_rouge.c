@@ -9,7 +9,7 @@
 #define NB_PIECES 10
 
 bool game_over_ar (game g) {
-  return (get_x (game_piece(g, 0)) == 0 && get_y (game_piece(g, 0)) == 1);
+  return (get_x (game_piece(g, 0)) == 1 && get_y (game_piece(g, 0)) == 0);
 }
 
 
@@ -37,7 +37,7 @@ int main(void){
   while (!(game_over_ar(current_game))){
     
     // COMMANDS
-    printf("Directions commands : 1 = up, 2 = down, 3 = right, 4 = left\n");
+    printf("Directions commands : 1 = up, 2 = down, 3 = right, 4 = left\n\n");
 
     // Variables of command.
     char car_number [10];

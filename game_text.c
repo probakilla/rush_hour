@@ -7,18 +7,6 @@
 #include "game_text.h"
 
 
-void display_array_ar (int ** grid) {
-
-  for (int i = 0; i < DIM_Y_AR; ++i)
-    for (int j = 0; j < DIM_X_AR; ++j){
-      if (grid[i][j] == -1)
-	printf ("[%d]", grid[i][j]);
-      else
-	printf ("[ %d]", grid[i][j]);
-    }
-  printf("\n");
-}
-
 void display_grid_rh (game g, piece* pieces, int nb_pieces, int x, int y) {
   char num = 64 + y;    // ascii code of A + y.
   
@@ -79,7 +67,7 @@ void display_grid_rh (game g, piece* pieces, int nb_pieces, int x, int y) {
   // Free of the grid.
   for (int i = 0; i < nb_pieces; ++i)
     free(grid[i]);
-  free(grid);
+  free(*grid);
 }
 
 
@@ -122,6 +110,11 @@ void display_grid_ar (game g, piece* pieces, int nb_pieces){
       printf ("|-------");
   }
   printf("|\n\n");
+  
+  // Free of the grid
+  for (int i = 0; i < x; ++ i)
+    free(grid[i]);
+  free(*grid);
 }
 
 
@@ -141,20 +134,5 @@ int ** init_grid (game g, int nb_pieces, int x, int y) {
       grid[i][j] = game_square_piece(g, j, i);
     }
   }
-
-  /* Fill the grid with numbers of pieces
-   * Each time an index is visited, the function game_square_piece returns the number of the piece
-   * witch supposed to be at this index.
-   
-  
-  for (int i = 0; i < y; ++i){
-    for (int j = 0; j < x; ++j){
-      if (game_square_piece(g, j, i) == -1)
-	break;
-      grid[(y - 1) - i][j] = game_square_piece(g, j, i);  // The ordinate index have to be converted because the game grid (0,0) is in left bottom.
-    }
-  }
-  */
-  display_array_ar(grid);
   return grid;
 }
