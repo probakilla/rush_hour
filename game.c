@@ -38,6 +38,7 @@ void delete_game(game g) { //Freeing subarrays and the main array
     for (int i = 0; i < game_nb_pieces(g); ++i)
         free(g->pieces[i]);
     free(g->pieces);
+    free(g);
 }
 
 void copy_game(cgame src, game dst) { // Copying fileds, and copying each piece
