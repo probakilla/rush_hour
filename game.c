@@ -248,10 +248,10 @@ int game_height(cgame g) {
 
 int game_square_piece(game g, int x, int y) {
 
-  cpiece tmp_p = new_piece(x, y, 1, 1, true, true);  // Create a piece with coordonates (x, y) in order to test if another piece intersect this one.
+  piece tmp_p = new_piece(x, y, 1, 1, true, true);  // Create a piece with coordonates (x, y) in order to test if another piece intersect this one.
 
   for (int i = 0; i < g->nb_pieces; ++i)
-    if (intersect(tmp_p, (cpiece)g->pieces[i])){
+    if (intersect((cpiece)tmp_p, (cpiece)g->pieces[i])){
       delete_piece(tmp_p);
       return i;
     }
