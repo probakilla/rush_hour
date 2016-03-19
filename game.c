@@ -18,8 +18,8 @@ game new_game_hr(int nb_pieces,
     game current = malloc(sizeof(struct game_s)); //Allocation of the structure
     current->nb_pieces = nb_pieces;
     current->nb_moves = 0;
-    current->width = 0;
-    current->height = 0;
+    current->width = DIMENSION;
+    current->height = DIMENSION;
 
 
     current->pieces = malloc(sizeof(piece) * nb_pieces);
@@ -126,7 +126,6 @@ bool play_move(game g, int piece_num, dir d, int distance) {
 		 distance); //Move the real piece, increase the number of moves and free the copy.
       g->nb_moves += distance;
       free(move_copy);
-      printf("%d %d\n", get_x(game_piece(g, piece_num)), get_y(game_piece(g, piece_num)));
       return true;
     }
 
@@ -183,8 +182,7 @@ bool play_move(game g, int piece_num, dir d, int distance) {
     }
 
     int extends_piece = get_height((piece) game_piece(g, piece_num)) - 1;
-    if (d == UP &&
-	get_y((piece) game_piece(g, piece_num)) + distance + extends_piece < game_height(g)) {    //Same for UP direction
+    if (d == UP && get_y((piece) game_piece(g, piece_num)) + distance + extends_piece < game_height(g)) {    //Same for UP direction
 
       piece move_copy = new_piece_rh(0, 0, true, true);	
       copy_piece(game_piece(g, piece_num), move_copy);

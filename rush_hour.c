@@ -88,10 +88,9 @@ int main (void) {
 
       // Display the game.
       display_grid_rh (game, pieces1, NB_PIECES, DIMENSION, DIMENSION);
-      printf("\n\npiece 0 : x = %d, y = %d\n\n", get_x(game_piece(game, 0)), get_y(game_piece(game,0)));
 
       // Check if user choices & test if choices are correct.
-      printf("Select a piece :\n");
+      printf("\nSelect a piece :\n");
       scanf("%s", car_number);
       if (atoi(car_number) < 0 || atoi(car_number) > NB_PIECES - 1 ){ // if car number does not exists
         printf("\nWrong number! Pleas type a number between 0 and %d\n\n", NB_PIECES - 1);
