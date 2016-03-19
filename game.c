@@ -77,7 +77,7 @@ cpiece game_piece(cgame g, int piece_num) {
 }
 
 bool game_over_hr(cgame g) {
-    return get_y(g->pieces[0]) == 3 && get_x(g->pieces[0]) == 4;
+  return get_y(g->pieces[0]) == 3 && get_x(g->pieces[0]) == (game_width(g) - 2);
 }
 
 
@@ -186,7 +186,7 @@ bool play_move(game g, int piece_num, dir d, int distance) {
     if (d == UP &&
 	get_y((piece) game_piece(g, piece_num)) + distance + extends_piece < game_height(g)) {    //Same for UP direction
 
-      piece move_copy = new_piece_rh(0, 0, true, true);
+      piece move_copy = new_piece_rh(0, 0, true, true);	
       copy_piece(game_piece(g, piece_num), move_copy);
 
       for (int test_distance = 0; test_distance < distance; ++test_distance) {
