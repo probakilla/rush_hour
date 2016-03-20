@@ -3,7 +3,7 @@
 RushHour / Ane Rouge.
 
 Games made in the aim of the UE "ED & PP1"
-Project made by Valentin Gaillard, Juline Pilleux, Ali Cherifi.
+Project made by Valentin Gaillard, Julien Pilleux, Ali Cherifi.
 
 Prerequisites : CMake
 
