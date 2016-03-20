@@ -135,5 +135,9 @@ int ** init_grid (game g, int nb_pieces, int x, int y) {
       grid[i][j] = game_square_piece(g, j, i);
     }
   }
+  for (int i = 0; i < y; ++i){
+    free(grid[i]);
+  }
+  free(grid);
   return grid;
 }
