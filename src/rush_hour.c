@@ -92,41 +92,47 @@ int main (void) {
 
       // Check if user choices & test if choices are correct.
       printf("Select a piece :\n");
-      scanf("%d", &car_number);
-      if (car_number < 0 || car_number > NB_PIECES - 1 ){ // if car number does not exists
-        printf("\nWrong number! Pleas type a number between 0 and %d\n\n", NB_PIECES - 1);
-	continue;
+      int test_car = scanf("%d", &car_number);
+      if (test_car != 1){
+        if (car_number < 0 || car_number > NB_PIECES - 1 ){ // if car number does not exists
+	  printf("\nWrong number! Pleas type a number between 0 and %d\n\n", NB_PIECES - 1);
+	  continue;
+        }
       }
       printf("Select a move :\n");
-      scanf("%d", &direction);
-      if (is_horizontal(game_piece(game, car_number)) && (direction < 3 || direction > 4)){
-        printf("\nWrong number! The car can only be moved to the left (number 4) or the right (number 3)\n\n");
-	continue;
+      int test_move = scanf("%d", &direction);
+      if (test_move != 1){
+        if (is_horizontal(game_piece(game, car_number)) && (direction < 3 || direction > 4)){
+	  printf("\nWrong number! The car can only be moved to the left (number 4) or the right (number 3)\n\n");
+	  continue;
+        }
+        if ((!is_horizontal(game_piece(game, car_number))) && (direction < 1 || direction > 2)){
+	  printf("\nWrong number! The car can only be moved up (number 1) or down (number 2)\n\n");
+	  continue;
+	}    
       }
-      if ((!is_horizontal(game_piece(game, car_number))) && (direction < 1 || direction > 2)){
-	printf("\nWrong number! The car can only be moved up (number 1) or down (number 2)\n\n");
-	continue;
-      }    
       printf("How many cases ?\n");
-      scanf("%d", &dir_num);
+      int test_dir = scanf("%d", &dir_num);
+      if (test_dir == 1){
     
-      // direction convertion
-      dir d = UP;
-      switch (direction){
-      case 1:
-	d = UP;
-	break;
-      case 2 :
-	d = DOWN;
-	break;
-      case 3:
-	d = RIGHT;
-	break;
-      case 4:
-	d = LEFT;
-	break;
+        // direction convertion
+        dir d = UP;
+        switch (direction){
+        case 1:
+	  d = UP;
+	  break;
+        case 2 :
+	  d = DOWN;
+	  break;
+        case 3:
+	  d = RIGHT;
+	  break;
+        case 4:
+	  d = LEFT;
+	  break;
+        }
+        play_move (game, car_number, d, dir_num);
       }
-      play_move (game, car_number, d, dir_num);
     }
     printf("\n\nCongratulation, you  beat this level in %d moves !\n\n", game_nb_moves(game));
     delete_game(game);

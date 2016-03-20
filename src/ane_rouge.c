@@ -50,13 +50,19 @@ int main(void){
 
     // Check if user choices & test if choices are correct.
     printf("Select a piece :\n");
-    scanf("%d", &car_number);
-
+    int car_test = scanf("%d", &car_number);
+    if (car_test != 1)
+      continue;
+    
     printf("Select a move :\n");
-    scanf("%d", &direction);
-
+    int dir_test = scanf("%d", &direction);
+    if (dir_test !=1)
+      continue;
+    
     printf("How many cases ?\n");
-    scanf("%d", &dir_num);
+    int dist_test = scanf("%d", &dir_num);
+    if (dist_test != 1)
+      continue;
     
     // direction conversion
     dir d = UP;
