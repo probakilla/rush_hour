@@ -111,7 +111,7 @@ void display_grid_ar (game g, piece* pieces, int nb_pieces, int x, int y){
   printf("|\n\n");
   
   // Free of the grid
-  for (int i = 0; i < x; ++ i)
+  for (int i = 0; i < y; ++ i)
     free(grid[i]);
   free(grid);
   
@@ -135,9 +135,5 @@ int ** init_grid (game g, int nb_pieces, int x, int y) {
       grid[i][j] = game_square_piece(g, j, i);
     }
   }
-  for (int i = 0; i < y; ++i){
-    free(grid[i]);
-  }
-  free(grid);
   return grid;
 }

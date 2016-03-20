@@ -18,8 +18,8 @@ game new_game_hr(int nb_pieces,
     game current = malloc(sizeof(struct game_s)); //Allocation of the structure
     current->nb_pieces = nb_pieces;
     current->nb_moves = 0;
-    current->width = DIMENSION;
-    current->height = DIMENSION;
+    current->width = 0;
+    current->height = 0;
 
 
     current->pieces = malloc(sizeof(piece) * nb_pieces);
@@ -104,10 +104,12 @@ bool play_move(game g, int piece_num, dir d, int distance) {
     if (d == LEFT && get_x((piece) game_piece(g, piece_num)) - distance >=
 	0) {    // Piece is horizontal and check if the piece is still in the grid after the move.
 
-      piece move_copy = new_piece_rh(0, 0, true,true);    //Create a copy of the piece to calculate later if the move don't intersect and so don't change the real piece.
+      piece move_copy = new_piece_rh(0, 0, true,
+				     true);    //Create a copy of the piece to calculate later if the move don't intersect and so don't change the real piece.
       copy_piece(game_piece(g, piece_num), move_copy);
 
-      for (int test_distance = 0; test_distance <distance; ++test_distance) {    //This loop test the move 1 by 1 to be sure the piece don't transperce and exceed another piece.
+      for (int test_distance = 0; test_distance <
+	     distance; ++test_distance) {    //This loop test the move 1 by 1 to be sure the piece don't transperce and exceed another piece.
 
 	move_piece(move_copy, d, 1);
 	for (int i = 0; i < piece_num; ++i) {    //Double loop to skip the intersect test with the piece itself.
@@ -124,9 +126,11 @@ bool play_move(game g, int piece_num, dir d, int distance) {
 	}
       }
 
-      move_piece((piece) game_piece(g, piece_num), d,distance); //Move the real piece, increase the number of moves and free the copy.
+      move_piece((piece) game_piece(g, piece_num), d,
+		 distance); //Move the real piece, increase the number of moves and free the copy.
       g->nb_moves += distance;
       free(move_copy);
+      printf("%d %d\n", get_x(game_piece(g, piece_num)), get_y(game_piece(g, piece_num)));
       return true;
     }
 
@@ -150,9 +154,7 @@ bool play_move(game g, int piece_num, dir d, int distance) {
 	    return false;
 	  }
 	}
-
       }
-
       move_piece((piece) game_piece(g, piece_num), d, distance);
       free(move_copy);
       g->nb_moves += distance;
@@ -181,9 +183,7 @@ bool play_move(game g, int piece_num, dir d, int distance) {
 	    return false;
 	  }
 	}
-
       }
-
       move_piece((piece) game_piece(g, piece_num), d, distance);
       free(move_copy);
       g->nb_moves += distance;
@@ -191,7 +191,8 @@ bool play_move(game g, int piece_num, dir d, int distance) {
     }
 
     int extends_piece = get_height((piece) game_piece(g, piece_num)) - 1;
-    if (d == UP && get_y((piece) game_piece(g, piece_num)) + distance + extends_piece < game_height(g)) {    //Same for UP direction
+    if (d == UP &&
+	get_y((piece) game_piece(g, piece_num)) + distance + extends_piece < game_height(g)) {    //Same for UP direction
 
       piece move_copy = new_piece_rh(0, 0, true, true);	
       copy_piece(game_piece(g, piece_num), move_copy);
@@ -211,7 +212,6 @@ bool play_move(game g, int piece_num, dir d, int distance) {
 	  }
 	}
       }
-
       move_piece((piece) game_piece(g, piece_num), d, distance);
       free(move_copy);
       g->nb_moves += distance;

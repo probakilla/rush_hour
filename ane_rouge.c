@@ -78,6 +78,7 @@ int main(void){
   }
   printf("\n\nCongratulation, you  beat this level in %d moves !\n\n", game_nb_moves(current_game));
   delete_game(current_game);
+
   for (int i = 0; i < NB_PIECES; ++i){
     free(pieces[i]);
   }
