@@ -7,7 +7,7 @@
 #include "game_text.h"
 
 #define NB_PIECES 6
-#define NB_GAMES 1
+#define NB_GAMES 3
 
 
 void delete_piece_array (piece* pieces){
@@ -27,7 +27,7 @@ int main (void) {
   }
   // FIRST GAME
   pieces1[0] = new_piece_rh (0, 3, true,  true);   // x, y , small , horizontal
-  pieces1[1] = new_piece_rh (5, 0, false , false); //2,3
+  pieces1[1] = new_piece_rh (2, 3, false , false);
   pieces1[2] = new_piece_rh (0, 0, true , false); 
   pieces1[3] = new_piece_rh (1, 1, true , true);
   pieces1[4] = new_piece_rh (2, 0, true , true);
