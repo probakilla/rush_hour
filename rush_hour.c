@@ -7,7 +7,7 @@
 #include "game_text.h"
 
 #define NB_PIECES 6
-#define NB_GAMES 3
+#define NB_GAMES 1
 
 
 void delete_piece_array (piece* pieces){
@@ -27,7 +27,7 @@ int main (void) {
   }
   // FIRST GAME
   pieces1[0] = new_piece_rh (0, 3, true,  true);   // x, y , small , horizontal
-  pieces1[1] = new_piece_rh (2, 3, false , false);
+  pieces1[1] = new_piece_rh (5, 0, false , false); //2,3
   pieces1[2] = new_piece_rh (0, 0, true , false); 
   pieces1[3] = new_piece_rh (1, 1, true , true);
   pieces1[4] = new_piece_rh (2, 0, true , true);
@@ -82,9 +82,9 @@ int main (void) {
       printf("Directions commands : 1 = up, 2 = down, 3 = right, 4 = left\n");
 
       // Variables of command.
-      char car_number [10];
+      int car_number;
       int direction;
-      char dir_num [10];
+      int dir_num;
 
       // Display the game.
       display_grid_rh (game, pieces1, NB_PIECES, DIMENSION, DIMENSION);
@@ -92,23 +92,23 @@ int main (void) {
 
       // Check if user choices & test if choices are correct.
       printf("Select a piece :\n");
-      scanf("%s", car_number);
-      if (atoi(car_number) < 0 || atoi(car_number) > NB_PIECES - 1 ){ // if car number does not exists
+      scanf("%d", &car_number);
+      if (car_number < 0 || car_number > NB_PIECES - 1 ){ // if car number does not exists
         printf("\nWrong number! Pleas type a number between 0 and %d\n\n", NB_PIECES - 1);
 	continue;
       }
       printf("Select a move :\n");
       scanf("%d", &direction);
-      if (is_horizontal(game_piece(game, atoi(car_number))) && (direction < 3 || direction > 4)){
+      if (is_horizontal(game_piece(game, car_number)) && (direction < 3 || direction > 4)){
         printf("\nWrong number! The car can only be moved to the left (number 4) or the right (number 3)\n\n");
 	continue;
       }
-      if ((!is_horizontal(game_piece(game, atoi(car_number)))) && (direction < 1 || direction > 2)){
+      if ((!is_horizontal(game_piece(game, car_number))) && (direction < 1 || direction > 2)){
 	printf("\nWrong number! The car can only be moved up (number 1) or down (number 2)\n\n");
 	continue;
       }    
       printf("How many cases ?\n");
-      scanf("%s", dir_num);
+      scanf("%d", &dir_num);
     
       // direction convertion
       dir d = UP;
@@ -126,7 +126,7 @@ int main (void) {
 	d = LEFT;
 	break;
       }
-      play_move (game, atoi(car_number), d, atoi(dir_num));
+      play_move (game, car_number, d, dir_num);
     }
     printf("\n\nCongratulation, you  beat this level in %d moves !\n\n", game_nb_moves(game));
     delete_game(game);

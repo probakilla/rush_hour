@@ -18,8 +18,8 @@ game new_game_hr(int nb_pieces,
     game current = malloc(sizeof(struct game_s)); //Allocation of the structure
     current->nb_pieces = nb_pieces;
     current->nb_moves = 0;
-    current->width = 0;
-    current->height = 0;
+    current->width = DIMENSION;
+    current->height = DIMENSION;
 
 
     current->pieces = malloc(sizeof(piece) * nb_pieces);
@@ -262,9 +262,9 @@ int game_square_piece(game g, int x, int y) {
 
   for (int i = 0; i < g->nb_pieces; ++i)
     if (intersect((cpiece)tmp_p, (cpiece)g->pieces[i])){
-      delete_piece(tmp_p);
+      free(tmp_p);
       return i;
     }
-  delete_piece(tmp_p);
+  free(tmp_p);
   return -1;
 }
