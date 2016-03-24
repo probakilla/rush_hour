@@ -26,7 +26,7 @@ target_link_libraries (test_piece1 game)
 target_link_libraries (test_game game)
 target_link_libraries (solver queue)
 target_link_libraries (test_solver queue)
-target_link_libraries (test_queue queue)
+target_link_libraries (test_queue queue game)
 
 install(TARGETS rush_hour test_game test_piece1 ane_rouge solver test_solver test_queue DESTINATION ${EXECUTABLE_OUTPUT_PATH})
 install(TARGETS game queue DESTINATION ${LIBRARY_OUTPUT_PATH})

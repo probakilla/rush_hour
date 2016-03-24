@@ -1,43 +1,50 @@
-#ifndef _FILE_H_
-#define _FILE_H_
+#ifndef _QUEUE_H_
+#define _QUEUE_H_
 
+#include <stdbool.h>
+#include "piece.h"
 #include "game.h"
 
 /**
- * @file file.h
+ * @queue queue.h
  *
- * @brief A file will be used in our game solver.
- *
- **/
-
-/**
- * @struct file_s
- * @brief This file will use an array on games.
+ * @brief A queue will be used in our game solver.
  *
  **/
 
-typedef struct file_s* file;
+/**
+ * @struct queue_s
+ * @brief This queue will use an array on games.
+ *
+ **/
+
+typedef struct queue_s* queue;
 
 
 /**
- * @brief Create a new file.
- * @param to initialize a file, we only need the size of the array the initialize it.
+ * @brief Create a new queue, the field index_top is set automatically to 0.
  **/
 
-void new_file (int array_size);
+queue new_queue ();
 
 /**
- * @brief push a game in the file. If the file is full, the size of the array will double.
- * @param The game you want to stock in the file.
+ * @brief Push a game in the queue. If the queue is full, the size of the array will double.
+ * @param The game you want to stock, and the queue.
  **/
 
-void push (game g);
+void push (queue q, game g);
 
 /**
- * @brief returns the first game of the array. All others games will be shifted.
+ * @brief Returns the first game of the array. All others games will be shifted.
+ * @param The queue where you want to push a game.
  **/
 
-game pop ();
+game pop (queue q);
 
+/**
+ * @brief Free the array of the queue.
+ **/
+
+void delete_queue (queue q);
 
 #endif
