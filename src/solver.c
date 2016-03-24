@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "file.h"
-#include "game.h"
 
-int main (void) {
+int main(){
   return 0;
 }
