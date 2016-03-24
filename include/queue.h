@@ -1,6 +1,8 @@
 #ifndef _FILE_H_
 #define _FILE_H_
 
+#include "game.h"
+
 /**
  * @file file.h
  *
