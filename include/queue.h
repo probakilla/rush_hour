@@ -35,7 +35,7 @@ queue new_queue ();
 void push (queue q, game g);
 
 /**
- * @brief Returns the first game of the array. All others games will be shifted.
+ * @brief Returns the first game of the array.All others games will be shifted.
  * @param The queue where you want to push a game.
  **/
 

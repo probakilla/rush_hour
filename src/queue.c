@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <assert.h>
 
+#include "game.h"
+#include "piece.h"
 #include "queue.h"
 
 #define INIT_QUEUE_SIZE 50
@@ -21,6 +23,16 @@ bool is_full (queue q) {
 
   // If the array size (-1) is equals the the top index, the queue is full.
   return (q->array_size - 1) == q->index_top;
+}
+
+/**
+ * @brief This function will be used to double the size of the array when it's full.
+ * @param The array we need to increase it size.
+ **/
+void increase_array (game **game) {
+
+  *game = realloc (*game, 2 * sizeof game);
+  assert (*game != NULL);
 }
 
 queue new_queue () {
@@ -43,8 +55,7 @@ void push (queue q, game g) {
 
   // Test if the queue is full, if it is, double the size of the array.
   if (is_full(q)) {
-    q->game_array = realloc (q->game_array, (q->array_size * (sizeof(game))) * 2);
-    assert (q->game_array == NULL);
+    increase_array (&q->game_array);
     q->array_size *= 2;
   }
   // Place the game in the array and increase the top index.
