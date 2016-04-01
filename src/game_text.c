@@ -137,3 +137,21 @@ int ** init_grid (game g, int nb_pieces, int x, int y) {
   }
   return grid;
 }
+
+
+char to_upper (char c) {
+  if (c >= 'a' && c <= 'z')
+    return c - 32;
+  return c;
+}
+
+
+void clear (void) {
+  while (getchar() != '\n');
+}
+
+
+void reset_cursor (void) {
+  printf("\033[%d;%dH%s\n", PROMPT_LINE, 0, "                                                             ");
+  printf("\033[%d;%dH%s\n", INSTRUCTION_LINE, PROMPT_RESET, "");
+}

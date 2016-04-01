@@ -8,48 +8,13 @@
 
 #define NB_PIECES 6
 #define NB_GAMES 3
-#define SIZE_CHAR 5
-#define INSTRUCTION_LINE 34
-#define ERROR_LINE 32
-#define PROMPT_LINE 35
-#define PROMPT_RESET 50
-#define CONDITION_CAR_SELECTION 0
-#define CONDITION_CAR_DIRECTION 1
-#define CONDITION_DIRECTION_VALUE 2
-#define ASCII_CODE_U 85
-#define ASCII_CODE_D 68
-#define ASCII_CODE_R 82
-#define ASCII_CODE_L 76
+
 
 
 void delete_piece_array (piece* pieces){
   for (int i = 0; i < NB_PIECES; ++i)
     delete_piece(pieces[i]);
   free(pieces);
-}
-
-/**
- * @brief Return a char in uppercase if it's lowercase, return the same if the the char is not a lowercase letter.
- **/
-char to_upper (char c) {
-  if (c >= 'a' && c <= 'z')
-    return c - 32;
-  return c;
-}
-
-/**
- * @brief Clean the scanf buffer to avoid infinit loops.
- **/
-void clear (void) {
-  while (getchar() != '\n');
-}
-
-/**
- * @brief Set the terminal cursor to the begining of the line for a cleaner display.
- **/
-void reset_cursor (void) {
-  printf("\033[%d;%dH%s\n", PROMPT_LINE, 0, "                                                             ");
-  printf("\033[%d;%dH%s\n", INSTRUCTION_LINE, PROMPT_RESET, "");
 }
 
 int main (void) {
