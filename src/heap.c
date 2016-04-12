@@ -20,7 +20,7 @@ void increase_array (heap h, game **game) {
   *game = realloc (*game, 2 * sizeof game);
   assert (*game != NULL);
 
-  h->size_heap *= 2;
+  h->size_heap = h->size_heap << 1;
 
   for (int i = h->top_index + 1; i < h->size_heap; ++i)
     h->games = NULL;

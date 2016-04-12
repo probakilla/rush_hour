@@ -56,7 +56,7 @@ void push (queue q, game g) {
   // Test if the queue is full, if it is, double the size of the array.
   if (is_full(q)) {
     increase_array (&q->game_array);
-    q->array_size *= 2;
+    q->array_size = q->array_size << 1;
   }
   // Place the game in the array and increase the top index.
   q->game_array[q->index_top] = g;
