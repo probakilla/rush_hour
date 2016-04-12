@@ -56,7 +56,7 @@ void push (queue q, game g) {
   // Test if the queue is full, if it is, double the size of the array.
   if (is_full(q)) {
     increase_array (&q->game_array);
-    q->array_size *= 2;
+    q->array_size = q->array_size << 1;
   }
   // Place the game in the array and increase the top index.
   q->game_array[q->index_top] = g;
@@ -65,6 +65,12 @@ void push (queue q, game g) {
 
 game pop (queue q) {
 
+  // If the queue is empty, this function does nothing.
+  if (q->index_top == 0){
+    fprintf (stderr, "ERROR : Empty queue !");
+    return;
+  }
+  
   // We need to save the game we want to return.
   game result = q->game_array[0];
   int n = q->index_top;
@@ -72,7 +78,7 @@ game pop (queue q) {
   // Shift all games stocked in the array.
   for (int i = 0; i < n; ++i) 
     q->game_array[i] = q->game_array[i + 1];
-
+  
   q->index_top -= 1;
   return result;
 }

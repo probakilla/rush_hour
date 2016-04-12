@@ -49,6 +49,3 @@ set_tests_properties(test_game PROPERTIES TIMEOUT 3)
 set_tests_properties(test_queue PROPERTIES TIMEOUT 3)
 set_tests_properties(test_solver PROPERTIES TIMEOUT 3)
 
-
-
-
