@@ -2,7 +2,12 @@ cmake_minimum_required(VERSION 2.6)
 
 project(rush_hour)
 
-add_definitions(-std=c99 -Wall -O2 -g)
+#include(CodeCoverage)
+
+set(CMAKE_C_FLAGS "-std=c99 -O0 -g -Wcast-qual -pedantic-errors -fprofile-arcs -ftest-coverage -Wall")
+set(CMAKE_LD_FLAGS "-fprofile-arcs -ftest-coverage -O0 -g ")
+
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules)
 
 include_directories(include)
 
@@ -24,9 +29,10 @@ target_link_libraries (rush_hour game)
 target_link_libraries (ane_rouge game)
 target_link_libraries (test_piece1 game)
 target_link_libraries (test_game game)
-target_link_libraries (solver queue)
+target_link_libraries (solver queue game)
 target_link_libraries (test_solver queue)
 target_link_libraries (test_queue queue game)
+
 
 install(TARGETS rush_hour test_game test_piece1 ane_rouge solver test_solver test_queue DESTINATION ${EXECUTABLE_OUTPUT_PATH})
 install(TARGETS game queue DESTINATION ${LIBRARY_OUTPUT_PATH})

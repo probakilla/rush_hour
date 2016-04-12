@@ -51,6 +51,7 @@ void copy_game(cgame src, game dst) { // Copying fileds, and copying each piece
     }
     dst->pieces = malloc(sizeof(piece) * src->nb_pieces);
     for (int i = 0; i < src->nb_moves; ++i){
+	dst->pieces[i] = malloc(sizeof(piece));
       copy_piece(src->pieces[i], dst->pieces[i]);
     }
   }
@@ -130,7 +131,6 @@ bool play_move(game g, int piece_num, dir d, int distance) {
 		 distance); //Move the real piece, increase the number of moves and free the copy.
       g->nb_moves += distance;
       free(move_copy);
-      printf("%d %d\n", get_x(game_piece(g, piece_num)), get_y(game_piece(g, piece_num)));
       return true;
     }
 
