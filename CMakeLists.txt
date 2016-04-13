@@ -9,6 +9,8 @@ set(CMAKE_LD_FLAGS "-fprofile-arcs -ftest-coverage -O0 -g ")
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules)
 
+find_package(SDL REQUIRED)
+
 include_directories(include)
 
 add_library (game src/game.c src/piece.c)
@@ -24,6 +26,7 @@ add_executable(test_game src/test_game.c)
 add_executable(solver src/solver.c)
 add_executable(test_solver src/test_solver.c)
 add_executable(test_queue src/test_queue.c)
+add_executable(rush_hour_graphic src/rush_hour_graphic.c)
 
 target_link_libraries (rush_hour game)
 target_link_libraries (ane_rouge game)
@@ -32,7 +35,7 @@ target_link_libraries (test_game game)
 target_link_libraries (solver queue game)
 target_link_libraries (test_solver queue)
 target_link_libraries (test_queue queue game)
-
+target_link_libraries (rush_hour_graphic ${SDL_LIBRARY})
 
 install(TARGETS rush_hour test_game test_piece1 ane_rouge solver test_solver test_queue DESTINATION ${EXECUTABLE_OUTPUT_PATH})
 install(TARGETS game queue DESTINATION ${LIBRARY_OUTPUT_PATH})
