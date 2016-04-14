@@ -32,5 +32,10 @@ game heap_game_search (heap h, game g);
  **/
 game heap_index_search (heap h, int index);
 
-int get_top_index (heap h);
+
+/**
+ * @brief Free the structure of the heap.
+ **/
+void heap_delete (heap h);
+
 #endif

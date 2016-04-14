@@ -29,6 +29,7 @@ void clean_tests (piece *pieces1, piece *pieces2, game g1, game g2, heap h) {
   // Free games and queue.
   delete_game (g1);
   delete_game (g2);
+  heap_delete (h);
 }
 
 bool test_heap_add () {

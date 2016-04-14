@@ -131,4 +131,5 @@ void heap_delete (heap h) {
   for (int i = 0; i < h->size_heap; ++i)
     delete_game(h->games[i]);
   free(h->games);
+  free(h);
 }
