@@ -24,7 +24,13 @@ void heap_add (heap h, game g);
 /**
  * @brief Search a game in the heap, return the game of NULL if the game is not is the heap.
  **/
-game game_search (heap h, game g);
+game heap_game_search (heap h, game g);
 
 
+/**
+ * @biref This function returns the game at the index we wants. The heap begins with index 1 and not 0. If the index is incorrect, return NULL.
+ **/
+game heap_index_search (heap h, int index);
+
+int get_top_index (heap h);
 #endif

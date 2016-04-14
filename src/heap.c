@@ -15,42 +15,47 @@ struct heap_s {
 };
 
 // Double the size of the array and initialize index to NULL.
-void increase_array (heap h, game **game) {
+void increase_array (heap h, game **g, int i) {
+  
+  if (i == h->size_heap){
 
-  *game = realloc (*game, 2 * sizeof game);
-  assert (*game != NULL);
+    int tmp = h->size_heap;
+    h->size_heap = h->size_heap << 1;
+    
+    *g = (game*) realloc (*g, (h->size_heap * 2) * sizeof (game));
+    assert (*g != NULL);
 
-  h->size_heap = h->size_heap << 1;
-
-  for (int i = h->top_index + 1; i < h->size_heap; ++i)
-    h->games = NULL;
+    for (int i = tmp; i < h->size_heap; ++i)
+      h->games[i] = NULL;
+  }
 }
 
 
 /**
  * @brief Sort the heap and return 0 if it's successful.
  **/
-int sort (heap h, int index) {
 
-  if (index == 1)
-    return 0;
+void sort (heap h, int index) {
 
   int i_above = index;
-  if (index % 2 != 0)
-    i_above = index - 1;
-  i_above /= 2;
+  
+  while (index != 1) {
+  
+    if (i_above % 2 != 0)
+      i_above = index - 1;
+    i_above /= 2;
 
-  // Test if the nb_moves is lesser than the one abouve.
-  if (game_nb_moves(h->games[index]) < game_nb_moves(h->games[i_above])){
-
-    // Exchange games.
-    game tmp = new_game (0, 0, 0, NULL);
-    copy_game(h->games[index], tmp);
-    h->games[index] = h->games[i_above];
-    h->games[i_above] = tmp;
+    // If the game of the current index have a lesser number of moves than the one above, exchange them.
+    if (game_nb_moves(h->games[index]) < game_nb_moves(h->games[i_above])){
+      
+      // Exchange games.
+      game tmp = new_game (0, 0, 0, NULL);
+      copy_game(h->games[index], tmp);
+      h->games[index] = h->games[i_above];
+      h->games[i_above] = tmp;
+    }
+    index = i_above;
   }
-
-  return sort(h, i_above);
 }
 
 
@@ -78,35 +83,52 @@ void heap_add (heap h, game g) {
   int l_child = top * 2;
   int r_child = (top * 2) + 1;
     
-  if (h->top_index == h->size_heap){
-    increase_array(h, &h->games);
-  }
-
+  // Insert the first value.
+  if (h->top_index == INIT_TOP && h->games[INIT_TOP] == NULL)
+    h->games[INIT_TOP] = g;
+  
   // If left child is empty, put the game.
-  if (h->games[l_child] == NULL){
+  else if (h->games[l_child] == NULL){
+    // Test if the array is full.
+    increase_array(h, &h->games, l_child);
     h->games[l_child] = g;
-    sort(h, h->top_index);
+    sort(h, l_child);
   }
 
   // If right child is empty, put the game and increase the top index.
   else if (h->games[r_child] == NULL) {
+    // Test if the array is full
+    increase_array(h, &h->games, r_child);
     h->games[r_child] = g;
     h->top_index++;
-    sort(h, h->top_index);
-  }
-
-  else {
-    top++;
-    h->games[top * 2] = g;
-    h->top_index++;
-    sort(h, h->top_index);
+    sort(h, r_child);
   }
 }
 
-game game_search (heap h, game g) {
 
-  for (int i = 1; i < ((h->top_index) * 2) + 1; ++i)
+game heap_game_search (heap h, game g) {
+
+  for (int i = 1; i < h->size_heap; ++i)
     if (h->games[i] == g)
       return g;
   return NULL;
+}
+
+
+game heap_index_search (heap h, int index) {
+
+  if (index <= 0 || index > h->size_heap){
+    fprintf (stderr, "ERROR : Index is incorrect");
+    return NULL;
+  }
+
+  return h->games[index];
+}
+
+
+void heap_delete (heap h) {
+
+  for (int i = 0; i < h->size_heap; ++i)
+    delete_game(h->games[i]);
+  free(h->games);
 }
