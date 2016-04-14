@@ -47,11 +47,13 @@ void copy_game(cgame src, game dst) { // Copying fileds, and copying each piece
   if (dst->nb_pieces != src->nb_pieces) {
     for (int i = 0; i < dst->nb_pieces; ++i) {
       delete_piece(dst->pieces[i]);
-      free(dst->pieces);
+      
     }
-    dst->pieces = malloc(sizeof(piece) * src->nb_pieces);
-    for (int i = 0; i < src->nb_moves; ++i){
-	dst->pieces[i] = malloc(sizeof(piece));
+	free(dst->pieces);
+    
+	dst->pieces = malloc(sizeof(piece) * src->nb_pieces);
+    for (int i = 0; i < src->nb_pieces; ++i){
+	dst->pieces[i] = new_piece_rh(0,0,false,false);
       copy_piece(src->pieces[i], dst->pieces[i]);
     }
   }
@@ -139,9 +141,9 @@ bool play_move(game g, int piece_num, dir d, int distance) {
   
     if (d == RIGHT && get_x((piece) game_piece(g, piece_num)) + distance + extends_piece < game_width(g)) {    //Same for RIGHT direction.
       if (test_move(g,piece_num,d,distance)){
-	move_piece((piece) game_piece(g, piece_num), d, distance);
-	g->nb_moves += distance;
-	return true;
+    	  move_piece((piece) game_piece(g, piece_num), d, distance);
+    	  g->nb_moves += distance;
+    	  return true;
       }
     }
   }
@@ -150,9 +152,9 @@ bool play_move(game g, int piece_num, dir d, int distance) {
 
     if (d == DOWN && get_y((piece) game_piece(g, piece_num)) - distance >= 0) {    //Same for DOWN direction
       if (test_move(g,piece_num,d,distance)){
-	move_piece((piece) game_piece(g, piece_num), d, distance);
-	g->nb_moves += distance;
-	return true;
+    	  move_piece((piece) game_piece(g, piece_num), d, distance);
+    	  g->nb_moves += distance;
+    	  return true;
       }
     }
 
@@ -160,9 +162,9 @@ bool play_move(game g, int piece_num, dir d, int distance) {
     
     if (d == UP && get_y((piece) game_piece(g, piece_num)) + distance + extends_piece < game_height(g)) {    //Same for UP direction
       if (test_move(g,piece_num,d,distance)){
-	move_piece((piece) game_piece(g, piece_num), d, distance);
-	g->nb_moves += distance;
-	return true;
+    	  move_piece((piece) game_piece(g, piece_num), d, distance);
+    	  g->nb_moves += distance;
+    	  return true;
       }
     }
   }

@@ -3,10 +3,9 @@
 #include <assert.h>
 
 #include "game.h"
-#include "piece.h"
 #include "queue.h"
 
-#define INIT_QUEUE_SIZE 50
+#define INIT_QUEUE_SIZE 100000
 
 struct queue_s {
   int array_size;
@@ -29,10 +28,11 @@ bool is_full (queue q) {
  * @brief This function will be used to double the size of the array when it's full.
  * @param The array we need to increase it size.
  **/
-void increase_array (game **game) {
+game* increase_array (game *game) {
 
-  *game = realloc (*game, 2 * sizeof game);
-  assert (*game != NULL);
+  game = realloc (game, (sizeof game) * (2* INIT_QUEUE_SIZE));
+  assert (game != NULL);
+  return game;
 }
 
 queue new_queue () {
@@ -55,7 +55,7 @@ void push (queue q, game g) {
 
   // Test if the queue is full, if it is, double the size of the array.
   if (is_full(q)) {
-    increase_array (&q->game_array);
+    q->game_array = increase_array (q->game_array);
     q->array_size = q->array_size << 1;
   }
   // Place the game in the array and increase the top index.
@@ -67,12 +67,13 @@ game pop (queue q) {
 
   // If the queue is empty, this function does nothing.
   if (q->index_top == 0){
-    fprintf (stderr, "ERROR : Empty queue !");
-    return NULL;
+    fprintf (stderr, "ERROR : Empty queue !\n");
+    exit(EXIT_FAILURE);
   }
   
   // We need to save the game we want to return.
-  game result = q->game_array[0];
+  game result = new_game_hr(0,NULL);
+  copy_game(q->game_array[0],result);
   int n = q->index_top;
 
   // Shift all games stocked in the array.

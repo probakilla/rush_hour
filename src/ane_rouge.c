@@ -106,7 +106,7 @@ int main(void){
       int move_right = (get_x(current_piece) + (get_width(current_piece) - 1) + dir_num);
       int move_left = (get_x(current_piece) - dir_num);
 	
-      if (dir_num  < 1 || ((car_direction == ASCII_CODE_U) && move_up > (game_height(game) -1 + get_y(current_piece))) || ((car_direction == ASCII_CODE_R) && move_down < 0) || ((car_direction == ASCII_CODE_R) && move_right > (game_width(game) - 1 - get_x(current_piece))) || ((car_direction == ASCII_CODE_L) && move_left < 0) || error_move != 1) { // This condition test for each direction if what we enter is in the bounds.
+      if (dir_num  < 1 || ((car_direction == ASCII_CODE_U) && move_up > (game_height(game) -1 + get_y(current_piece))) || ((car_direction == ASCII_CODE_D) && move_down < 0) || ((car_direction == ASCII_CODE_R) && move_right > (game_width(game) - 1 - get_x(current_piece))) || ((car_direction == ASCII_CODE_L) && move_left < 0) || error_move != 1) { // This condition test for each direction if what we enter is in the bounds.
 	clear ();
 	printf ("\033[%d;%dH%s\n", ERROR_LINE, 0,"-----  Wrong argument ! Enter a number that not cross the bounds of the grid -----          \n ");
 	reset_cursor();
