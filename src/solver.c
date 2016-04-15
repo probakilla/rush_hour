@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "heap.h"
 #include "queue.h"
 
 
@@ -110,21 +111,20 @@ int main(int argc, char* argv[]){
     queue q = new_queue();
 
     //Allocation of the array storing each game encountered
-    game *game_array = malloc (ALLOC * sizeof(game));
+    heap game_heap = new_heap();
 
     //Creating a temporary game in order to not push the reference of the orignal game in the queue.
     game tmp = new_game_hr(0,NULL);
 
     int k = 1; //multiple de la taille ALLOC./a
     int* pK = &k;
-    int index_fill = 0;
     int nbjeuxfile = 0;
 
     copy_game(g,tmp);
     push(q,tmp);
     nbjeuxfile ++ ;
-    game_array[index_fill] = tmp;
-    index_fill ++;  //indice remplissage tableau
+    heap_add(game_heap,tmp);
+
 
     while(! (*gameover_tab[gameover_function])(g)){
 
@@ -135,14 +135,12 @@ int main(int argc, char* argv[]){
             	game tmp = new_game_hr(0,NULL);
             	copy_game(g,tmp);
                 if (play_move(tmp,i,RIGHT, 1)){
-                    if(array_search(game_array, tmp, index_fill) == false){
+                    if(heap_game_search(game_heap, tmp) == false){
                         push(q,tmp);
                         nbjeuxfile ++ ;
-                        game_array = extend_array(game_array, pK, index_fill);
                         game tmpTableau = new_game_hr(0,NULL); //Copie le jeu car passage de réferencee t donc destruction de la reference pendant le pop
                         copy_game(tmp,tmpTableau);
-                        game_array[index_fill] = tmpTableau;
-                        index_fill++;
+                        heap_add(game_heap,tmpTableau);
                     }
 
 
@@ -150,14 +148,12 @@ int main(int argc, char* argv[]){
                 game tmp2 = new_game_hr(0,NULL);
                 copy_game(g,tmp2);
                 if (play_move(tmp2,i,LEFT, 1)){
-                    if(array_search(game_array, tmp2, index_fill) == false){
+                    if(heap_game_search(game_heap, tmp) == false){
                         push(q,tmp2);
                         nbjeuxfile ++ ;
-                        game_array = extend_array(game_array, pK, index_fill);
                         game tmpTableau = new_game_hr(0,NULL); //Copie le jeu car passage de réferencee t donc destruction de la reference pendant le pop
                         copy_game(tmp2,tmpTableau);
-                        game_array[index_fill] = tmpTableau;
-                        index_fill++;
+                        heap_add(game_heap,tmpTableau);
                     }
 
                 }
@@ -166,14 +162,12 @@ int main(int argc, char* argv[]){
             	game tmp = new_game_hr(0,NULL);
             	copy_game(g,tmp);
                 if (play_move(tmp,i,UP, 1)){
-                    if(array_search(game_array, tmp, index_fill) == false){
+                    if(heap_game_search(game_heap, tmp) == false){
                         push(q,tmp);
                         nbjeuxfile ++ ;
-                        game_array = extend_array(game_array, pK, index_fill);
                         game tmpTableau = new_game_hr(0,NULL); //Copie le jeu car passage de réferencee t donc destruction de la reference pendant le pop
                         copy_game(tmp,tmpTableau);
-                        game_array[index_fill] = tmpTableau;
-                        index_fill++;
+                        heap_add(game_heap,tmpTableau);
                     }
 
 
@@ -181,14 +175,12 @@ int main(int argc, char* argv[]){
                 game tmp2 = new_game_hr(0,NULL);
                 copy_game(g,tmp2);
                 if (play_move(tmp2,i,DOWN, 1)){
-                    if(array_search(game_array, tmp2, index_fill) == false){
+                    if(heap_game_search(game_heap, tmp) == false){
                         push(q,tmp2);
                         nbjeuxfile ++ ;
-                        game_array = extend_array(game_array, pK, index_fill);
                         game tmpTableau = new_game_hr(0,NULL); //Copie le jeu car passage de réferencee t donc destruction de la reference pendant le pop
                         copy_game(tmp2,tmpTableau);
-                        game_array[index_fill] = tmpTableau;
-                        index_fill++;
+                        heap_add(game_heap,tmpTableau);
                     }
                 }
 

@@ -24,7 +24,7 @@ void heap_add (heap h, game g);
 /**
  * @brief Search a game in the heap, return the game of NULL if the game is not is the heap.
  **/
-game heap_game_search (heap h, game g);
+bool heap_game_search (heap h, game g);
 
 
 /**

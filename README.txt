@@ -12,6 +12,8 @@ How to install (any machine) :
 	- Open a terminal in the folder you extract  the archive.
 	- type "cmake ./" (without the quotes)
 	- type "make install"
+	- Navigate to the RushHour/bin folder.
+	- Type in your terminal "./the_game_you_want_to_play", type enter.
 	- Play ! 
 
 Thanks for playing our game.

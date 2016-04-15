@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-#include <stdbool.h>
 
 #include "heap.h"
 
@@ -106,12 +105,15 @@ void heap_add (heap h, game g) {
 }
 
 
-game heap_game_search (heap h, game g) {
+bool heap_game_search (heap h, game g) {
 
-  for (int i = 1; i < h->size_heap; ++i)
-    if (h->games[i] == g)
-      return g;
-  return NULL;
+  for (int i = 1; i < h->size_heap; ++i) {
+    for (int j = 0; j < game_nb_pieces(g); ++j) {
+      if (get_x(game_piece(h->games[i],j)) != get_x(game_piece(g,j)) || get_y(game_piece(h->games[i],j)) != get_y (game_piece(g,j)))
+        return false;
+    }
+  }
+  return true;
 }
 
 

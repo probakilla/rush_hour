@@ -29,7 +29,7 @@ bool is_full (queue q) {
  * @brief This function will be used to double the size of the array when it's full.
  * @param The array we need to increase it size.
  **/
-game* increase_array (game *array, int fill_multiple) {
+game* increase_queue (game *array, int fill_multiple) {
 
   array = realloc (array, sizeof (game) * (INIT_QUEUE_SIZE * fill_multiple + 1));
   assert (array != NULL);
@@ -57,7 +57,7 @@ void push (queue q, game g) {
 
   // Test if the queue is full, if it is, double the size of the array.
   if (is_full(q)) {
-    q->game_array = increase_array (q->game_array, q->fill_multiple);
+    q->game_array = increase_queue (q->game_array, q->fill_multiple);
     q->array_size = q->array_size << 1;
   }
   // Place the game in the array and increase the top index.
