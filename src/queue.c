@@ -5,7 +5,7 @@
 #include "game.h"
 #include "queue.h"
 
-#define INIT_QUEUE_SIZE 1000
+#define INIT_QUEUE_SIZE 100000
 
 struct queue_s {
   int array_size;

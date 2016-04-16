@@ -45,7 +45,7 @@ game* extend_array(game *t, int *pk, int iR){
     return t;
 }
 
-bool pieces_equality(cpiece p, cpiece p2){  // Regarde si deux meme pieces sont egales dans deux jeux differents
+/*bool pieces_equality(cpiece p, cpiece p2){  // Regarde si deux meme pieces sont egales dans deux jeux differents
     return get_x(p) != get_x(p2) || get_y(p) != get_y (p2);
 }
 
@@ -66,7 +66,7 @@ bool array_search(game *t, game g, int IndiceTableauRempli){ // Regarde si le je
     }
     return false;
 }
-
+*/
 int choose_gameover(char *game_chosen){
     int gameover_function;
     if (*game_chosen == 'r')
@@ -129,7 +129,7 @@ int main(int argc, char* argv[]){
     while(! (*gameover_tab[gameover_function])(g)){
 
         copy_game(pop(q), g);
-        printf("nb moves : %d x0:%d y0 : %d\n", game_nb_moves(g),get_x(game_piece(g,0)),get_y(game_piece(g,0)));
+        //printf("nb moves : %d x0:%d y0 : %d\n", game_nb_moves(g),get_x(game_piece(g,0)),get_y(game_piece(g,0)));
         for (int i = 0; i < game_nb_pieces(g); i++){
             if (can_move_x(game_piece(g,i))){
             	game tmp = new_game_hr(0,NULL);
@@ -145,10 +145,12 @@ int main(int argc, char* argv[]){
 
 
                 }
+                else
+                    delete_game(tmp);
                 game tmp2 = new_game_hr(0,NULL);
                 copy_game(g,tmp2);
                 if (play_move(tmp2,i,LEFT, 1)){
-                    if(heap_game_search(game_heap, tmp) == false){
+                    if(heap_game_search(game_heap, tmp2) == false){
                         push(q,tmp2);
                         nbjeuxfile ++ ;
                         game tmpTableau = new_game_hr(0,NULL); //Copie le jeu car passage de réferencee t donc destruction de la reference pendant le pop
@@ -157,6 +159,8 @@ int main(int argc, char* argv[]){
                     }
 
                 }
+                else
+                    delete_game(tmp2);
             }
             if (can_move_y(game_piece(g,i))){
             	game tmp = new_game_hr(0,NULL);
@@ -172,10 +176,12 @@ int main(int argc, char* argv[]){
 
 
                 }
+                else
+                    delete_game(tmp);
                 game tmp2 = new_game_hr(0,NULL);
                 copy_game(g,tmp2);
                 if (play_move(tmp2,i,DOWN, 1)){
-                    if(heap_game_search(game_heap, tmp) == false){
+                    if(heap_game_search(game_heap, tmp2) == false){
                         push(q,tmp2);
                         nbjeuxfile ++ ;
                         game tmpTableau = new_game_hr(0,NULL); //Copie le jeu car passage de réferencee t donc destruction de la reference pendant le pop
@@ -183,11 +189,15 @@ int main(int argc, char* argv[]){
                         heap_add(game_heap,tmpTableau);
                     }
                 }
-
+                else
+                    delete_game(tmp2);
             }
         }
     }
     t2 = clock();
     float tps = (float)(t2-t1)/CLOCKS_PER_SEC;
     printf("terminé en %d mouvements et %f secondes. %d jeux ont été push\n", game_nb_moves(g),tps,nbjeuxfile);
+    heap_delete(game_heap);
+    delete_queue(q);
+    delete_game(g);
 }

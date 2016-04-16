@@ -4,27 +4,28 @@
 
 #include "heap.h"
 
-#define INIT_SIZE 100
+#define INIT_SIZE 100000
 #define INIT_TOP 1
 
 struct heap_s {
   game * games;
-  int size_heap;
+  int physical_size_heap;
   int top_index;
+    int nb_elements;
 };
 
 // Double the size of the array and initialize index to NULL.
 void increase_array (heap h, game **g, int i) {
   
-  if (i == h->size_heap){
+  if (i == h->physical_size_heap){
 
-    int tmp = h->size_heap;
-    h->size_heap = h->size_heap << 1;
+    int tmp = h->physical_size_heap;
+    h->physical_size_heap = h->physical_size_heap << 1;
     
-    *g = (game*) realloc (*g, (h->size_heap * 2) * sizeof (game));
+    *g = (game*) realloc (*g, (h->physical_size_heap * 2) * sizeof (game));
     assert (*g != NULL);
 
-    for (int i = tmp; i < h->size_heap; ++i)
+    for (int i = tmp; i < h->physical_size_heap; ++i)
       h->games[i] = NULL;
   }
 }
@@ -64,13 +65,16 @@ heap new_heap () {
   heap h = calloc (INIT_SIZE, sizeof (struct heap_s));
   assert (h != NULL);
 
-  h->size_heap = INIT_SIZE;
-
+  h->physical_size_heap = INIT_SIZE;
+  h->nb_elements = 1;
   h->top_index = INIT_TOP;
   
   // Alloctation of the array.
-  h->games = malloc (sizeof(game) * h->size_heap);
+  h->games = malloc (sizeof(game) * h->physical_size_heap);
   assert (h->games != NULL);
+
+  for (int i = 0; i < h->physical_size_heap; ++i)
+    h->games[i] = NULL;
   
   return h;
 }
@@ -102,24 +106,35 @@ void heap_add (heap h, game g) {
     h->top_index++;
     sort(h, r_child);
   }
+  h->nb_elements +=1;
 }
 
+bool pieces_equality(cpiece p, cpiece p2){  // Regarde si deux meme pieces sont egales dans deux jeux differents
+  return get_x(p) != get_x(p2) || get_y(p) != get_y (p2);
+}
 
-bool heap_game_search (heap h, game g) {
-
-  for (int i = 1; i < h->size_heap; ++i) {
-    for (int j = 0; j < game_nb_pieces(g); ++j) {
-      if (get_x(game_piece(h->games[i],j)) != get_x(game_piece(g,j)) || get_y(game_piece(h->games[i],j)) != get_y (game_piece(g,j)))
-        return false;
+bool games_equality(game g, game g2){ // regarde si deux jeux sont egaux en ne comparant que leurs pieces
+  for (int i = 0 ; i < game_nb_pieces(g); ++i){
+    if (pieces_equality(game_piece(g, i), game_piece(g2, i)) == true){
+      return false;
     }
   }
   return true;
 }
 
+bool heap_game_search (heap h, game g) {
+
+  for (int i = 1; i < h->nb_elements; ++i) {
+    if (games_equality(g, h->games[i]) == true)
+      return true;
+  }
+  return false;
+}
+
 
 game heap_index_search (heap h, int index) {
 
-  if (index <= 0 || index > h->size_heap){
+  if (index <= 0 || index > h->physical_size_heap){
     fprintf (stderr, "ERROR : Index is incorrect");
     return NULL;
   }
@@ -130,7 +145,7 @@ game heap_index_search (heap h, int index) {
 
 void heap_delete (heap h) {
 
-  for (int i = 0; i < h->size_heap; ++i)
+  for (int i = 1; i < h->nb_elements; ++i)
     delete_game(h->games[i]);
   free(h->games);
   free(h);
