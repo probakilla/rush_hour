@@ -4,6 +4,7 @@
 #include "queue.h"
 
 
+// This fucntion reads a game from a text file and create the corresponding game.
 game game_from_file(FILE * f){
 
     game g;
@@ -30,7 +31,7 @@ game game_from_file(FILE * f){
 
 
 }
-
+ //This function choose between th right gameover to use.
 int choose_gameover(char *game_chosen){
     int gameover_function;
     if (*game_chosen == 'r')
@@ -40,6 +41,7 @@ int choose_gameover(char *game_chosen){
     return gameover_function;
 }
 
+// Usage function to be sure that we have the correct number of parameters
 void usage(char *commande){
     fprintf(stderr,"%s <a/r> <file_to_resolve.txt>\n",commande);
     exit(EXIT_FAILURE);
@@ -50,6 +52,66 @@ bool game_over_ar (cgame g) {
     return (get_x (game_piece(g, 0)) == 1 && get_y (game_piece(g, 0)) == 0);
 }
 
+// This function tries to move a piece in a direction and if the move is possible then
+// a research is made to find if the game has been seen already. If not the game is added to the heap and the queue.
+
+void new_configuration_horizontal(game g, int i, heap game_heap, queue q){
+    game copy = new_game_hr(0,NULL);
+    copy_game(g,copy);
+    if (play_move(copy,i,RIGHT, 1)){
+        if(heap_game_search(game_heap, copy) == false){
+            push(q,copy);
+            game heap_copy = new_game_hr(0,NULL); //Copie le jeu car passage de réferencee t donc destruction de la reference pendant le pop
+            copy_game(copy,heap_copy);
+            heap_add(game_heap,heap_copy);
+        }
+    }
+    else
+        delete_game(copy);
+    game copy2 = new_game_hr(0,NULL);
+    copy_game(g,copy2);
+    if (play_move(copy2,i,LEFT, 1)){
+        if(heap_game_search(game_heap, copy2) == false){
+            push(q,copy2);
+            game heap_copy = new_game_hr(0,NULL); //Copie le jeu car passage de réferencee t donc destruction de la reference pendant le pop
+            copy_game(copy2,heap_copy);
+            heap_add(game_heap,heap_copy);
+        }
+
+    }
+    else
+        delete_game(copy2);
+
+}
+
+void new_configuration_vertical(game g, int i, heap game_heap, queue q){
+    game copy = new_game_hr(0,NULL);
+    copy_game(g,copy);
+    if (play_move(copy,i,UP, 1)){
+        if(heap_game_search(game_heap, copy) == false){
+            push(q,copy);
+            game heap_copy = new_game_hr(0,NULL); //Copie le jeu car passage de réferencee t donc destruction de la reference pendant le pop
+            copy_game(copy,heap_copy);
+            heap_add(game_heap,heap_copy);
+        }
+
+
+    }
+    else
+        delete_game(copy);
+    game copy2 = new_game_hr(0,NULL);
+    copy_game(g,copy2);
+    if (play_move(copy2,i,DOWN, 1)){
+        if(heap_game_search(game_heap, copy2) == false){
+            push(q,copy2);
+            game heap_copy = new_game_hr(0,NULL); //Copie le jeu car passage de réferencee t donc destruction de la reference pendant le pop
+            copy_game(copy2,heap_copy);
+            heap_add(game_heap,heap_copy);
+        }
+    }
+    else
+        delete_game(copy2);
+}
 
 
 int main(int argc, char* argv[]){
@@ -80,76 +142,27 @@ int main(int argc, char* argv[]){
     //Allocation of the array storing each game encountered
     heap game_heap = new_heap();
 
-    //Creating a temporary game in order to not push the reference of the orignal game in the queue.
+    //Creating a copy of the game in order to not push the reference of the orignal game in the queue and erasing it when poping.
     game copy_queue = new_game_hr(0,NULL);
     game copy_heap = new_game_hr(0,NULL);
 
     copy_game(g,copy_queue);
     copy_game(g,copy_heap);
+
     push(q,copy_queue);
     heap_add(game_heap,copy_heap);
 
 
+    // Here we are poping and moving each game until we have a game with a gameover returning true.
     while(! (*gameover_tab[gameover_function])(g)){
 
         copy_game(pop(q), g);
         for (int i = 0; i < game_nb_pieces(g); i++){
             if (can_move_x(game_piece(g,i))){
-            	game copy = new_game_hr(0,NULL);
-            	copy_game(g,copy);
-                if (play_move(copy,i,RIGHT, 1)){
-                    if(heap_game_search(game_heap, copy) == false){
-                        push(q,copy);
-                        game heap_copy = new_game_hr(0,NULL); //Copie le jeu car passage de réferencee t donc destruction de la reference pendant le pop
-                        copy_game(copy,heap_copy);
-                        heap_add(game_heap,heap_copy);
-                    }
-
-
-                }
-                else
-                    delete_game(copy);
-                game copy2 = new_game_hr(0,NULL);
-                copy_game(g,copy2);
-                if (play_move(copy2,i,LEFT, 1)){
-                    if(heap_game_search(game_heap, copy2) == false){
-                        push(q,copy2);
-                        game heap_copy = new_game_hr(0,NULL); //Copie le jeu car passage de réferencee t donc destruction de la reference pendant le pop
-                        copy_game(copy2,heap_copy);
-                        heap_add(game_heap,heap_copy);
-                    }
-
-                }
-                else
-                    delete_game(copy2);
+                new_configuration_horizontal(g, i, game_heap, q);
             }
             if (can_move_y(game_piece(g,i))){
-            	game copy = new_game_hr(0,NULL);
-            	copy_game(g,copy);
-                if (play_move(copy,i,UP, 1)){
-                    if(heap_game_search(game_heap, copy) == false){
-                        push(q,copy);
-                        game heap_copy = new_game_hr(0,NULL); //Copie le jeu car passage de réferencee t donc destruction de la reference pendant le pop
-                        copy_game(copy,heap_copy);
-                        heap_add(game_heap,heap_copy);
-                    }
-
-
-                }
-                else
-                    delete_game(copy);
-                game copy2 = new_game_hr(0,NULL);
-                copy_game(g,copy2);
-                if (play_move(copy2,i,DOWN, 1)){
-                    if(heap_game_search(game_heap, copy2) == false){
-                        push(q,copy2);
-                        game heap_copy = new_game_hr(0,NULL); //Copie le jeu car passage de réferencee t donc destruction de la reference pendant le pop
-                        copy_game(copy2,heap_copy);
-                        heap_add(game_heap,heap_copy);
-                    }
-                }
-                else
-                    delete_game(copy2);
+                new_configuration_vertical(g, i, game_heap, q);
             }
         }
     }
