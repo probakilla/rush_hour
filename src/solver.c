@@ -12,7 +12,7 @@ game game_from_file(FILE * f){
     int width_game, height_game, nb_pieces;
     int x,y, width_p, height_p;
     int can_move_y;
-    bool can_move_x;
+    int can_move_x;
 
     fscanf(f,"%d %d", &width_game, &height_game);
     fscanf(f,"%d",&nb_pieces);
@@ -61,7 +61,7 @@ void new_configuration_horizontal(game g, int i, heap game_heap, queue q){
     if (play_move(copy,i,RIGHT, 1)){
         if(heap_game_search(game_heap, copy) == false){
             push(q,copy);
-            game heap_copy = new_game_hr(0,NULL); //Copie le jeu car passage de réferencee t donc destruction de la reference pendant le pop
+            game heap_copy = new_game_hr(0,NULL); //Copie le jeu car passage de réference et donc destruction de la reference pendant le pop
             copy_game(copy,heap_copy);
             heap_add(game_heap,heap_copy);
         }
@@ -73,7 +73,7 @@ void new_configuration_horizontal(game g, int i, heap game_heap, queue q){
     if (play_move(copy2,i,LEFT, 1)){
         if(heap_game_search(game_heap, copy2) == false){
             push(q,copy2);
-            game heap_copy = new_game_hr(0,NULL); //Copie le jeu car passage de réferencee t donc destruction de la reference pendant le pop
+            game heap_copy = new_game_hr(0,NULL); //Copie le jeu car passage de réference et donc destruction de la reference pendant le pop
             copy_game(copy2,heap_copy);
             heap_add(game_heap,heap_copy);
         }
