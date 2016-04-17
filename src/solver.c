@@ -7,7 +7,6 @@
 // This fucntion reads a game from a text file and create the corresponding game.
 game game_from_file(FILE * f){
 
-    game g;
 
     int width_game, height_game, nb_pieces;
     int x,y, width_p, height_p;
@@ -25,7 +24,12 @@ game game_from_file(FILE * f){
         pieces[i] = new_piece(x,y,width_p,height_p,can_move_x,can_move_y);
     }
 
-    g = new_game(width_game,height_game,nb_pieces,pieces);
+    game g = new_game(width_game,height_game,nb_pieces,pieces);
+
+	for (int i = 0; i < nb_pieces; ++i){
+		free(pieces[i]);
+	}
+	free(pieces);
     return g;
 
 
@@ -153,10 +157,13 @@ int main(int argc, char* argv[]){
     heap_add(game_heap,copy_heap);
 
 
+
     // Here we are poping and moving each game until we have a game with a gameover returning true.
     while(! (*gameover_tab[gameover_function])(g)){
-
-        copy_game(pop(q), g);
+	game t = pop(q);  //Storing the reference from the queue
+        copy_game(t, g);  //Copying into the current game
+	rearrange_queue(q);  //Sort the queue
+	delete_game(t);	//Deleting the old reference
         for (int i = 0; i < game_nb_pieces(g); i++){
             if (can_move_x(game_piece(g,i))){
                 new_configuration_horizontal(g, i, game_heap, q);
@@ -170,4 +177,6 @@ int main(int argc, char* argv[]){
     heap_delete(game_heap);
     delete_queue(q);
     delete_game(g);
+
+	
 }

@@ -20,6 +20,8 @@
 
 typedef struct queue_s* queue;
 
+void rearrange_queue(queue q);
+
 
 /**
  * @brief Create a new queue, the field index_top is set automatically to 0.

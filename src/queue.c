@@ -74,17 +74,17 @@ game pop (queue q) {
     exit(EXIT_FAILURE);
   }
   
-  // We need to save the game we want to return.
-  game result = new_game_hr(0,NULL);
-  copy_game(q->game_array[0],result);
-  int n = q->index_top;
+  return q->game_array[0];
+}
+
+void rearrange_queue(queue q){
+int n = q->index_top;
 
   // Shift all games stocked in the array.
   for (int i = 0; i < n; ++i) 
     q->game_array[i] = q->game_array[i + 1];
   
   q->index_top -= 1;
-  return result;
 }
 
 void delete_queue (queue q) {
