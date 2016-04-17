@@ -70,8 +70,8 @@ game pop (queue q) {
 
   // If the queue is empty, this function does nothing.
   if (q->index_top == 0){
-    fprintf (stderr, "ERROR : Empty queue !\n");
-   // exit(EXIT_FAILURE);
+    printf("-1");
+    exit(EXIT_FAILURE);
   }
   
   // We need to save the game we want to return.
