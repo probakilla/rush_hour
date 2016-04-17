@@ -8,10 +8,10 @@
 #define INIT_QUEUE_SIZE 100000
 
 struct queue_s {
-  int array_size;
-  int index_top;
-  game *game_array;
-	int fill_multiple;
+    int array_size;
+    int index_top;
+    game *game_array;
+    int fill_multiple;
 };
 
 /**
@@ -73,26 +73,26 @@ game pop (queue q) {
     printf("-1");
     exit(EXIT_FAILURE);
   }
-  
+
   return q->game_array[0];
 }
 
 void rearrange_queue(queue q){
-int n = q->index_top;
+  int n = q->index_top;
 
   // Shift all games stocked in the array.
-  for (int i = 0; i < n; ++i) 
+  for (int i = 0; i < n; ++i)
     q->game_array[i] = q->game_array[i + 1];
-  
+
   q->index_top -= 1;
 }
 
 void delete_queue (queue q) {
 
   int n = q->index_top;
-  
+
   for (int i = 0; i < n; ++i)
     delete_game (q->game_array[i]);
   free (q->game_array);
-  free (q);  
+  free (q);
 }
