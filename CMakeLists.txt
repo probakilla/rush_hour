@@ -37,7 +37,7 @@ target_link_libraries (solver util game)
 target_link_libraries (test_solver util)
 target_link_libraries (test_queue util game)
 target_link_libraries (test_heap util game)
-target_link_libraries (rush_hour_graphic ${SDL_LIBRARY})
+target_link_libraries (rush_hour_graphic game ${SDL_LIBRARY})
 
 install(TARGETS rush_hour test_game test_piece1 ane_rouge solver test_solver test_queue test_heap DESTINATION ${EXECUTABLE_OUTPUT_PATH})
 install(TARGETS game util DESTINATION ${LIBRARY_OUTPUT_PATH})
