@@ -31,44 +31,6 @@ void initSDL(void){
   }
  
   SDL_WM_SetCaption("Rush Hour", NULL);
-
-}
-
-///////////////////////////////Attendre Evenement////////////////////////////
-
-void attendreTouche(void){
-
-  SDL_Event event;
- 
-  do
-    SDL_WaitEvent(&event);
-  while (event.type != SDL_QUIT && event.type != SDL_KEYDOWN);
-
-  /*  
-      int continuer = 1;
-    
-      while (continuer) {
-
-      SDL_WaitEvent(&event);
-
-      switch(event.type) {
-
-      case SDL_QUIT:
-      continuer = 0;
-      break;
-
-      case SDL_MOUSEBUTTONDOWN:
-	 
-      if (event.button.button==SDL_BUTTON_LEFT)
-      setPixel(12,15,couleurs[C_VERT_FONCE]);
-      actualiser();
-      break;
-
-      default :
-
-      break;
-      }*/
-
 }
 
 /////////////////////////////SetPixel////////////////////////////////////////
@@ -83,38 +45,13 @@ void actualiser(void){
   SDL_UpdateRect(screen, 0, 0, 0, 0);
 }
 
-//////////////////////////Dessiner Grille//////////////////////////////////
-
-void drawgrid(void){
-
-  for (int i = 0; i < HEIGHT_VIDEO; i++){
-    for(int y = 0; y< WIDTH_VIDEO; y++){
-      setPixel(i,y,SDL_MapRGB(screen->format,0, 0x80,0));
-    }
-  }
-
-}
-
 //////////////////////////Dessiner Voiture//////////////////////////////////
 
-void drawcar(void){
-
-  // initialization of different game configurations
-  piece *pieces1 = malloc (sizeof(*pieces1) * NB_PIECES);
-  if (pieces1 == NULL){
-    fprintf(stderr,"Error : bad allocation of pieces1, please restart the game.\n");
-    exit(EXIT_FAILURE);
-  }
-  // FIRST GAME
-  pieces1[0] = new_piece_rh (0, 3, true,  true);   // x, y , small , horizontal
-  pieces1[1] = new_piece_rh (2, 3, false , false);
-  pieces1[2] = new_piece_rh (0, 0, true , false); 
-  pieces1[3] = new_piece_rh (1, 1, true , true);
-  pieces1[4] = new_piece_rh (2, 0, true , true);
-  pieces1[5] = new_piece_rh (4, 0, false , false);
+void drawcar(piece *pieces1){
 
   // initialization of different colors
   int color[NB_PIECES][3] = {{255,0,0},{0,255,0},{0,0,255},{51,0,51},{255,255,0},{102,51,0}};
+
   float h_box = HEIGHT_VIDEO/NB_BOX;
   float w_box = WIDTH_VIDEO/NB_BOX;
 
@@ -145,10 +82,47 @@ void drawcar(void){
 
 int main(int argc, char** argv){
 
+  // initialization of different game configurations
+  piece *pieces1 = malloc (sizeof(*pieces1) * NB_PIECES);
+  if (pieces1 == NULL){
+    fprintf(stderr,"Error : bad allocation of pieces1, please restart the game.\n");
+    exit(EXIT_FAILURE);
+  }
+  // FIRST GAME
+  pieces1[0] = new_piece_rh (0, 3, true,  true);   // x, y , small , horizontal
+  pieces1[1] = new_piece_rh (2, 3, false , false);
+  pieces1[2] = new_piece_rh (0, 0, true , false); 
+  pieces1[3] = new_piece_rh (1, 1, true , true);
+  pieces1[4] = new_piece_rh (2, 0, true , true);
+  pieces1[5] = new_piece_rh (4, 0, false , false);
+	
+  game game = new_game_hr(NB_PIECES, pieces1);
+
+  SDL_Event event;
+
   initSDL();
-  drawcar();
+  drawcar(pieces1);
   actualiser();
-  attendreTouche();
-  return EXIT_SUCCESS;
+
+  while (!(game_over_hr(game))){
+  
+    SDL_WaitEvent(&event);
+    switch(event.type) {
+
+    case SDL_QUIT:
+      return EXIT_SUCCESS;
+      break;
+
+    case SDL_MOUSEBUTTONDOWN:
+      if (event.button.button==SDL_BUTTON_LEFT){
+	setPixel(12,15,SDL_MapRGB(screen->format,0x80, 0x80, 0x80));
+	actualiser();
+      }
+      break;
+	
+    }
+
+    
+  }
 }
 
