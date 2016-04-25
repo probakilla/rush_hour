@@ -62,8 +62,29 @@ Même avec ce printf, il nous restait le soucis du prompt qui revenait à la lig
 \end{flushleft}
 
 Cette fonction utilise le printf précédemment vu. Le premier printf sert à réinitialiser la ligne de saisie afin qu'elle apparaisse vide, pour que la prochaine saisie puisse être entrée sans chevauchement de caractères. Puis, la seconde instruction nous sert à imprimer une chaîne de caractère vide sur la ligne au dessus de la ligne de la saisie, pour que le curseur se positionne automatiquement sur cette dernière.
-
+\newpage
 \section {Redondance de code}
-Valentin
+Durant l'implémentation du projet nous nous sommes aperçus que certaines parties du code étaient dupliquées, nous avons donc créé des fonctions afin de factoriser le code et d'améliorer la lisibilité du projet. Les deux factorisations de code notables de notre projet sont celle pour la fonction play move dans le fichier game.c et celle pour le solver.
+\subsection {game.c}
+La fonction play move du fichier game.c permet de tester si le déplacement d'une pièce est possible, si c'est le cas on utilise la fonction move piece du piece.c. Il faut donc tester pour chaque direction possible, une grande partie du code se répétant donc 4 fois nous avons créé une fonction test move permettant la factorisation du code :
+\begin{flushleft}
+\includegraphics[scale=0.45]{test_move.png}
+\end{flushleft}
+On crée une copie de la pièce que l'on souhaite déplacer, on utilise intersect pour savoir si le déplacement est possible, puis on supprime la copie et on retourne le résultat.\\ 
+On obtient donc un code plus concis pour la fonction play move : 
+\begin{flushleft}
+\includegraphics[scale=0.45]{play_move.png}
+\end{flushleft}
+\subsection {solver.c}
+Pour le solveur nous avons eu besoin de factoriser le code contenu dans le while du main, nous avons utilisé deux fonctions, new configuration horizontal et vertical :
+\begin{flushleft}
+\includegraphics[scale=0.45]{new_configuration_horizontal.png}
+\end{flushleft}
+Dans ces deux fonctions on essaie de faire bouger une pièce dans une direction, si c'est possible alors on cherche si le jeu existe dans le tas, si ce n'est pas le cas on push le jeu dans la file puis dans le tas.
+\\
+Ces deux fonctions permettent donc de simplifier le code à l'intérieur du while :
+\begin{flushleft}
+\includegraphics[scale=0.45]{while_solver.png}
+\end{flushleft}
 
 \end{document}
