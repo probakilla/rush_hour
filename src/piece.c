@@ -4,19 +4,6 @@
 
 #include "piece.h"
 
-int max (int a, int b) {
-    if (a > b)
-        return a;
-    return b;
-}
-
-int min (int a, int b) {
-    if (a < b)
-        return a;
-    return b;
-}
-
-
 struct piece_s { //struct with : coord of the inital point, length, orientation, possibility of move.
     int x, y;
     bool small;

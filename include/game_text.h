@@ -28,7 +28,7 @@
  * @brief this function create and display a two dimensions array in the terminal. This array is created with parameters of a game of rush_hour
  * @param the game you want to display, an array of pieces, the number of pieces in the array, and dimensions of the game (width and height).
  */
-void display_grid_rh (game g, piece* pieces, int nb_pieces, int width, int heigth);
+void display_grid_rh(game g, int nb_pieces, int width, int heigth);
 
 
 
@@ -37,14 +37,14 @@ void display_grid_rh (game g, piece* pieces, int nb_pieces, int width, int heigt
  * @param the game you want to display, an array of pieces, the number of pieces in the array, and dimensions of the game (width and height).
  */
 
-void display_grid_ar (game g, piece* pieces, int nb_pieces, int width, int height);
+void display_grid_ar(game g, int width, int height);
 
 
 /**
  * @brief create a two dimension array and set place all pieces taken from an array of pieces
  * @param an array on pieces, the amount of pieces and dimensions of the grid.
  */
-int** init_grid (game g, int nb_pieces, int x, int y);
+int** init_grid (game g, int x, int y);
 
 
 /**

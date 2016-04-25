@@ -3,10 +3,7 @@
 #include <assert.h>
 
 #include "queue.h"
-#include "game.h"
-#include "piece.h"
 
-#define SIZE_ARRAY 1
 #define NB_PIECES 1
 
 /**
@@ -39,7 +36,7 @@ bool test_push_pop () {
   piece *p_array1 = malloc (sizeof (p_array1) * NB_PIECES);
   assert (p_array1 != NULL);
   p_array1[0] = piece1;
-  
+
   piece *p_array2 = malloc (sizeof (p_array2) * NB_PIECES);
   assert (p_array2 != NULL);
   p_array2[0] = piece2;
@@ -69,7 +66,7 @@ bool test_push_pop () {
   // Same test, but for the other game.
   x1 = get_x (game_piece (pop (q), 0));
   x2 = get_x (game_piece (game2, 0));
-  
+
   if (x1 != x2){
     // Free the structures we used.
     clean_tests (p_array1, p_array2, game1, game2, q);
