@@ -6,7 +6,7 @@
 #include "piece.h"
 
 #define HEIGHT_VIDEO 600
-#define WIDTH_VIDEO 800
+#define WIDTH_VIDEO 600
 #define NB_PIECES 6
 #define NB_BOX 6
 #define COLOR_BITS 32
@@ -45,33 +45,64 @@ void actualiser(void){
   SDL_UpdateRect(screen, 0, 0, 0, 0);
 }
 
+///////////////////////////Clear///////////////////////////////////////////
+
+void clear(void){
+  for (int y = 0; y < HEIGHT_VIDEO ; ++y){
+    for (int x = 0; x < WIDTH_VIDEO ; ++x)
+      setPixel(x,y,SDL_MapRGB(screen->format,0,0,0));
+  }
+  actualiser();
+}
+
+
+///////////////////////////Choix direction//////////////////////////////
+
+dir choice_dir(cpiece p, int new_x, int new_y,int x, int y){
+  dir res = -1;
+  
+  if(can_move_x(p)){
+    if (new_x > x && new_y == y)
+      res = RIGHT;
+    if (new_x < x && new_y == y)
+      res = LEFT;
+  }
+  if(can_move_y(p)){
+    if (new_y > y && new_x == x)
+      res = UP;
+    if (new_y < y && new_x == x)
+      res = DOWN;
+  }
+  return res;
+}
+
+    
+
 //////////////////////////Dessiner Voiture//////////////////////////////////
 
-void drawcar(piece *pieces1){
+void drawcar(game game,float h_box, float w_box){
 
   // initialization of different colors
   int color[NB_PIECES][3] = {{255,0,0},{0,255,0},{0,0,255},{51,0,51},{255,255,0},{102,51,0}};
 
-  float h_box = HEIGHT_VIDEO/NB_BOX;
-  float w_box = WIDTH_VIDEO/NB_BOX;
 
   for(int nb = 0; nb<NB_PIECES; nb ++){
     for (int y = h_box; y > 0; y--){
       for(int x = 0; x < w_box; x++){
-	setPixel(get_x(pieces1[nb])*w_box+x,HEIGHT_VIDEO-get_y(pieces1[nb])*h_box-y,SDL_MapRGB(screen->format,color[nb][0], color[nb][1],color[nb][2]));
-	if(get_width(pieces1[nb])==2){
-	  setPixel(get_x(pieces1[nb])*w_box+x+w_box,HEIGHT_VIDEO-get_y(pieces1[nb])*h_box-y,SDL_MapRGB(screen->format,color[nb][0], color[nb][1],color[nb][2]));
+	setPixel(get_x(game_piece(game,nb))*w_box+x,HEIGHT_VIDEO-get_y(game_piece(game,nb))*h_box-y,SDL_MapRGB(screen->format,color[nb][0], color[nb][1],color[nb][2]));
+	if(get_width(game_piece(game,nb))==2){
+	  setPixel(get_x(game_piece(game,nb))*w_box+x+w_box,HEIGHT_VIDEO-get_y(game_piece(game,nb))*h_box-y,SDL_MapRGB(screen->format,color[nb][0], color[nb][1],color[nb][2]));
 	}
-	if(get_width(pieces1[nb])==3){
-	  setPixel(get_x(pieces1[nb])*w_box+x+w_box,HEIGHT_VIDEO-get_y(pieces1[nb])*h_box-y,SDL_MapRGB(screen->format,color[nb][0], color[nb][1],color[nb][2]));
-	  setPixel(get_x(pieces1[nb])*w_box+x+w_box*2,HEIGHT_VIDEO-get_y(pieces1[nb])*h_box-y,SDL_MapRGB(screen->format,color[nb][0], color[nb][1],color[nb][2]));
+	if(get_width(game_piece(game,nb))==3){
+	  setPixel(get_x(game_piece(game,nb))*w_box+x+w_box,HEIGHT_VIDEO-get_y(game_piece(game,nb))*h_box-y,SDL_MapRGB(screen->format,color[nb][0], color[nb][1],color[nb][2]));
+	  setPixel(get_x(game_piece(game,nb))*w_box+x+w_box*2,HEIGHT_VIDEO-get_y(game_piece(game,nb))*h_box-y,SDL_MapRGB(screen->format,color[nb][0], color[nb][1],color[nb][2]));
 	}
-	if(get_height(pieces1[nb])==2){
-	  setPixel(get_x(pieces1[nb])*w_box+x,HEIGHT_VIDEO-get_y(pieces1[nb])*h_box-y-h_box,SDL_MapRGB(screen->format,color[nb][0], color[nb][1],color[nb][2]));
+	if(get_height(game_piece(game,nb))==2){
+	  setPixel(get_x(game_piece(game,nb))*w_box+x,HEIGHT_VIDEO-get_y(game_piece(game,nb))*h_box-y-h_box,SDL_MapRGB(screen->format,color[nb][0], color[nb][1],color[nb][2]));
 	}
-	if(get_height(pieces1[nb])==3){
-	  setPixel(get_x(pieces1[nb])*w_box+x,HEIGHT_VIDEO-get_y(pieces1[nb])*h_box-y-h_box,SDL_MapRGB(screen->format,color[nb][0], color[nb][1],color[nb][2]));
-	  setPixel(get_x(pieces1[nb])*w_box+x,HEIGHT_VIDEO-get_y(pieces1[nb])*h_box-y-h_box*2,SDL_MapRGB(screen->format,color[nb][0], color[nb][1],color[nb][2]));
+	if(get_height(game_piece(game,nb))==3){
+	  setPixel(get_x(game_piece(game,nb))*w_box+x,HEIGHT_VIDEO-get_y(game_piece(game,nb))*h_box-y-h_box,SDL_MapRGB(screen->format,color[nb][0], color[nb][1],color[nb][2]));
+	  setPixel(get_x(game_piece(game,nb))*w_box+x,HEIGHT_VIDEO-get_y(game_piece(game,nb))*h_box-y-h_box*2,SDL_MapRGB(screen->format,color[nb][0], color[nb][1],color[nb][2]));
 	}
       }
     }
@@ -98,31 +129,83 @@ int main(int argc, char** argv){
 	
   game game = new_game_hr(NB_PIECES, pieces1);
 
+  float h_box = HEIGHT_VIDEO/NB_BOX;
+  float w_box = WIDTH_VIDEO/NB_BOX;
+   
+  int clic_cpt = 0;
+
   SDL_Event event;
 
+  int x = 0;
+  int y = 0;
+
+  int new_x = 0;
+  int new_y = 0;
+
+  int nb_piece = -1;
+
   initSDL();
-  drawcar(pieces1);
+  drawcar(game, h_box, w_box);
   actualiser();
 
-  while (!(game_over_hr(game))){
+  while(1){
   
-    SDL_WaitEvent(&event);
-    switch(event.type) {
+    while (SDL_PollEvent(&event)){
+      switch(event.type) {
 
-    case SDL_QUIT:
-      return EXIT_SUCCESS;
-      break;
+      case SDL_QUIT:
+	return EXIT_SUCCESS;
+	break;
 
-    case SDL_MOUSEBUTTONDOWN:
-      if (event.button.button==SDL_BUTTON_LEFT){
-	setPixel(12,15,SDL_MapRGB(screen->format,0x80, 0x80, 0x80));
-	actualiser();
+      case SDL_MOUSEBUTTONDOWN:
+	if (event.button.button == SDL_BUTTON_LEFT && clic_cpt == 0){
+
+	  x = (int)(event.button.x/w_box);
+	  y = (int)(event.button.y/h_box);
+	  y = (game_nb_pieces(game) -1 -y);
+	 
+	  nb_piece = game_square_piece(game,x,y);
+	  if (nb_piece != -1){
+	    clic_cpt +=1;
+	  }
+	  break;
+	}
+	
+
+	if (event.button.button == SDL_BUTTON_LEFT && clic_cpt == 1){
+	  new_x = (int)(event.button.x/w_box);
+	  new_y = (int)(event.button.y/h_box);
+	  new_y = (game_nb_pieces(game) -1 -new_y);
+	  if( new_y <= get_y(game_piece(game,game_square_piece(game,x,y)))+get_height(game_piece(game,game_square_piece(game,x,y)))-1 && new_y>get_y(game_piece(game,game_square_piece(game,x,y))))
+	     new_y=y;
+	  if(new_x <= get_x(game_piece(game,game_square_piece(game,x,y)))+get_width(game_piece(game,game_square_piece(game,x,y)))-1 && new_x>get_x(game_piece(game,game_square_piece(game,x,y))))
+	     new_x=x;
+	  play_move(game,nb_piece,choice_dir(game_piece(game,game_square_piece(game,x,y)),new_x,new_y,x,y),1);
+	  if (game_over_hr(game)){
+	    for (int i = 0 ; i < NB_PIECES; i++){
+	      free(pieces1[i]);
+	    }
+	    free(pieces1);
+	    fprintf(stdout," You win ! You finished this in %d moves.",game_nb_moves(game));
+	    delete_game(game);
+	    SDL_Quit();
+	    exit(EXIT_SUCCESS);
+	  }
+	  clic_cpt = 0;
+	  clear();
+	  drawcar(game, h_box, w_box);
+	  actualiser();
+	}
+
       }
-      break;
+	  
+	 
 	
     }
 
     
   }
 }
+  
+
 
