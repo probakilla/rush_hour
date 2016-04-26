@@ -4,7 +4,6 @@
 
 #include "game.h"
 
-
 #define HEIGHT_VIDEO 600
 #define WIDTH_VIDEO 600
 #define NB_PIECES 6
@@ -39,9 +38,9 @@ void setPixel(int x, int y, Uint32 coul){
     *((Uint32*)(screen->pixels) + x + y * screen->w) = coul;
 }
 
-///////////////////////////Actualisation Ecran//////////////////////////////
+///////////////////////////Refresh screen//////////////////////////////
 
-void actualiser(void){
+void refresh_screen(void){
     SDL_UpdateRect(screen, 0, 0, 0, 0);
 }
 
@@ -52,11 +51,11 @@ void clear(void){
         for (int x = 0; x < WIDTH_VIDEO ; ++x)
             setPixel(x,y,SDL_MapRGB(screen->format,0,0,0));
     }
-    actualiser();
+    refresh_screen();
 }
 
 
-///////////////////////////Choix direction//////////////////////////////
+///////////////////////////Choice_dir//////////////////////////////
 
 dir choice_dir(cpiece p, int new_x, int new_y,int x, int y){
     dir res = -1;
@@ -78,7 +77,7 @@ dir choice_dir(cpiece p, int new_x, int new_y,int x, int y){
 
 
 
-//////////////////////////Dessiner Voiture//////////////////////////////////
+//////////////////////////Draw Car//////////////////////////////////
 
 void drawcar(game game,float h_box, float w_box){
 
@@ -146,7 +145,7 @@ int main(int argc, char** argv){
 
     initSDL();
     drawcar(game, h_box, w_box);
-    actualiser();
+    refresh_screen();
 
     while(1){
 
@@ -194,7 +193,7 @@ int main(int argc, char** argv){
                         clic_cpt = 0;
                         clear();
                         drawcar(game, h_box, w_box);
-                        actualiser();
+                        refresh_screen();
                     }
 
             }
