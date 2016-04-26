@@ -4,7 +4,7 @@
 #include "game.h"
 #include "game_text.h"
 
-#define NB_PIECES 6
+#define NB_PIECES 7
 #define NB_GAMES 3
 
 
@@ -23,6 +23,7 @@ int main (void) {
     pieces1[3] = new_piece_rh (1, 1, true , true);
     pieces1[4] = new_piece_rh (2, 0, true , true);
     pieces1[5] = new_piece_rh (4, 0, false , false);
+    pieces1[6] = new_piece (5, 5, 1, 1, false, false);
 
     piece *pieces2 = malloc (sizeof(*pieces2) * NB_PIECES);
     if (pieces2 == NULL){
@@ -36,6 +37,7 @@ int main (void) {
     pieces2[3] = new_piece_rh (3, 3, false, false);
     pieces2[4] = new_piece_rh (4, 1, true, false);
     pieces2[5] = new_piece_rh (5, 0, false, false);
+    pieces2[6] = new_piece (5, 5, 1, 1, false, false);
 
     piece *pieces3 = malloc (sizeof(*pieces3) * NB_PIECES);
     if (pieces3 == NULL){
@@ -49,6 +51,7 @@ int main (void) {
     pieces3[3] = new_piece_rh (3, 0, false, false);
     pieces3[4] = new_piece_rh (4, 1, true, true);
     pieces3[5] = new_piece_rh (5, 2, false, false);
+    pieces3[6] = new_piece (5, 5, 1, 1, false, false);
 
 
     // ARRAY OF DIFFERENT GAMES
@@ -74,13 +77,11 @@ int main (void) {
             int car_number = -1;
             char car_direction;
             int dir_num = -1;
-            int condition = -1;
 
             // Display the game.
             display_grid_rh(game, NB_PIECES, DIMENSION, DIMENSION);
 
             // The user select a piece.
-            while (condition != CONDITION_CAR_SELECTION) {
 
                 printf ("\033[%d;%dH%s\n", INSTRUCTION_LINE, 0, "Chose a piece : Type the number of the piece.                                             \n  ");
                 reset_cursor ();
@@ -93,8 +94,7 @@ int main (void) {
                     reset_cursor ();
                     continue;
                 }
-                condition = CONDITION_CAR_SELECTION;
-            }
+
 
             cpiece current_piece = game_piece(game, car_number);
 
@@ -102,7 +102,6 @@ int main (void) {
             printf ("\033[%d;%dH%s\n", ERROR_LINE, 0, "                                                                                              ");
 
             // The user select a direction.
-            while (condition != CONDITION_CAR_DIRECTION) {
 
                 printf ("\033[%d;%dH%s\n", INSTRUCTION_LINE, 0, "Chose a direction : Type the first letter of the direction (U, D, L or R).                 \n ");
                 reset_cursor();
@@ -116,15 +115,14 @@ int main (void) {
                     reset_cursor();
                     continue;
                 }
-                condition = CONDITION_CAR_DIRECTION;
-            }
+
 
             // Erase the error line.
             printf ("\033[%d;%dH%s\n", ERROR_LINE, 0, "                                                                                              ");
 
             // The user select a number of cases.
 
-            while (condition != CONDITION_DIRECTION_VALUE) {
+          
                 printf ("\033[%d;%dH%s\n", INSTRUCTION_LINE, 0, "Chose a number of frame.                                                                    \n ");
                 reset_cursor();
                 int error_move = scanf ("%d", &dir_num);
@@ -141,8 +139,6 @@ int main (void) {
                     reset_cursor();
                     continue;
                 }
-                condition = CONDITION_DIRECTION_VALUE;
-            }
 
             // Erase the error line.
             printf ("\033[%d;%dH%s\n", ERROR_LINE, 0, "                                                                                              ");
