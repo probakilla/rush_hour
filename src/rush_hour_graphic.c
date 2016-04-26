@@ -6,9 +6,10 @@
 
 #define HEIGHT_VIDEO 600
 #define WIDTH_VIDEO 600
-#define NB_PIECES 6
+#define NB_PIECES 7
 #define NB_BOX 6
 #define COLOR_BITS 32
+#define SIZE_COLOR 8
 
 SDL_Surface* screen;
 
@@ -71,11 +72,29 @@ dir choice_dir(cpiece p, int new_x, int new_y,int x, int y){
 void drawcar(game game,float h_box, float w_box){
 
     // initialization of different colors
-    int color[NB_PIECES][3] = {{255,0,0},{0,255,0},{0,0,255},{51,0,51},{255,255,0},{102,51,0}};
+  int color[SIZE_COLOR][3] = {{255,0,0},{0,255,0},{0,0,255},{51,0,51},{255,255,0},{102,51,0}, {51,204,255}, {255,102,0}};
 
     for(int nb = 0; nb<NB_PIECES; nb ++){
         for (int y = h_box; y > 0; y--){
             for(int x = 0; x < w_box; x++){
+	      if(!can_move_x(game_piece(game,nb)) && !can_move_y(game_piece(game,nb))){
+		 setPixel(get_x(game_piece(game,nb))*w_box+x,HEIGHT_VIDEO-get_y(game_piece(game,nb))*h_box-y,SDL_MapRGB(screen->format,50,50,50));
+                if(get_width(game_piece(game,nb))==2){
+                    setPixel(get_x(game_piece(game,nb))*w_box+x+w_box,HEIGHT_VIDEO-get_y(game_piece(game,nb))*h_box-y,SDL_MapRGB(screen->format,50,50,50));
+                }
+                if(get_width(game_piece(game,nb))==3){
+                    setPixel(get_x(game_piece(game,nb))*w_box+x+w_box,HEIGHT_VIDEO-get_y(game_piece(game,nb))*h_box-y,SDL_MapRGB(screen->format,50,50,50));
+                    setPixel(get_x(game_piece(game,nb))*w_box+x+w_box*2,HEIGHT_VIDEO-get_y(game_piece(game,nb))*h_box-y,SDL_MapRGB(screen->format,50,50,50));
+                }
+                if(get_height(game_piece(game,nb))==2){
+                    setPixel(get_x(game_piece(game,nb))*w_box+x,HEIGHT_VIDEO-get_y(game_piece(game,nb))*h_box-y-h_box,SDL_MapRGB(screen->format,50,50,50));
+                }
+                if(get_height(game_piece(game,nb))==3){
+                    setPixel(get_x(game_piece(game,nb))*w_box+x,HEIGHT_VIDEO-get_y(game_piece(game,nb))*h_box-y-h_box,SDL_MapRGB(screen->format,50,50,50));
+                    setPixel(get_x(game_piece(game,nb))*w_box+x,HEIGHT_VIDEO-get_y(game_piece(game,nb))*h_box-y-h_box*2,SDL_MapRGB(screen->format,50,50,50));
+                }
+	      }
+	      else{
                 setPixel(get_x(game_piece(game,nb))*w_box+x,HEIGHT_VIDEO-get_y(game_piece(game,nb))*h_box-y,SDL_MapRGB(screen->format,color[nb][0], color[nb][1],color[nb][2]));
                 if(get_width(game_piece(game,nb))==2){
                     setPixel(get_x(game_piece(game,nb))*w_box+x+w_box,HEIGHT_VIDEO-get_y(game_piece(game,nb))*h_box-y,SDL_MapRGB(screen->format,color[nb][0], color[nb][1],color[nb][2]));
@@ -91,6 +110,7 @@ void drawcar(game game,float h_box, float w_box){
                     setPixel(get_x(game_piece(game,nb))*w_box+x,HEIGHT_VIDEO-get_y(game_piece(game,nb))*h_box-y-h_box,SDL_MapRGB(screen->format,color[nb][0], color[nb][1],color[nb][2]));
                     setPixel(get_x(game_piece(game,nb))*w_box+x,HEIGHT_VIDEO-get_y(game_piece(game,nb))*h_box-y-h_box*2,SDL_MapRGB(screen->format,color[nb][0], color[nb][1],color[nb][2]));
                 }
+	     }
             }
         }
     }
@@ -112,7 +132,7 @@ int main(int argc, char** argv){
     pieces1[3] = new_piece_rh (1, 1, true , true);
     pieces1[4] = new_piece_rh (2, 0, true , true);
     pieces1[5] = new_piece_rh (4, 0, false , false);
-
+    pieces1[6] = new_piece (5, 5, 1, 1, false, false);
     game game = new_game_hr(NB_PIECES, pieces1);
 
     float h_box = HEIGHT_VIDEO/NB_BOX;
@@ -148,7 +168,7 @@ int main(int argc, char** argv){
 
                         x = (int)(event.button.x/w_box);
                         y = (int)(event.button.y/h_box);
-                        y = (game_nb_pieces(game) -1 -y);
+                        y = (NB_BOX -1 -y);
 
                         nb_piece = game_square_piece(game,x,y);
                         if (nb_piece != -1){
@@ -157,11 +177,10 @@ int main(int argc, char** argv){
                         break;
                     }
 
-
 		  if (event.button.button == SDL_BUTTON_LEFT && clic_cpt == 1){//when the user click in a black box for move
                         new_x = (int)(event.button.x/w_box);
                         new_y = (int)(event.button.y/h_box);
-                        new_y = (game_nb_pieces(game) -1 -new_y);
+                        new_y = (NB_BOX -1 -new_y);
                         if( new_y <= get_y(game_piece(game,game_square_piece(game,x,y)))+get_height(game_piece(game,game_square_piece(game,x,y)))-1 && new_y>=get_y(game_piece(game,game_square_piece(game,x,y))))
                             new_y=y;
                         if(new_x <= get_x(game_piece(game,game_square_piece(game,x,y)))+get_width(game_piece(game,game_square_piece(game,x,y)))-1 && new_x>=get_x(game_piece(game,game_square_piece(game,x,y))))
@@ -182,14 +201,8 @@ int main(int argc, char** argv){
                         drawcar(game, h_box, w_box);
                         refresh_screen();
                     }
-
             }
-
-
-
         }
-
-
     }
 }
   
