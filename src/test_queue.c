@@ -52,6 +52,7 @@ bool test_push_pop () {
 
   // Take the abscissa of the pop and the second game we put in the queue.
   game test_game = pop (q);
+  rearrange_queue(q);
   int x1 = get_x (game_piece (test_game, 0));
   int x2 = get_x (game_piece (game1, 0));
 
@@ -65,6 +66,7 @@ bool test_push_pop () {
 
   // Same test, but for the other game.
   x1 = get_x (game_piece (pop (q), 0));
+  rearrange_queue(q);
   x2 = get_x (game_piece (game2, 0));
 
   if (x1 != x2){
