@@ -116,7 +116,7 @@ Commençons d'abord par la file. La plupart des fonctions font des allocations m
 Quant à la suppression, cela prends en compte tout les éléments contenus dans le tableau c'est-à-dire n.\\
 
 Le tas quant à lui est un plus complexe. La fonction de création de tas doit affecté toutes la valeurs à NULL. On a donc pour n éléments une complexité en n. L'augmentation de la taille du taille prends également en compte un boucle dépendant du nombre d'éléments à rajouter soit encore ici n. 
-La recherche dans le tas doit comparer pour chaque jeu si les pièces sont égales. Dans le pire des cas, le jeu n'est pas dans le tas. Il faut donc parcourir les n jeux déjà présent et regarder si les n pièces sont différentes on a donc une complexité en $n^{2}$.
+La recherche dans le tas doit comparer pour chaque jeu si les pièces sont égales. Dans le pire des cas, le jeu n'est pas dans le tas. Il faut donc parcourir les n jeux déjà présent et regarder si les k pièces sont différentes on a donc une complexité en $n*k$.
 
 \begin{flushleft}
 \includegraphics[scale=0.45]{recherchetas.png}
