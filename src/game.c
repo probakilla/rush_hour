@@ -127,42 +127,42 @@ bool play_move(game g, int piece_num, dir d, int distance) {
         return false;
     }
 
-    if (can_move_x((piece) game_piece(g, piece_num))) {    //Check if the piece is horizontal
+    if (can_move_x(g->pieces[piece_num])) {    //Check if the piece is horizontal
 
-        if (d == LEFT && get_x((piece) game_piece(g, piece_num)) - distance >=0) {    // Piece is horizontal and check if the piece is still in the grid after the move.
+        if (d == LEFT && get_x(g->pieces[piece_num]) - distance >=0) {    // Piece is horizontal and check if the piece is still in the grid after the move.
             if (test_move(g,piece_num,d,distance)){
-                move_piece((piece) game_piece(g, piece_num), d, distance); //Move the real piece, increase the number of moves and free the copy.
+                move_piece(g->pieces[piece_num], d, distance); //Move the real piece, increase the number of moves and free the copy.
                 g->nb_moves += distance;
                 return true;
             }
         }
 
-        int extends_piece = get_width((piece) game_piece(g, piece_num)) - 1;    //The piece is supposed to move right. Adding the "extension" to the piece for checking if the move is correct.
+        int extends_piece = get_width(g->pieces[piece_num]) - 1;    //The piece is supposed to move right. Adding the "extension" to the piece for checking if the move is correct.
 
-        if (d == RIGHT && get_x((piece) game_piece(g, piece_num)) + distance + extends_piece < game_width(g)) {    //Same for RIGHT direction.
+        if (d == RIGHT && get_x(g->pieces[piece_num]) + distance + extends_piece < game_width(g)) {    //Same for RIGHT direction.
             if (test_move(g,piece_num,d,distance)){
-                move_piece((piece) game_piece(g, piece_num), d, distance);
+                move_piece(g->pieces[piece_num], d, distance);
                 g->nb_moves += distance;
                 return true;
             }
         }
     }
 
-    if (can_move_y((piece) game_piece(g, piece_num))) {    //Check if the piece is vertical
+    if (can_move_y(g->pieces[piece_num])) {    //Check if the piece is vertical
 
-        if (d == DOWN && get_y((piece) game_piece(g, piece_num)) - distance >= 0) {    //Same for DOWN direction
+        if (d == DOWN && get_y(g->pieces[piece_num]) - distance >= 0) {    //Same for DOWN direction
             if (test_move(g,piece_num,d,distance)){
-                move_piece((piece) game_piece(g, piece_num), d, distance);
+                move_piece(g->pieces[piece_num], d, distance);
                 g->nb_moves += distance;
                 return true;
             }
         }
 
-        int extends_piece = get_height((piece) game_piece(g, piece_num)) - 1;
+        int extends_piece = get_height(g->pieces[piece_num]) - 1;
 
-        if (d == UP && get_y((piece) game_piece(g, piece_num)) + distance + extends_piece < game_height(g)) {    //Same for UP direction
+        if (d == UP && get_y(g->pieces[piece_num]) + distance + extends_piece < game_height(g)) {    //Same for UP direction
             if (test_move(g,piece_num,d,distance)){
-                move_piece((piece) game_piece(g, piece_num), d, distance);
+                move_piece(g->pieces[piece_num], d, distance);
                 g->nb_moves += distance;
                 return true;
             }
