@@ -60,12 +60,12 @@ bool game_over_ar (cgame g) {
 // a research is made to find if the game has been seen already. If not the game is added to the heap and the queue.
 
 void new_configuration_horizontal(game g, int i, heap game_heap, queue q){
-    game copy = new_game_hr(0,NULL);
+    game copy = new_game_hr(0,NULL); // Creating a copy for not moving the original game and so not modifiying it.
     copy_game(g,copy);
     if (play_move(copy,i,RIGHT, 1)){
         if(heap_game_search(game_heap, copy) == false){
             push(q,copy);
-            game heap_copy = new_game_hr(0,NULL); //Copie le jeu car passage de réference et donc destruction de la reference pendant le pop
+            game heap_copy = new_game_hr(0,NULL); //A copy of the game is needed beacause of the reference destroyed if given into the heap and the queue.
             copy_game(copy,heap_copy);
             heap_add(game_heap,heap_copy);
         }
@@ -77,7 +77,7 @@ void new_configuration_horizontal(game g, int i, heap game_heap, queue q){
     if (play_move(copy2,i,LEFT, 1)){
         if(heap_game_search(game_heap, copy2) == false){
             push(q,copy2);
-            game heap_copy = new_game_hr(0,NULL); //Copie le jeu car passage de réference et donc destruction de la reference pendant le pop
+            game heap_copy = new_game_hr(0,NULL); //A copy of the game is needed beacause of the reference destroyed if given into the heap and the queue.
             copy_game(copy2,heap_copy);
             heap_add(game_heap,heap_copy);
         }
@@ -88,13 +88,14 @@ void new_configuration_horizontal(game g, int i, heap game_heap, queue q){
 
 }
 
+//Same as new_configuration_horizontal but for the vertical pieces.
 void new_configuration_vertical(game g, int i, heap game_heap, queue q){
     game copy = new_game_hr(0,NULL);
     copy_game(g,copy);
     if (play_move(copy,i,UP, 1)){
         if(heap_game_search(game_heap, copy) == false){
             push(q,copy);
-            game heap_copy = new_game_hr(0,NULL); //Copie le jeu car passage de réferencee t donc destruction de la reference pendant le pop
+            game heap_copy = new_game_hr(0,NULL); 
             copy_game(copy,heap_copy);
             heap_add(game_heap,heap_copy);
         }
@@ -108,7 +109,7 @@ void new_configuration_vertical(game g, int i, heap game_heap, queue q){
     if (play_move(copy2,i,DOWN, 1)){
         if(heap_game_search(game_heap, copy2) == false){
             push(q,copy2);
-            game heap_copy = new_game_hr(0,NULL); //Copie le jeu car passage de réferencee t donc destruction de la reference pendant le pop
+            game heap_copy = new_game_hr(0,NULL); 
             copy_game(copy2,heap_copy);
             heap_add(game_heap,heap_copy);
         }

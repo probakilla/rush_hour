@@ -14,6 +14,66 @@
 
 \newpage
 
+\section{Étude de la complexité}
+
+Ici, nous détaillerons la complexité des différentes fonctions du solveur afin d'établir une estimation de la complexité du solveur.
+
+\subsection{Lecture de fichier}
+
+\begin{flushleft}
+\includegraphics[scale=0.45]{gamefromfile.png}
+\end{flushleft}
+
+La lecture de fichier ne comporte qu'une seule boucle. On peut donc ajouter à la complexité autre des fonctions fscanf et la boucle dépendant du nombre de pièces que comporte le jeu ainsi que celle de new game.
+new\_game a pour complexité celle des mallocs ainsi que celle de la boucle remplissant le tableau de pièce. La complexité de cette fonction est donc si n est le nombre de pièces : 2n ajouté a la complexité des autres fonctions.
+
+\subsection{Création du jeu et des pièces}
+
+On a ici une complexité dépendant pour la création d'un jeu de la boucle for permettant d'allouer le tableau donc n.
+Pour la fonction new\_piece, la complexité ne dépends donc que du malloc puisque tout le reste est en temps constant. 
+
+\subsection{Destructions et copies}
+
+La destruction de jeu dépend du nombre de pièces c'est-à-dire n. La destruction d'une pièce est en temps constant.
+Les copies quant à elle sont plus coûteuses.Dans le pire des cas, le tableau de destination est plus grand que celui de la source. Il faut donc libérer tout le tableau, donc faire une boucle de taille n puis le réallouer de taille "nsource". On a donc : $n + nsource$.
+
+\subsection{Mouvement d'une pièce}
+
+\begin{flushleft}
+\includegraphics[scale=0.35]{playmove.png}
+\end{flushleft}
+
+
+Cette fonction fait uniquement des appels ver test\_move elle voit donc sa complexité déterminée par celle-ci.Tout d'abord la copie effectuée influe sur la complexité. Pour ne pas avoir à bouger la pièce de base et ne pas modifier le jeu on copie le jeu, on a donc une complexité en n, puis ensuite la boucle parcourant toutes les autres pièces afin de tester les intersections est aussi en n. On a donc une complexité de 2n.
+\subsection{Obtention de l'indice d'une piece en fonction des coordonnées}
+
+La fonction game\_square\_piece se contente d'une simple boucle for parcourant toutes les pièces du jeu. Nous avons donc dans le pire des cas une complexité ne dépendant que du nombre de pièces c'est-à-dire n.
+
+\subsection{Strcutures de données : file et tas}
+
+Commençons d'abord par la file. La plupart des fonctions font des allocations mémoires ou des affections. Les seules fonctions dont la complexité est élevée sont donc la fonction de ré-arrangement de la file et de libération de la file. La fonction de ré-arrangement parcours tous les éléments contenus dans la file moins le premier qui est écrasé par le suivant. On a donc si n est le nombre d'éléments une complexité en n-1.
+
+
+\begin{flushleft}
+\includegraphics[scale=0.45]{triqueue.png}
+\end{flushleft}
+
+Quant à la suppression, cela prends en compte tout les éléments contenus dans le tableau c'est-à-dire n.\\
+
+Le tas quant à lui est un plus complexe. La fonction de création de tas doit affecté toutes la valeurs à NULL. On a donc pour n éléments une complexité en n. L'augmentation de la taille du taille prends également en compte un boucle dépendant du nombre d'éléments à rajouter soit encore ici n. 
+La recherche dans le tas doit comparer pour chaque jeu si les pièces sont égales. Dans le pire des cas, le jeu n'est pas dans le tas. Il faut donc parcourir les n jeux déjà présent et regarder si les n pièces sont différentes on a donc une complexité en $n^{2}$.
+
+\begin{flushleft}
+\includegraphics[scale=0.45]{recherchetas.png}
+\end{flushleft}
+
+\begin{flushleft}
+\includegraphics[scale=0.45]{egalitejeux.png}
+\end{flushleft}
+
+La suppression du tas quant à elle parcourt tout le tas contenant n éléments et supprime pour chaque jeux les k pièces présentes. On a donc un complexité en $k * n$
+
+
 \section {Les objectifs}
 \subsection {Objectifs atteints}
 Au sein de ce projet, plusieurs objectifs nous ont été fixés et nous avons essayé de tous les remplir.
@@ -38,7 +98,10 @@ Les objectifs accomplis sont donc les suivants : \\
 
 \item Ensuite, nous avons le fait que le solveur ne peut pas résoudre des jeux trop compliqués. Le solveur sature vite, fait beaucoup trop d'allocation mémoire, et met énormément de temps à résoudre des jeux complexes. Il nous a également été possible de voir grâce à la compétition de solveur qu'il ne retournait pas forcément une valeur correcte. Il faudrait donc revoir son implémentation ainsi que peut être celle du tas et de la file.\\
 
-\item Dans les objectifs non accomplis nous avons également la non documentation via Doxygen. Cela peut devenir très embêtant si nous avions dû donner une librairie contenant par exemple la pile et le tas. Le programmeur en utilisant cette librairie n'aurait eu aucun moyen de connaître les services offerts par cette librairie dans disposer des fichiers d'en-tête. Nous ne sommes donc pas en mesure de fournir une librairie complète.   
+\item Dans les objectifs non accomplis nous avons également la non documentation via Doxygen. Cela peut devenir très embêtant si nous avions dû donner une librairie contenant par exemple la pile et le tas. Le programmeur en utilisant cette librairie n'aurait eu aucun moyen de connaître les services offerts par cette librairie dans disposer des fichiers d'en-tête. Nous ne sommes donc pas en mesure de fournir une librairie complète.\\
+
+\item Au sein de l'interface graphique, il est impossible de déplacer un véhicule sur plusieurs cases. tout les déplacements se font case par case, ce qui peut être embêtant pour le joueur.
+
 \end{itemize}
 
 \section {Problème technique}
