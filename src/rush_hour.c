@@ -4,7 +4,7 @@
 #include "game.h"
 #include "game_text.h"
 
-#define NB_PIECES 6
+#define NB_PIECES 7
 #define NB_GAMES 3
 
 
@@ -23,6 +23,7 @@ int main (void) {
     pieces1[3] = new_piece_rh (1, 1, true , true);
     pieces1[4] = new_piece_rh (2, 0, true , true);
     pieces1[5] = new_piece_rh (4, 0, false , false);
+    pieces1[6] = new_piece (5, 5, 1, 1, false, false);
 
     piece *pieces2 = malloc (sizeof(*pieces2) * NB_PIECES);
     if (pieces2 == NULL){
@@ -36,6 +37,7 @@ int main (void) {
     pieces2[3] = new_piece_rh (3, 3, false, false);
     pieces2[4] = new_piece_rh (4, 1, true, false);
     pieces2[5] = new_piece_rh (5, 0, false, false);
+    pieces2[6] = new_piece (5, 5, 1, 1, false, false);
 
     piece *pieces3 = malloc (sizeof(*pieces3) * NB_PIECES);
     if (pieces3 == NULL){
@@ -49,6 +51,7 @@ int main (void) {
     pieces3[3] = new_piece_rh (3, 0, false, false);
     pieces3[4] = new_piece_rh (4, 1, true, true);
     pieces3[5] = new_piece_rh (5, 2, false, false);
+    pieces3[6] = new_piece (5, 5, 1, 1, false, false);
 
 
     // ARRAY OF DIFFERENT GAMES

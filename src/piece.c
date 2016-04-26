@@ -70,6 +70,10 @@ piece new_piece(int x, int y, int width, int height, bool move_x, bool move_y) {
         new->small = false;
         new->horizontal = false;
     }
+    if (move_x == false && move_y == false){
+      new->small = false;
+      new->horizontal = false;
+    }
     return new;
 }
 
