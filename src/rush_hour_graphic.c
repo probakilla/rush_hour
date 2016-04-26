@@ -12,8 +12,7 @@
 
 SDL_Surface* screen;
 
-///////////////////////INIT SDL///////////////////////////
-
+//Init screen
 void initSDL(void){
 
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -32,20 +31,16 @@ void initSDL(void){
     SDL_WM_SetCaption("Rush Hour", NULL);
 }
 
-/////////////////////////////SetPixel////////////////////////////////////////
-
+//set a color to a pixel
 void setPixel(int x, int y, Uint32 coul){
     *((Uint32*)(screen->pixels) + x + y * screen->w) = coul;
 }
-
-///////////////////////////Refresh screen//////////////////////////////
 
 void refresh_screen(void){
     SDL_UpdateRect(screen, 0, 0, 0, 0);
 }
 
-///////////////////////////Clear///////////////////////////////////////////
-
+//make a black screen to erase the older screen
 void clear(void){
     for (int y = 0; y < HEIGHT_VIDEO ; ++y){
         for (int x = 0; x < WIDTH_VIDEO ; ++x)
@@ -53,9 +48,6 @@ void clear(void){
     }
     refresh_screen();
 }
-
-
-///////////////////////////Choice_dir//////////////////////////////
 
 dir choice_dir(cpiece p, int new_x, int new_y,int x, int y){
     dir res = -1;
@@ -75,15 +67,11 @@ dir choice_dir(cpiece p, int new_x, int new_y,int x, int y){
     return res;
 }
 
-
-
-//////////////////////////Draw Car//////////////////////////////////
-
+//take a game and draw the different car on the screen
 void drawcar(game game,float h_box, float w_box){
 
     // initialization of different colors
     int color[NB_PIECES][3] = {{255,0,0},{0,255,0},{0,0,255},{51,0,51},{255,255,0},{102,51,0}};
-
 
     for(int nb = 0; nb<NB_PIECES; nb ++){
         for (int y = h_box; y > 0; y--){
@@ -108,7 +96,6 @@ void drawcar(game game,float h_box, float w_box){
     }
 }
 
-/////////////////////MAIN////////////////////////////////////////////////////
 
 int main(int argc, char** argv){
 
@@ -149,7 +136,7 @@ int main(int argc, char** argv){
 
     while(1){
 
-        while (SDL_PollEvent(&event)){
+      while (SDL_PollEvent(&event)){ //wait for an event
             switch(event.type) {
 
                 case SDL_QUIT:
@@ -157,7 +144,7 @@ int main(int argc, char** argv){
                     break;
 
                 case SDL_MOUSEBUTTONDOWN:
-                    if (event.button.button == SDL_BUTTON_LEFT && clic_cpt == 0){
+		  if (event.button.button == SDL_BUTTON_LEFT && clic_cpt == 0){//when you choose a car
 
                         x = (int)(event.button.x/w_box);
                         y = (int)(event.button.y/h_box);
@@ -171,13 +158,13 @@ int main(int argc, char** argv){
                     }
 
 
-                    if (event.button.button == SDL_BUTTON_LEFT && clic_cpt == 1){
+		  if (event.button.button == SDL_BUTTON_LEFT && clic_cpt == 1){//when the user click in a black box for move
                         new_x = (int)(event.button.x/w_box);
                         new_y = (int)(event.button.y/h_box);
                         new_y = (game_nb_pieces(game) -1 -new_y);
-                        if( new_y <= get_y(game_piece(game,game_square_piece(game,x,y)))+get_height(game_piece(game,game_square_piece(game,x,y)))-1 && new_y>get_y(game_piece(game,game_square_piece(game,x,y))))
+                        if( new_y <= get_y(game_piece(game,game_square_piece(game,x,y)))+get_height(game_piece(game,game_square_piece(game,x,y)))-1 && new_y>=get_y(game_piece(game,game_square_piece(game,x,y))))
                             new_y=y;
-                        if(new_x <= get_x(game_piece(game,game_square_piece(game,x,y)))+get_width(game_piece(game,game_square_piece(game,x,y)))-1 && new_x>get_x(game_piece(game,game_square_piece(game,x,y))))
+                        if(new_x <= get_x(game_piece(game,game_square_piece(game,x,y)))+get_width(game_piece(game,game_square_piece(game,x,y)))-1 && new_x>=get_x(game_piece(game,game_square_piece(game,x,y))))
                             new_x=x;
                         play_move(game,nb_piece,choice_dir(game_piece(game,game_square_piece(game,x,y)),new_x,new_y,x,y),1);
                         if (game_over_hr(game)){
