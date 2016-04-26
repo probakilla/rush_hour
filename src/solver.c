@@ -140,6 +140,7 @@ int main(int argc, char* argv[]){
 
     //Loading the game from the file in g
     game g = game_from_file(f);
+    fclose(f);
 
     // Creating the queue for storing all the configurations
     queue q = new_queue();

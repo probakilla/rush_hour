@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 2.6)
 
 project(rush_hour)
 
-set(CMAKE_C_FLAGS "-std=c99 -O0 -g -Wcast-qual -pedantic-errors -fprofile-arcs -ftest-coverage -Wall")
-set(CMAKE_LD_FLAGS "-fprofile-arcs -ftest-coverage -O0 -g ")
+set(CMAKE_C_FLAGS "-std=c99 -O0 -g -Wall")
+set(CMAKE_LD_FLAGS " -O0 -g ")
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules)
 
@@ -12,7 +12,7 @@ find_package(SDL REQUIRED)
 include_directories(include)
 
 add_library (game src/game.c src/piece.c)
-add_library (util src/queue.c src/heap.c src/utils.c)
+add_library (util src/queue.c src/heap.c src/utils.c src/fuites.c)
 
 SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/RushHour/bin)
 SET(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/RushHour/lib)
