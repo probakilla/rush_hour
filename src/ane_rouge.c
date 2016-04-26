@@ -46,10 +46,8 @@ int main(void){
         int car_number = -1;
         char car_direction;
         int dir_num = -1;
-        int condition = -1;
 
         // The user select a piece.
-        while (condition != CONDITION_CAR_SELECTION) {
 
             printf ("\033[%d;%dH%s\n", INSTRUCTION_LINE, 0, "Chose a piece : Type the number of the piece.                                             \n  ");
             reset_cursor ();
@@ -62,8 +60,6 @@ int main(void){
                 reset_cursor ();
                 continue;
             }
-            condition = CONDITION_CAR_SELECTION;
-        }
 
         cpiece current_piece = game_piece(game, car_number);
 
@@ -71,7 +67,6 @@ int main(void){
         printf ("\033[%d;%dH%s\n", ERROR_LINE, 0, "                                                                                              ");
 
         // The user select a direction.
-        while (condition != CONDITION_CAR_DIRECTION) {
 
             printf ("\033[%d;%dH%s\n", INSTRUCTION_LINE, 0, "Chose a direction : Type the first letter of the direction (U, D, L or R).                 \n ");
             reset_cursor();
@@ -85,15 +80,12 @@ int main(void){
                 reset_cursor();
                 continue;
             }
-            condition = CONDITION_CAR_DIRECTION;
-        }
 
         // Erase the error line.
         printf ("\033[%d;%dH%s\n", ERROR_LINE, 0, "                                                                                              ");
 
         // The user select a number of cases.
 
-        while (condition != CONDITION_DIRECTION_VALUE) {
             printf ("\033[%d;%dH%s\n", INSTRUCTION_LINE, 0, "Chose a number of frame.                                                                    \n ");
             reset_cursor();
             int error_move = scanf ("%d", &dir_num);
@@ -110,8 +102,6 @@ int main(void){
                 reset_cursor();
                 continue;
             }
-            condition = CONDITION_DIRECTION_VALUE;
-        }
 
         // Erase the error line.
         printf ("\033[%d;%dH%s\n", ERROR_LINE, 0, "                                                                                              ");
