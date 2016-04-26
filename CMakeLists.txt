@@ -12,7 +12,7 @@ find_package(SDL REQUIRED)
 include_directories(include)
 
 add_library (game src/game.c src/piece.c)
-add_library (util src/queue.c src/heap.c src/utils.c src/fuites.c)
+add_library (util src/queue.c src/heap.c src/utils.c)
 
 SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/RushHour/bin)
 SET(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/RushHour/lib)

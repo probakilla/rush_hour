@@ -63,9 +63,30 @@ dir choice_dir(cpiece p, int new_x, int new_y,int x, int y){
         if (new_y > y && new_x == x)
             res = UP;
         if (new_y < y && new_x == x)
-            res = DOWN;
+	  res = DOWN;
     }
     return res;
+}
+
+void draw_block (game g, int nb_piece, int* color, int h_box, int w_box) {
+  
+  for (int y = h_box; y > 0; y--){
+    for (int x = 0; x < w_box; x++) {
+      setPixel(get_x(game_piece(g,nb_piece))*w_box+x,HEIGHT_VIDEO-get_y(game_piece(g,nb_piece))*h_box-y,SDL_MapRGB(screen->format,color[0], color[1], color[2]));
+      if(get_width(game_piece(g,nb_piece))>=2){
+	setPixel(get_x(game_piece(g,nb_piece))*w_box+x+w_box,HEIGHT_VIDEO-get_y(game_piece(g,nb_piece))*h_box-y,SDL_MapRGB(screen->format,color[0], color[1], color[2]));
+      }
+      if(get_width(game_piece(g,nb_piece))==3){
+	setPixel(get_x(game_piece(g,nb_piece))*w_box+x+w_box*2,HEIGHT_VIDEO-get_y(game_piece(g,nb_piece))*h_box-y,SDL_MapRGB(screen->format,color[0], color[1], color[2]));
+      }
+      if(get_height(game_piece(g,nb_piece))>=2){
+	setPixel(get_x(game_piece(g,nb_piece))*w_box+x,HEIGHT_VIDEO-get_y(game_piece(g,nb_piece))*h_box-y-h_box,SDL_MapRGB(screen->format,color[0], color[1], color[2]));
+      }
+      if(get_height(game_piece(g,nb_piece))==3){
+	setPixel(get_x(game_piece(g,nb_piece))*w_box+x,HEIGHT_VIDEO-get_y(game_piece(g,nb_piece))*h_box-y-h_box*2,SDL_MapRGB(screen->format,color[0], color[1], color[2]));
+      }
+    }
+  }
 }
 
 //take a game and draw the different car on the screen
@@ -73,47 +94,15 @@ void drawcar(game game,float h_box, float w_box){
 
     // initialization of different colors
   int color[SIZE_COLOR][3] = {{255,0,0},{0,255,0},{0,0,255},{51,0,51},{255,255,0},{102,51,0}, {51,204,255}, {255,102,0}};
+  int grey [3] = {100, 100, 100};
 
-    for(int nb = 0; nb<NB_PIECES; nb ++){
-        for (int y = h_box; y > 0; y--){
-            for(int x = 0; x < w_box; x++){
-	      if(!can_move_x(game_piece(game,nb)) && !can_move_y(game_piece(game,nb))){
-		 setPixel(get_x(game_piece(game,nb))*w_box+x,HEIGHT_VIDEO-get_y(game_piece(game,nb))*h_box-y,SDL_MapRGB(screen->format,50,50,50));
-                if(get_width(game_piece(game,nb))==2){
-                    setPixel(get_x(game_piece(game,nb))*w_box+x+w_box,HEIGHT_VIDEO-get_y(game_piece(game,nb))*h_box-y,SDL_MapRGB(screen->format,50,50,50));
-                }
-                if(get_width(game_piece(game,nb))==3){
-                    setPixel(get_x(game_piece(game,nb))*w_box+x+w_box,HEIGHT_VIDEO-get_y(game_piece(game,nb))*h_box-y,SDL_MapRGB(screen->format,50,50,50));
-                    setPixel(get_x(game_piece(game,nb))*w_box+x+w_box*2,HEIGHT_VIDEO-get_y(game_piece(game,nb))*h_box-y,SDL_MapRGB(screen->format,50,50,50));
-                }
-                if(get_height(game_piece(game,nb))==2){
-                    setPixel(get_x(game_piece(game,nb))*w_box+x,HEIGHT_VIDEO-get_y(game_piece(game,nb))*h_box-y-h_box,SDL_MapRGB(screen->format,50,50,50));
-                }
-                if(get_height(game_piece(game,nb))==3){
-                    setPixel(get_x(game_piece(game,nb))*w_box+x,HEIGHT_VIDEO-get_y(game_piece(game,nb))*h_box-y-h_box,SDL_MapRGB(screen->format,50,50,50));
-                    setPixel(get_x(game_piece(game,nb))*w_box+x,HEIGHT_VIDEO-get_y(game_piece(game,nb))*h_box-y-h_box*2,SDL_MapRGB(screen->format,50,50,50));
-                }
-	      }
-	      else{
-                setPixel(get_x(game_piece(game,nb))*w_box+x,HEIGHT_VIDEO-get_y(game_piece(game,nb))*h_box-y,SDL_MapRGB(screen->format,color[nb][0], color[nb][1],color[nb][2]));
-                if(get_width(game_piece(game,nb))==2){
-                    setPixel(get_x(game_piece(game,nb))*w_box+x+w_box,HEIGHT_VIDEO-get_y(game_piece(game,nb))*h_box-y,SDL_MapRGB(screen->format,color[nb][0], color[nb][1],color[nb][2]));
-                }
-                if(get_width(game_piece(game,nb))==3){
-                    setPixel(get_x(game_piece(game,nb))*w_box+x+w_box,HEIGHT_VIDEO-get_y(game_piece(game,nb))*h_box-y,SDL_MapRGB(screen->format,color[nb][0], color[nb][1],color[nb][2]));
-                    setPixel(get_x(game_piece(game,nb))*w_box+x+w_box*2,HEIGHT_VIDEO-get_y(game_piece(game,nb))*h_box-y,SDL_MapRGB(screen->format,color[nb][0], color[nb][1],color[nb][2]));
-                }
-                if(get_height(game_piece(game,nb))==2){
-                    setPixel(get_x(game_piece(game,nb))*w_box+x,HEIGHT_VIDEO-get_y(game_piece(game,nb))*h_box-y-h_box,SDL_MapRGB(screen->format,color[nb][0], color[nb][1],color[nb][2]));
-                }
-                if(get_height(game_piece(game,nb))==3){
-                    setPixel(get_x(game_piece(game,nb))*w_box+x,HEIGHT_VIDEO-get_y(game_piece(game,nb))*h_box-y-h_box,SDL_MapRGB(screen->format,color[nb][0], color[nb][1],color[nb][2]));
-                    setPixel(get_x(game_piece(game,nb))*w_box+x,HEIGHT_VIDEO-get_y(game_piece(game,nb))*h_box-y-h_box*2,SDL_MapRGB(screen->format,color[nb][0], color[nb][1],color[nb][2]));
-                }
-	     }
-            }
-        }
+  for(int nb = 0; nb<NB_PIECES; nb ++){    
+    if(!can_move_x(game_piece(game,nb)) && !can_move_y(game_piece(game,nb))){
+      draw_block (game, nb, grey, h_box, w_box);
     }
+    else
+      draw_block (game, nb, color[nb], h_box, w_box);
+  }
 }
 
 
