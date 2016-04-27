@@ -83,17 +83,17 @@ int main (void) {
 
             // The user select a piece.
 
-                printf ("\033[%d;%dH%s\n", INSTRUCTION_LINE, 0, "Chose a piece : Type the number of the piece.                                             \n  ");
-                reset_cursor ();
-                int error = scanf ("%d", &car_number);
+            printf ("\033[%d;%dH%s\n", INSTRUCTION_LINE, 0, "Chose a piece : Type the number of the piece.                                             \n  ");
+            reset_cursor ();
+            int error = scanf ("%d", &car_number);
 
-                // Test if the choice is correct.
-                if (car_number == -1 || (car_number < 0 || car_number > (NB_PIECES - 1)) || error != 1){  // Enter if the choice is a digit and is in bounds.
-                    clear();
-                    printf ("\033[%d;%dH%s\n", ERROR_LINE, 0, " ----- Wrong argument ! Please select a number between 0 and 5 -----                     \n ");
-                    reset_cursor ();
-                    continue;
-                }
+            // Test if the choice is correct.
+            if (car_number == -1 || (car_number < 0 || car_number > (NB_PIECES - 1)) || error != 1){  // Enter if the choice is a digit and is in bounds.
+                clear();
+                printf ("\033[%d;%dH%s\n", ERROR_LINE, 0, " ----- Wrong argument ! Please select a number between 0 and 5 -----                     \n ");
+                reset_cursor ();
+                continue;
+            }
 
 
             cpiece current_piece = game_piece(game, car_number);
@@ -103,18 +103,18 @@ int main (void) {
 
             // The user select a direction.
 
-                printf ("\033[%d;%dH%s\n", INSTRUCTION_LINE, 0, "Chose a direction : Type the first letter of the direction (U, D, L or R).                 \n ");
-                reset_cursor();
-                int error_dir = scanf (" %c", &car_direction);
-                car_direction = to_upper (car_direction);
+            printf ("\033[%d;%dH%s\n", INSTRUCTION_LINE, 0, "Chose a direction : Type the first letter of the direction (U, D, L or R).                 \n ");
+            reset_cursor();
+            int error_dir = scanf (" %c", &car_direction);
+            car_direction = to_upper (car_direction);
 
-                // Test if the choice is correct.
-                if (car_direction == 'a' || (car_direction != ASCII_CODE_U && car_direction != ASCII_CODE_D && car_direction != ASCII_CODE_L && car_direction != ASCII_CODE_R) || error_dir != 1 || ((car_direction == ASCII_CODE_U || car_direction == ASCII_CODE_D) && is_horizontal(current_piece)) || ((car_direction == ASCII_CODE_R || car_direction == ASCII_CODE_L) && !(is_horizontal(current_piece)))) {
-                    clear ();
-                    printf ("\033[%d;%dH%s\n", ERROR_LINE, 0, "----- Wrong argument ! Please select a correct direction ! (U, D, L or R) -----          \n ");
-                    reset_cursor();
-                    continue;
-                }
+            // Test if the choice is correct.
+            if (car_direction == 'a' || (car_direction != ASCII_CODE_U && car_direction != ASCII_CODE_D && car_direction != ASCII_CODE_L && car_direction != ASCII_CODE_R) || error_dir != 1 || ((car_direction == ASCII_CODE_U || car_direction == ASCII_CODE_D) && is_horizontal(current_piece)) || ((car_direction == ASCII_CODE_R || car_direction == ASCII_CODE_L) && !(is_horizontal(current_piece)))) {
+                clear ();
+                printf ("\033[%d;%dH%s\n", ERROR_LINE, 0, "----- Wrong argument ! Please select a correct direction ! (U, D, L or R) -----          \n ");
+                reset_cursor();
+                continue;
+            }
 
 
             // Erase the error line.
@@ -122,23 +122,23 @@ int main (void) {
 
             // The user select a number of cases.
 
-          
-                printf ("\033[%d;%dH%s\n", INSTRUCTION_LINE, 0, "Chose a number of frame.                                                                    \n ");
+
+            printf ("\033[%d;%dH%s\n", INSTRUCTION_LINE, 0, "Chose a number of frame.                                                                    \n ");
+            reset_cursor();
+            int error_move = scanf ("%d", &dir_num);
+            // We create some variables in order to make the code more clean.
+
+            int move_up = (get_y(current_piece) + (get_height(current_piece) - 1) + dir_num);
+            int move_down = (get_y(current_piece) - dir_num);
+            int move_right = (get_x(current_piece) + (get_width(current_piece) - 1) + dir_num);
+            int move_left = (get_x(current_piece) - dir_num);
+
+            if (dir_num  == -1 || ((car_direction == ASCII_CODE_U) && move_up > (game_height(game) -1 + get_y(current_piece))) || ((car_direction == ASCII_CODE_D) && move_down < 0) || ((car_direction == ASCII_CODE_R) && move_right > (game_width(game) - get_x(current_piece))) || ((car_direction == ASCII_CODE_L) && move_left < 0) || error_move != 1) { // This condition test for each direction if what we enter is in the bounds.
+                clear ();
+                printf ("\033[%d;%dH%s\n", ERROR_LINE, 0,"-----  Wrong argument ! Enter a number that not cross the bounds of the grid -----          \n ");
                 reset_cursor();
-                int error_move = scanf ("%d", &dir_num);
-                // We create some variables in order to make the code more clean.
-
-                int move_up = (get_y(current_piece) + (get_height(current_piece) - 1) + dir_num);
-                int move_down = (get_y(current_piece) - dir_num);
-                int move_right = (get_x(current_piece) + (get_width(current_piece) - 1) + dir_num);
-                int move_left = (get_x(current_piece) - dir_num);
-
-                if (dir_num  == -1 || ((car_direction == ASCII_CODE_U) && move_up > (game_height(game) -1 + get_y(current_piece))) || ((car_direction == ASCII_CODE_D) && move_down < 0) || ((car_direction == ASCII_CODE_R) && move_right > (game_width(game) - get_x(current_piece))) || ((car_direction == ASCII_CODE_L) && move_left < 0) || error_move != 1) { // This condition test for each direction if what we enter is in the bounds.
-                    clear ();
-                    printf ("\033[%d;%dH%s\n", ERROR_LINE, 0,"-----  Wrong argument ! Enter a number that not cross the bounds of the grid -----          \n ");
-                    reset_cursor();
-                    continue;
-                }
+                continue;
+            }
 
             // Erase the error line.
             printf ("\033[%d;%dH%s\n", ERROR_LINE, 0, "                                                                                              ");

@@ -63,46 +63,46 @@ dir choice_dir(cpiece p, int new_x, int new_y,int x, int y){
         if (new_y > y && new_x == x)
             res = UP;
         if (new_y < y && new_x == x)
-	  res = DOWN;
+            res = DOWN;
     }
     return res;
 }
 
 void draw_block (game g, int nb_piece, int* color, int h_box, int w_box) {
-  
-  for (int y = h_box; y > 0; y--){
-    for (int x = 0; x < w_box; x++) {
-      setPixel(get_x(game_piece(g,nb_piece))*w_box+x,HEIGHT_VIDEO-get_y(game_piece(g,nb_piece))*h_box-y,SDL_MapRGB(screen->format,color[0], color[1], color[2]));
-      if(get_width(game_piece(g,nb_piece))>=2){
-	setPixel(get_x(game_piece(g,nb_piece))*w_box+x+w_box,HEIGHT_VIDEO-get_y(game_piece(g,nb_piece))*h_box-y,SDL_MapRGB(screen->format,color[0], color[1], color[2]));
-      }
-      if(get_width(game_piece(g,nb_piece))==3){
-	setPixel(get_x(game_piece(g,nb_piece))*w_box+x+w_box*2,HEIGHT_VIDEO-get_y(game_piece(g,nb_piece))*h_box-y,SDL_MapRGB(screen->format,color[0], color[1], color[2]));
-      }
-      if(get_height(game_piece(g,nb_piece))>=2){
-	setPixel(get_x(game_piece(g,nb_piece))*w_box+x,HEIGHT_VIDEO-get_y(game_piece(g,nb_piece))*h_box-y-h_box,SDL_MapRGB(screen->format,color[0], color[1], color[2]));
-      }
-      if(get_height(game_piece(g,nb_piece))==3){
-	setPixel(get_x(game_piece(g,nb_piece))*w_box+x,HEIGHT_VIDEO-get_y(game_piece(g,nb_piece))*h_box-y-h_box*2,SDL_MapRGB(screen->format,color[0], color[1], color[2]));
-      }
+
+    for (int y = h_box; y > 0; y--){
+        for (int x = 0; x < w_box; x++) {
+            setPixel(get_x(game_piece(g,nb_piece))*w_box+x,HEIGHT_VIDEO-get_y(game_piece(g,nb_piece))*h_box-y,SDL_MapRGB(screen->format,color[0], color[1], color[2]));
+            if(get_width(game_piece(g,nb_piece))>=2){
+                setPixel(get_x(game_piece(g,nb_piece))*w_box+x+w_box,HEIGHT_VIDEO-get_y(game_piece(g,nb_piece))*h_box-y,SDL_MapRGB(screen->format,color[0], color[1], color[2]));
+            }
+            if(get_width(game_piece(g,nb_piece))==3){
+                setPixel(get_x(game_piece(g,nb_piece))*w_box+x+w_box*2,HEIGHT_VIDEO-get_y(game_piece(g,nb_piece))*h_box-y,SDL_MapRGB(screen->format,color[0], color[1], color[2]));
+            }
+            if(get_height(game_piece(g,nb_piece))>=2){
+                setPixel(get_x(game_piece(g,nb_piece))*w_box+x,HEIGHT_VIDEO-get_y(game_piece(g,nb_piece))*h_box-y-h_box,SDL_MapRGB(screen->format,color[0], color[1], color[2]));
+            }
+            if(get_height(game_piece(g,nb_piece))==3){
+                setPixel(get_x(game_piece(g,nb_piece))*w_box+x,HEIGHT_VIDEO-get_y(game_piece(g,nb_piece))*h_box-y-h_box*2,SDL_MapRGB(screen->format,color[0], color[1], color[2]));
+            }
+        }
     }
-  }
 }
 
 //take a game and draw the different car on the screen
 void drawcar(game game,float h_box, float w_box){
 
     // initialization of different colors
-  int color[SIZE_COLOR][3] = {{255,0,0},{0,255,0},{0,0,255},{51,0,51},{255,255,0},{102,51,0}, {51,204,255}, {255,102,0}};
-  int grey [3] = {100, 100, 100};
+    int color[SIZE_COLOR][3] = {{255,0,0},{0,255,0},{0,0,255},{51,0,51},{255,255,0},{102,51,0}, {51,204,255}, {255,102,0}};
+    int grey [3] = {100, 100, 100};
 
-  for(int nb = 0; nb<NB_PIECES; nb ++){    
-    if(!can_move_x(game_piece(game,nb)) && !can_move_y(game_piece(game,nb))){
-      draw_block (game, nb, grey, h_box, w_box);
+    for(int nb = 0; nb<NB_PIECES; nb ++){
+        if(!can_move_x(game_piece(game,nb)) && !can_move_y(game_piece(game,nb))){
+            draw_block (game, nb, grey, h_box, w_box);
+        }
+        else
+            draw_block (game, nb, color[nb], h_box, w_box);
     }
-    else
-      draw_block (game, nb, color[nb], h_box, w_box);
-  }
 }
 
 
@@ -145,7 +145,7 @@ int main(int argc, char** argv){
 
     while(1){
 
-      while (SDL_PollEvent(&event)){ //wait for an event
+        while (SDL_PollEvent(&event)){ //wait for an event
             switch(event.type) {
 
                 case SDL_QUIT:
@@ -153,7 +153,7 @@ int main(int argc, char** argv){
                     break;
 
                 case SDL_MOUSEBUTTONDOWN:
-		  if (event.button.button == SDL_BUTTON_LEFT && clic_cpt == 0){//when you choose a car
+                    if (event.button.button == SDL_BUTTON_LEFT && clic_cpt == 0){//when you choose a car
 
                         x = (int)(event.button.x/w_box);
                         y = (int)(event.button.y/h_box);
@@ -166,7 +166,7 @@ int main(int argc, char** argv){
                         break;
                     }
 
-		  if (event.button.button == SDL_BUTTON_LEFT && clic_cpt == 1){//when the user click in a black box for move
+                    if (event.button.button == SDL_BUTTON_LEFT && clic_cpt == 1){//when the user click in a black box for move
                         new_x = (int)(event.button.x/w_box);
                         new_y = (int)(event.button.y/h_box);
                         new_y = (NB_BOX -1 -new_y);

@@ -95,7 +95,7 @@ void new_configuration_vertical(game g, int i, heap game_heap, queue q){
     if (play_move(copy,i,UP, 1)){
         if(heap_game_search(game_heap, copy) == false){
             push(q,copy);
-            game heap_copy = new_game_hr(0,NULL); 
+            game heap_copy = new_game_hr(0,NULL);
             copy_game(copy,heap_copy);
             heap_add(game_heap,heap_copy);
         }
@@ -109,7 +109,7 @@ void new_configuration_vertical(game g, int i, heap game_heap, queue q){
     if (play_move(copy2,i,DOWN, 1)){
         if(heap_game_search(game_heap, copy2) == false){
             push(q,copy2);
-            game heap_copy = new_game_hr(0,NULL); 
+            game heap_copy = new_game_hr(0,NULL);
             copy_game(copy2,heap_copy);
             heap_add(game_heap,heap_copy);
         }

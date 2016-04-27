@@ -28,8 +28,8 @@ void display_grid_rh(game g, int nb_pieces, int x, int y) {
                 if (nb == -1)    // If square is empty (-1), it will be empty.
                     printf("|       ");
                 else if (nb == -2)      // If the piece is blocked
-		  printf("|   X   ");
-		else 
+                    printf("|   X   ");
+                else
                     printf("|   %d   ", nb);
             }
             printf("  EXIT\n  ");
@@ -49,8 +49,8 @@ void display_grid_rh(game g, int nb_pieces, int x, int y) {
                 int nb = grid[(y - 1) - i][k];
                 if (nb == -1)    // If square is empty (-1).
                     printf("|       ");
-		else if (nb == -2)     // If the piece is blocked
-		  printf("|   X   ");
+                else if (nb == -2)     // If the piece is blocked
+                    printf("|   X   ");
                 else
                     printf("|   %d   ", nb);
             }
@@ -96,8 +96,8 @@ void display_grid_ar(game g, int x, int y) {
             int nb = grid[(y - 1) - i][k];
             if (nb == -1)    // If square is empty (-1).
                 printf("|       ");
-	    else if (nb == -2)     // If the piece is blocked
-		  printf("|   X   ");
+            else if (nb == -2)     // If the piece is blocked
+                printf("|   X   ");
             else
                 printf("|   %d   ", nb /*game_square_piece(g, k, i)grid[i][k]*/);
         }
@@ -129,23 +129,23 @@ void display_grid_ar(game g, int x, int y) {
 
 int ** init_grid (game g, int x, int y) {
 
-  // Initialisation of the grid,
-  int ** grid = malloc (sizeof(int*) * (y));
-  assert(grid != NULL);
+    // Initialisation of the grid,
+    int ** grid = malloc (sizeof(int*) * (y));
+    assert(grid != NULL);
 
-  // Fill the grid with pieces indexes.
-  for (int i = 0; i < y; ++i){
-    grid[i] = malloc (sizeof(int) * x + 1);
-    assert (grid[i] != NULL);
-    for (int j = 0; j < x; ++j){
-      int number_piece = game_square_piece(g, j, i);
-      if (number_piece != -1 && !(can_move_x(game_piece (g, number_piece))) && !(can_move_y(game_piece(g, number_piece))))
-	grid[i][j] = -2;
-      else
-	grid[i][j] = number_piece;
+    // Fill the grid with pieces indexes.
+    for (int i = 0; i < y; ++i){
+        grid[i] = malloc (sizeof(int) * x + 1);
+        assert (grid[i] != NULL);
+        for (int j = 0; j < x; ++j){
+            int number_piece = game_square_piece(g, j, i);
+            if (number_piece != -1 && !(can_move_x(game_piece (g, number_piece))) && !(can_move_y(game_piece(g, number_piece))))
+                grid[i][j] = -2;
+            else
+                grid[i][j] = number_piece;
+        }
     }
-  }
-  return grid;
+    return grid;
 }
 
 
